@@ -13,6 +13,7 @@ Interactive AI and data trainings, themed around surviving a zombie apocalypse. 
 | 6 | [Common Frequency](06-common-frequency.html) | The Model Context Protocol: building and connecting MCP servers in Python |
 | 7 | [Archive Run](07-archive-run.html) | Retrieval-augmented generation over your own documents |
 | 8 | [Line of Sight](08-line-of-sight.html) | Attention in depth: the math step by step, multi-head, and long-context costs |
+| 9 | [Boot Camp](09-boot-camp.html) | Training a tiny model from scratch and fine-tuning an open model with LoRA |
 
 ## Viewing
 
