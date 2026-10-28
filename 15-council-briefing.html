@@ -1,0 +1,1028 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Council Briefing</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;800;900&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Single deliberate dark look (night watch). Layout: survivor field manual, council briefing for leaders: project scorer, value ledger, governance */
+:root{
+  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
+  --accent:#4F9C6B; --accent-soft:#1B2D21; --target:#F04D8C; --target-soft:#3A1527; --other:#5B6450;
+  --bad:#F07A3E; --bad-soft:#3A2016; --code-bg:#22281E; --stripe:#0B0D09; --term:#0B0D09; --term-ink:#CFD8B4;
+  --display:"Big Shoulders Stencil Display","Impact","Arial Narrow",sans-serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"Courier Prime","Courier New",ui-monospace,monospace;
+  color-scheme:dark;
+}
+
+
+*{box-sizing:border-box}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;
+  color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto}
+.col{max-width:68ch}
+h1,h2,h3{font-family:var(--display);line-height:1;text-wrap:balance;margin:0;text-transform:uppercase;letter-spacing:.01em}
+h1{font-size:clamp(3.2rem,10vw,6.4rem);font-weight:900}
+h2{font-size:clamp(2rem,4.6vw,2.9rem);font-weight:800}
+h3{font-size:1.45rem;font-weight:800}
+p{margin:0}
+code{font-family:var(--mono);font-size:.92em;background:var(--code-bg);padding:.05em .35em;border-radius:3px;word-break:break-word}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--target)}
+.hazard{height:14px;background:repeating-linear-gradient(-45deg,var(--target) 0 14px,var(--stripe) 14px 28px);margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)))}
+.docbar{display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--mono);font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-block:12px;border-bottom:2px solid var(--ink)}
+.docbar b{color:var(--ink)}
+section{display:flex;flex-direction:column;gap:20px;padding-block:56px;border-top:1px solid var(--line)}
+section.first{border-top:0;padding-top:40px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.lede{font-size:1.2rem;color:var(--muted);max-width:62ch}
+.lede strong{color:var(--ink);font-weight:600}
+mark{background:var(--target-soft);color:var(--ink);padding:0 .2em;border-radius:2px}
+.stamp{align-self:flex-start;font-family:var(--mono);font-weight:700;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bad);border:2px solid var(--bad);padding:4px 10px;transform:rotate(-2deg)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;box-shadow:0 1px 0 var(--line)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+.note{font-size:.82rem;color:var(--muted);line-height:1.45}
+.btn{font:inherit;font-weight:600;font-size:.88rem;border:2px solid var(--accent);color:var(--accent);background:transparent;border-radius:3px;padding:6px 12px;cursor:pointer}
+.btn:hover{background:var(--accent-soft)}
+.btn.solid{background:var(--accent);color:var(--surface)}
+.btn:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.callout{border-left:4px solid var(--bad);background:var(--bad-soft);padding:12px 16px;font-size:.95rem}
+.callout b{color:var(--bad)}
+.tip{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;font-size:.95rem}
+
+/* Facts strip */
+.meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:2px solid var(--ink);background:var(--surface)}
+@media (max-width:700px){.meta{grid-template-columns:1fr}}
+.meta div{padding:14px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.meta .eyebrow{font-size:.72rem}
+.meta p{font-size:.95rem}
+
+/* Depot stack */
+.depot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:20px;align-items:start}
+@media (max-width:820px){.depot{grid-template-columns:1fr}}
+.layers{display:flex;flex-direction:column;gap:0}
+.layer{font:inherit;text-align:left;display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:4px 12px;align-items:center;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-bottom-width:0;cursor:pointer;color:var(--ink)}
+.layer:last-child{border-bottom-width:2px}
+.layer .ix{font-family:var(--display);font-weight:900;font-size:1.6rem;color:var(--muted);line-height:1}
+.layer b{font-family:var(--display);font-size:1.3rem;text-transform:uppercase;font-weight:800;line-height:1.05}
+.layer span{grid-column:2;font-size:.85rem;color:var(--muted);line-height:1.35}
+.layer[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.layer[aria-pressed="true"] .ix,.layer[aria-pressed="true"] span{color:var(--surface)}
+.layer+.connector{display:none}
+.layerinfo h3{font-size:1.7rem}
+.layerinfo ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:.95rem}
+.takeaways{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:760px){.takeaways{grid-template-columns:1fr}}
+.takeaways li{display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--target);padding-top:10px}
+.takeaways b{font-weight:700}
+.takeaways p{font-size:.92rem;color:var(--muted)}
+
+/* Glossary */
+.search{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search input{flex:1;min-width:0;font:inherit;font-size:.95rem;padding:9px 12px;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink)}
+.gloss{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.gloss{grid-template-columns:1fr}}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.term .nm{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.term h3{font-size:1.3rem}
+.term .an{font-family:var(--mono);font-size:.78rem;color:var(--target);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.term p{font-size:.9rem}
+.term .say{font-size:.82rem;color:var(--muted);font-style:italic}
+.empty{color:var(--muted);font-size:.95rem}
+
+/* UI tour */
+.tour{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--surface);border-radius:3px}
+.tour div{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:12px;padding:10px 16px;border-top:1px dashed var(--line);font-size:.93rem}
+.tour div:first-child{border-top:0}
+.tour b{font-family:var(--mono);font-weight:700}
+@media (max-width:560px){.tour div{grid-template-columns:1fr;gap:2px}}
+
+/* Steps */
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column}
+.steps li{display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px dashed var(--line);font-size:.95rem}
+.steps li:first-child{border-top:0}
+.steps li::before{counter-increment:s;content:counter(s);font-family:var(--display);font-weight:900;font-size:1.5rem;color:var(--accent);line-height:1.1}
+.steps li.hot::before{color:var(--target)}
+
+/* Drill */
+.drill{display:flex;flex-direction:column;gap:10px}
+.sc{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.sc p.q{font-size:.95rem}
+.sc .acts{display:flex;gap:8px;flex-wrap:wrap}
+.sc .fb{font-size:.88rem;padding:8px 10px;border-radius:2px}
+.sc .fb.ok{background:var(--accent-soft)}
+.sc .fb.no{background:var(--bad-soft)}
+.sc.done{border-color:var(--accent)}
+.drillscore{font-family:var(--mono);font-size:.9rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+/* Config builder & code */
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:.88rem;font-weight:600}
+.field label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.field input{font-family:var(--mono);font-size:.88rem;padding:8px 10px;border:1px solid var(--line);border-radius:3px;background:var(--code-bg);color:var(--ink);width:100%}
+.warns{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.warns li{font-size:.85rem;padding:6px 10px;border-radius:2px}
+.warns li.w{background:var(--target-soft)}
+.warns li.g{background:var(--accent-soft)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{font:inherit;font-family:var(--mono);font-size:.82rem;font-weight:700;padding:6px 10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:3px 3px 0 0;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--term);color:var(--term-ink);border-color:var(--term)}
+.code{position:relative;background:var(--term);color:var(--term-ink);border-radius:0 3px 3px 3px;min-width:0}
+.code pre{margin:0;padding:16px;font-family:var(--mono);font-size:.84rem;line-height:1.5;overflow-x:auto;white-space:pre}
+.code .cp{position:absolute;top:8px;right:8px;font:inherit;font-family:var(--mono);font-size:.74rem;font-weight:700;padding:3px 8px;background:transparent;color:var(--term-ink);border:1px solid var(--term-ink);border-radius:2px;cursor:pointer;opacity:.85}
+.code .cp:hover{opacity:1}
+.code.solo{border-radius:3px}
+.codehead{display:flex;flex-direction:column;gap:6px}
+.pystep{display:flex;flex-direction:column;gap:12px}
+.pynav{display:flex;gap:6px;flex-wrap:wrap}
+.pynav button{font:inherit;font-size:.85rem;font-weight:600;padding:7px 11px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;gap:6px;align-items:center}
+.pynav button .lv{font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+.pynav button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.pynav button[aria-selected="true"] .lv{color:var(--surface)}
+.pybody{display:flex;flex-direction:column;gap:12px}
+.pybody p{max-width:68ch}
+
+/* Triage */
+.triage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:20px;align-items:start}
+@media (max-width:820px){.triage{grid-template-columns:1fr}}
+.symptoms{display:flex;flex-direction:column;gap:6px}
+.symptoms button{font:inherit;text-align:left;font-family:var(--mono);font-size:.86rem;padding:10px 12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:3px;cursor:pointer;word-break:break-word}
+.symptoms button[aria-pressed="true"]{border-color:var(--bad);background:var(--bad-soft)}
+.dx{display:flex;flex-direction:column;gap:12px}
+.dx .eyebrow{font-size:.72rem}
+.dx p{font-size:.98rem}
+
+/* Exercises */
+.ex{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ex li label{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:10px;align-items:start;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:3px;cursor:pointer}
+.ex input{width:18px;height:18px;margin-top:3px;accent-color:var(--target)}
+.ex b{display:block}
+.ex span{font-size:.9rem;color:var(--muted)}
+.ex li.checked label{border-color:var(--target)}
+.progress{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.progress .bar{flex:1;height:10px;background:repeating-linear-gradient(-45deg,var(--code-bg) 0 6px,var(--line) 6px 12px);position:relative;overflow:hidden}
+.progress .bar i{position:absolute;inset:0 auto 0 0;background:var(--target);transition:width .3s}
+footer{padding-top:28px;border-top:2px solid var(--ink);font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.progress .bar i{transition:none}}
+.docbar{align-items:center}
+.logo{flex:none;width:132px;height:44px;border:2px dashed var(--muted);border-radius:3px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.logo img{max-width:100%;max-height:100%;display:block}
+.picker{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:18px;align-items:start}
+@media (max-width:760px){.picker{grid-template-columns:1fr}}
+.memrow{display:grid;grid-template-columns:minmax(0,1fr) 4rem;gap:12px;align-items:center}
+.memrow input{width:100%;accent-color:var(--accent)}
+.memrow output{font-family:var(--mono);font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.flabel{font-size:.88rem;font-weight:600}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chipbtn{font:inherit;font-size:.84rem;font-weight:600;padding:5px 10px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chipbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.mtable{display:flex;flex-direction:column;overflow-x:auto}
+.mrow{display:grid;grid-template-columns:11rem 5.5rem 5.5rem minmax(14rem,1fr);gap:12px;padding:10px 0;border-top:1px dashed var(--line);align-items:baseline;min-width:560px}
+.mrow.mhead{border-top:0;font-family:var(--mono);font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mrow .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tagname{font-family:var(--mono);font-weight:700;color:var(--ink)}
+.fit{font-family:var(--mono);font-weight:700;font-size:.82rem;padding:1px 8px;border-radius:2px;justify-self:start}
+.fit.ok{background:var(--accent);color:var(--surface)}
+.fit.tight{background:var(--target-soft);color:var(--target)}
+.fit.no{border:1.5px solid var(--other);color:var(--muted)}
+.mnote{font-size:.88rem;color:var(--muted)}
+.caps{display:block;font-family:var(--mono);font-size:.74rem;color:var(--accent);margin-top:2px}
+.final{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.final li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;font-size:1.02rem}
+.final li::before{content:"\2610";font-family:var(--mono);color:var(--target);font-weight:700;font-size:1.1rem;line-height:1.4}
+.plain{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+.actions{display:flex;flex-wrap:wrap;gap:6px}
+.act{font:inherit;font-size:.84rem;font-weight:600;padding:6px 10px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.act span{font-family:var(--mono);color:var(--target)}
+.act:hover{border-color:var(--target)}
+.act.cut{border-color:var(--accent);color:var(--accent)}
+.act.cut:hover{background:var(--accent-soft)}
+.gauge{position:relative;height:26px;background:repeating-linear-gradient(-45deg,var(--code-bg) 0 8px,var(--line) 8px 16px);border-radius:2px;overflow:hidden}
+.gfill{position:absolute;inset:0 auto 0 0;background:var(--accent);transition:width .4s cubic-bezier(.2,.7,.2,1),background .3s}
+.gfill.amber{background:var(--bad)} .gfill.red{background:var(--target)}
+.gmark{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.5}
+.gread{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.gread #gpct{font-family:var(--display);font-weight:900;font-size:2.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.gread #gstate{font-size:.92rem;color:var(--muted);flex:1;min-width:12rem}
+.log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:.8rem}
+.log li{padding:4px 8px;background:var(--code-bg);border-radius:2px;display:flex;justify-content:space-between;gap:10px}
+.log li span{color:var(--target)}
+.log li.cut{background:var(--accent-soft)}
+.ws{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.ws{grid-template-columns:1fr}}
+.field textarea{width:100%;font-family:var(--mono);font-size:.86rem;line-height:1.45;color:var(--ink);background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:9px 10px;resize:vertical}
+.field textarea:focus-visible{outline:2px solid var(--target);outline-offset:1px}
+.out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.score{font-family:var(--mono);font-size:.9rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.code pre.wrapcode{white-space:pre-wrap;word-break:break-word;padding-right:64px}
+.checks{display:flex;flex-direction:column;gap:8px;list-style:none;margin:0;padding:0}
+.checks li{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:8px;font-size:.9rem;line-height:1.4}
+.chip{width:1.4rem;height:1.4rem;border-radius:2px;display:grid;place-items:center;font-family:var(--mono);font-size:.8rem;font-weight:700}
+.chip.y{background:var(--target);color:var(--surface)}
+.chip.n{border:1.5px solid var(--other);color:var(--muted)}
+.checks .hint{color:var(--muted);display:block;font-size:.82rem}
+.pairs{display:flex;flex-direction:column;gap:12px}
+.pair{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:12px}
+@media (max-width:640px){.pair{grid-template-columns:1fr}}
+.pair > div{min-width:0}
+.pair .tag{display:block;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.pair pre{margin:0;font-family:var(--mono);font-size:.84rem;line-height:1.45;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:10px 12px;white-space:pre-wrap;word-break:break-word}
+.pair .after pre{border-left:3px solid var(--target)}
+.phase{display:flex;flex-direction:column;gap:14px}
+.otable{display:flex;flex-direction:column;border:2px solid var(--ink);background:var(--surface);overflow-x:auto}
+.orow{display:grid;grid-template-columns:9rem minmax(14rem,1.4fr) minmax(10rem,1fr) minmax(9rem,.8fr);gap:14px;padding:12px 16px;border-top:1px dashed var(--line);font-size:.9rem;min-width:640px;align-items:baseline}
+.orow.ohead{border-top:0;font-family:var(--mono);font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.orow b{font-weight:700;color:var(--target)}
+.orow span:nth-child(2){color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.cards{grid-template-columns:1fr}}
+.cards p{font-size:.93rem;color:var(--muted)}
+.fails{display:flex;flex-direction:column}
+.fail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:6px 24px;padding:16px 0;border-top:1px dashed var(--line)}
+.fail:first-child{border-top:0}
+@media (max-width:640px){.fail{grid-template-columns:1fr}}
+.fail h3{font-size:1.3rem}
+.fail .sym{font-size:.88rem;color:var(--muted);margin-top:4px}
+.fail .fix{font-size:.92rem}
+.fail .fix b{color:var(--target);font-weight:700}
+.sliders{display:flex;flex-direction:column;gap:14px}
+.sl{display:grid;grid-template-columns:minmax(0,1fr) 4rem;gap:2px 12px;align-items:center}
+.sl label{grid-column:1/-1;font-size:.9rem;font-weight:600}
+.sl label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.sl input{width:100%;accent-color:var(--accent)}
+.sl output{font-family:var(--mono);font-size:.95rem;text-align:right;font-variant-numeric:tabular-nums}
+.verdict{font-size:.95rem;background:var(--accent-soft);border-left:3px solid var(--accent);padding:12px 14px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vs > div{display:flex;flex-direction:column;gap:2px}
+.big{font-family:var(--display);font-weight:900;font-size:3.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.big.bad{color:var(--bad)} .big.good{color:var(--target)}
+.search{display:flex;gap:14px;align-items:end;flex-wrap:wrap}
+.search input[type=search]{flex:1 1 18rem;min-width:0;font:inherit;font-size:1rem;padding:10px 12px;border:1px solid var(--line);border-radius:3px;background:var(--code-bg);color:var(--ink)}
+.kslider{flex:0 1 14rem}
+.chunkstats{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:.86rem;color:var(--muted)}
+.chunkstats b{color:var(--ink)}
+.chunkstats .okc{color:var(--accent)} .chunkstats .badc{color:var(--target)}
+.chunkview{display:flex;flex-direction:column;gap:8px;max-height:460px;overflow:auto}
+.chunk{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;padding:10px 12px;background:var(--code-bg);border-left:3px solid var(--accent);border-radius:2px}
+.chunk:nth-child(even){border-left-color:var(--other)}
+.chunk .cn{font-family:var(--display);font-weight:900;font-size:1.3rem;color:var(--accent);line-height:1.1}
+.chunk p{font-size:.88rem;line-height:1.55}
+.chunk .lap{color:var(--muted);text-decoration:underline dotted}
+.chunk .hot{background:var(--target-soft);color:var(--ink)}
+.hits{display:flex;flex-direction:column;gap:6px}
+.hit{padding:8px 10px;border:1px solid var(--line);border-radius:3px;display:flex;flex-direction:column;gap:5px;opacity:.6}
+.hit.top{opacity:1;border-color:var(--target);background:var(--surface)}
+.hhead{display:flex;justify-content:space-between;gap:10px}
+.hhead .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.hbar{height:5px;background:var(--code-bg);border-radius:2px;overflow:hidden}
+.hbar i{display:block;height:100%;background:var(--target)}
+.hit p{font-size:.84rem;color:var(--muted)}
+details{border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+summary{cursor:pointer;padding:9px 14px;font-size:.88rem;font-weight:600;color:var(--accent);list-style:none;display:flex;gap:8px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--mono);width:1em}
+details[open] summary::before{content:"\2212"}
+summary:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.deep{padding:0 16px 14px;font-size:.92rem;display:flex;flex-direction:column;gap:10px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.bpestats{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:.86rem;color:var(--muted)}
+.bpestats b{color:var(--ink)}
+.toks{display:flex;flex-wrap:wrap;gap:3px;align-items:center;min-height:2.4rem;padding:10px;background:var(--code-bg);border-radius:3px}
+.tk{font-family:var(--mono);font-size:.92rem;padding:2px 5px;border-radius:2px;color:var(--ink)}
+.tk.t0{background:var(--accent-soft)} .tk.t1{background:var(--target-soft)} .tk.t2{background:var(--bad-soft)} .tk.t3{background:var(--surface);outline:1px solid var(--line)}
+.toks .sp{width:10px}
+.merges{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem}
+.mg i{font-style:normal;color:var(--muted);font-family:var(--mono);font-size:.78rem}
+.emap{overflow-x:auto}
+.emsvg{display:block;width:100%;min-width:420px;height:auto;background:var(--code-bg);border-radius:3px}
+.emsvg text.lab{fill:var(--ink);font-family:var(--body);font-size:12px}
+.emsvg .g0,.legend .g0{fill:var(--accent);background:var(--accent)}
+.emsvg .g1,.legend .g1{fill:#8FB3E8;background:#8FB3E8}
+.emsvg .g2,.legend .g2{fill:var(--target);background:var(--target)}
+.emsvg .g3,.legend .g3{fill:var(--bad);background:var(--bad)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.attn{display:flex;flex-wrap:wrap;gap:6px;padding:14px;background:var(--code-bg);border-radius:3px}
+.at{display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--mono);font-size:1rem;padding:6px 8px;border-radius:2px;background:color-mix(in srgb, var(--target) calc(var(--w,0) * 100%), transparent);color:var(--ink)}
+.at small{font-size:.68rem;color:var(--muted)}
+.at.q{outline:2px solid var(--accent)}
+.at.q small{color:var(--accent)}
+.prefix{font-family:var(--mono);font-size:1.05rem;padding:12px;background:var(--code-bg);border-radius:3px}
+.prefix .blank{color:var(--target);font-weight:700}
+.samples{display:flex;flex-wrap:wrap;gap:4px;min-height:1.8rem}
+.dist{display:flex;flex-direction:column;gap:9px}
+.dist .row{display:grid;grid-template-columns:5.5rem minmax(0,1fr) 3.6rem;gap:10px;align-items:center}
+.dist .lab-t{font-family:var(--mono);font-size:.88rem}
+.dist .track{height:12px;background:var(--code-bg);border-radius:2px;overflow:hidden}
+.dist .fill{height:100%;background:var(--target);transition:width .3s}
+.dist .pct{font-family:var(--mono);font-size:.84rem;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.dist .row.cut .lab-t{color:var(--other);text-decoration:line-through}
+@media (prefers-reduced-motion: reduce){.dist .fill{transition:none}}
+.eq{font-family:var(--mono);font-size:clamp(.9rem,2.2vw,1.15rem);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:18px 20px;overflow-x:auto;white-space:nowrap}
+.calcbar{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap}
+.tog{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:600;cursor:pointer}
+.tog input{width:18px;height:18px;accent-color:var(--target)}
+.stepbody{display:flex;flex-direction:column;gap:12px}
+.stepbody p{max-width:68ch}
+.mx{overflow-x:auto}
+.mx table{border-collapse:collapse;font-family:var(--mono);font-size:.84rem;font-variant-numeric:tabular-nums}
+.mx th{font-weight:700;color:var(--muted);padding:4px 10px;text-align:right;white-space:nowrap}
+.mx thead th{text-align:center}
+.mx td{padding:5px 10px;text-align:right;min-width:3.6rem;background:color-mix(in srgb, var(--target) calc(var(--h,0) * 55%), var(--code-bg));border:1px solid var(--surface)}
+.mx tr.hi th{color:var(--target)}
+.mx tr.hi td{outline:2px solid var(--target);outline-offset:-2px}
+.mx td.masked{background:var(--surface);color:var(--other);text-align:center}
+.mx3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.mx3{grid-template-columns:1fr}}
+.mx3 > div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.minibars{display:flex;align-items:flex-end;gap:6px;height:90px;padding:6px;background:var(--code-bg);border-radius:3px;margin-bottom:10px}
+.minibars span{flex:1;background:var(--target);border-radius:2px 2px 0 0;min-height:2px}
+.heatwrap{overflow-x:auto}
+.hm{border-collapse:collapse;font-family:var(--mono);font-size:.78rem}
+.hm th{color:var(--muted);font-weight:700;padding:3px 6px;text-align:right;white-space:nowrap}
+.hm thead th{height:5.5rem;vertical-align:bottom;text-align:left;padding:0 0 4px}
+.hm thead th span{display:inline-block;transform:rotate(-55deg);transform-origin:left bottom;width:1.6rem;white-space:nowrap}
+.hm td{width:2rem;height:2rem;background:color-mix(in srgb, var(--target) calc(var(--h,0) * 100%), var(--code-bg));border:1px solid var(--surface)}
+.hm td.up{background:transparent}
+.mono{font-family:var(--mono)}
+.lossbox{background:var(--code-bg);border-radius:3px;padding:6px}
+.lossbox canvas{display:block;width:100%;height:auto}
+.legend .lg-t{background:var(--accent);border-radius:1px}
+.legend .lg-v{background:var(--target);border-radius:1px}
+pre.sample{margin:0;font-family:var(--mono);font-size:.9rem;line-height:1.5;background:var(--code-bg);border-radius:3px;padding:12px;white-space:pre-wrap;word-break:break-word;min-height:5.5rem}
+.memrows{display:flex;flex-direction:column;gap:8px}
+.memrow2{display:grid;grid-template-columns:9.5rem minmax(0,1fr) 5rem;gap:10px;align-items:center;font-size:.86rem}
+.memrow2 .track{height:12px;background:var(--code-bg);border-radius:2px;overflow:hidden}
+.memrow2 .fill{height:100%;background:var(--bad)}
+.memrow2 .mono{text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:480px){.memrow2{grid-template-columns:1fr 4.5rem}.memrow2 .track{grid-column:1/-1;grid-row:2}}
+.rq{display:flex;flex-direction:column;gap:6px;padding-block:8px;border-top:1px dashed var(--line)}
+.rq:first-child{border-top:0}
+.riskout{gap:12px}
+.dialrow{display:flex;align-items:center;gap:14px}
+.lamp{width:28px;height:28px;border-radius:50%;flex:none}
+.lamp.g{background:var(--accent);box-shadow:0 0 18px var(--accent)}
+.lamp.a{background:var(--bad);box-shadow:0 0 18px var(--bad)}
+.lamp.r{background:var(--target);box-shadow:0 0 18px var(--target)}
+.dialbar{height:10px;background:linear-gradient(90deg,var(--accent),var(--bad),var(--target));border-radius:2px;position:relative;opacity:.9}
+.dialbar i{position:absolute;inset:0 0 0 auto;background:var(--code-bg);right:0;width:auto;left:var(--x,0)}
+.ruleset{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.ruleset{grid-template-columns:1fr}}
+.rule{display:grid;grid-template-columns:2.6rem minmax(0,1fr);gap:10px;padding:14px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--target);border-radius:3px;transition:opacity .2s}
+.rule .rn{font-family:var(--display);font-weight:900;font-size:1.9rem;color:var(--target);line-height:1}
+.rule b{font-weight:700}
+.rule p{font-size:.9rem;color:var(--muted);margin-top:2px}
+.rule.off{opacity:.45;border-left-color:var(--line)}
+.rule.off .rn{color:var(--muted)}
+.sniphead{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.snip{background:var(--term,#0B0D09);border-radius:3px;padding:8px 0;overflow-x:auto;display:flex;flex-direction:column}
+.ln{font:inherit;display:grid;grid-template-columns:2.6rem max-content;gap:10px;text-align:left;background:transparent;border:0;border-left:3px solid transparent;padding:1px 12px 1px 0;color:var(--term-ink,#CFD8B4);cursor:pointer;min-width:100%}
+.ln:disabled{cursor:default}
+.ln .no{font-family:var(--mono);font-size:.78rem;color:var(--other);text-align:right;padding-top:2px}
+.ln code{font-family:var(--mono);font-size:.84rem;background:none;padding:0;white-space:pre;color:inherit}
+.ln:not(:disabled):hover{background:rgba(255,255,255,.04)}
+.ln.pk{background:var(--target-soft);border-left-color:var(--target)}
+.ln.hit{background:var(--accent-soft);border-left-color:var(--accent)}
+.ln.miss{background:var(--bad-soft);border-left-color:var(--bad)}
+.ln.fa{background:transparent;border-left-color:var(--other);text-decoration:line-through;text-decoration-color:var(--other)}
+.ln:focus-visible{outline:2px solid var(--target);outline-offset:-2px}
+.findings{display:flex;flex-direction:column;gap:8px}
+.finding{padding:10px 12px;border-radius:3px;border-left:3px solid var(--accent);background:var(--accent-soft)}
+.finding.missed{border-left-color:var(--bad);background:var(--bad-soft)}
+.finding p{font-size:.92rem;margin-top:2px}
+.loopsteps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;counter-reset:l}
+@media (max-width:820px){.loopsteps{grid-template-columns:1fr}}
+.loopsteps li{counter-increment:l;display:flex;flex-direction:column;gap:4px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:3px}
+.loopsteps li::before{content:counter(l);font-family:var(--display);font-weight:900;font-size:1.8rem;color:var(--accent);line-height:1}
+.loopsteps b{font-weight:700}
+.loopsteps span{font-size:.9rem;color:var(--muted)}
+.flaggrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.flaggrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.flaggrid{grid-template-columns:1fr}}
+.flaggrid div{display:flex;flex-direction:column;gap:4px;padding:12px;border:1.5px dashed var(--bad);border-radius:3px}
+.flaggrid b{color:var(--bad);font-weight:700}
+.flaggrid span{font-size:.88rem;color:var(--muted)}
+.trackpick{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:8px}
+.tchip{font:inherit;text-align:left;display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1.5px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink);cursor:pointer}
+.tchip b{font-family:var(--display);font-size:1.3rem;text-transform:uppercase;font-weight:800;line-height:1}
+.tchip span{font-size:.82rem;color:var(--muted)}
+.tchip[aria-pressed="true"]{border-color:var(--target);background:var(--target-soft)}
+.tchip:focus-visible,.node:focus-visible,.cchip:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.niHead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.niHead a.btn{text-decoration:none}
+.route{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;counter-reset:r}
+.route li{counter-increment:r}
+.route a{display:grid;grid-template-columns:2rem 4.5rem minmax(0,1fr);gap:4px 10px;align-items:baseline;padding:10px 12px;border:1px solid var(--line);border-radius:3px;color:inherit;text-decoration:none;background:var(--code-bg)}
+.route a::before{content:counter(r);font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--target);line-height:1;grid-row:span 2}
+.route a:hover{border-color:var(--target)}
+.route .rn{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.route b{font-weight:700}
+.route .rk{grid-column:2 / -1;font-size:.84rem;color:var(--muted)}
+.mapwrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:8px}
+.mapsvg{display:block;width:100%;min-width:900px;height:auto}
+.mapsvg .edge{fill:none;stroke:var(--other);stroke-width:1.6}
+.mapsvg .edge.rec{stroke-dasharray:5 5}
+.mapsvg .edge.hot{stroke:var(--target);stroke-width:2.4}
+.mapsvg .edge.dim{opacity:.25}
+.mapsvg .ahead{fill:var(--other)} .mapsvg .aheadh{fill:var(--target)}
+.mapsvg .node{cursor:pointer}
+.mapsvg .node rect{fill:var(--code-bg);stroke:var(--line);stroke-width:1.5}
+.mapsvg .node:hover rect{stroke:var(--accent)}
+.mapsvg .node text{fill:var(--ink)}
+.mapsvg .nnum{font-family:var(--mono);font-size:12px;font-weight:700;fill:var(--muted)}
+.mapsvg .ntitle{font-family:var(--display);font-size:19px;font-weight:800;text-transform:uppercase}
+.mapsvg .ntime{font-family:var(--mono);font-size:11px;text-anchor:end;fill:var(--muted)}
+.mapsvg .node.sel rect{fill:var(--target);stroke:var(--target)}
+.mapsvg .node.sel text{fill:var(--surface)}
+.mapsvg .node.pre rect{stroke:var(--accent);stroke-width:2.5;fill:var(--accent-soft)}
+.mapsvg .node.next rect{stroke:var(--target);stroke-width:2;stroke-dasharray:4 3}
+.mapsvg .node.trk rect{stroke:var(--target);stroke-width:2.5;fill:var(--target-soft)}
+.mapsvg .node.trk .nnum{fill:var(--target)}
+.mapsvg .node.dim{opacity:.35}
+.maplegend{display:flex;gap:16px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
+.maplegend i{display:inline-block;width:22px;height:10px;margin-right:6px;vertical-align:0;border-radius:2px}
+.maplegend .lg-req{border-top:2px solid var(--other);height:0;vertical-align:3px}
+.maplegend .lg-rec{border-top:2px dashed var(--other);height:0;vertical-align:3px}
+.maplegend .lg-sel{background:var(--target)}
+.maplegend .lg-pre{background:var(--accent-soft);outline:2px solid var(--accent)}
+.maplegend .lg-next{outline:2px dashed var(--target)}
+.chiprow{display:flex;flex-wrap:wrap;gap:6px}
+.cchip{font:inherit;font-size:.86rem;font-weight:600;padding:6px 10px;border-radius:3px;border:1.5px solid var(--line);background:var(--code-bg);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.cchip small{font-weight:400;font-size:.74rem;color:var(--muted)}
+.otable .orow a{color:var(--target);text-decoration:none}
+.otable .orow a:hover{text-decoration:underline}
+#backlink a{color:var(--target);text-decoration:none}
+/* FM15 */
+.fm15-quad,.fm15-sens{display:block;width:100%;height:auto;background:var(--code-bg);border-radius:3px}
+.fm15-quad .zs{fill:var(--accent-soft)} .fm15-quad .zr{fill:var(--bad-soft)}
+.fm15-quad .mid{stroke:var(--line);stroke-dasharray:4 4} .fm15-quad .ax{stroke:var(--muted)}
+.fm15-quad .zl{fill:var(--muted);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.fm15-quad .al{fill:var(--ink);font-family:var(--body);font-size:12px;font-weight:600}
+.fm15-quad .dot circle{fill:var(--surface);stroke:var(--accent);stroke-width:2}
+.fm15-quad .dot text{fill:var(--ink);font-family:var(--mono);font-size:11px;font-weight:700;text-anchor:middle}
+.fm15-quad .dot.cur circle{fill:var(--target);stroke:var(--target)}
+.fm15-quad .dot.cur text{fill:var(--surface)}
+.fm15-rec{font-family:var(--mono);font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:2px;white-space:nowrap}
+.fm15-rec.go{background:var(--accent);color:var(--surface)}
+.fm15-rec.pilot{background:var(--bad-soft);color:var(--bad);border:1.5px solid var(--bad)}
+.fm15-rec.no{background:var(--target-soft);color:var(--target);border:1.5px solid var(--target)}
+.fm15-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.fm15-list li{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:3px}
+.fm15-list .n{font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--accent);line-height:1}
+.fm15-list .m{font-size:.84rem;color:var(--muted);margin-top:2px}
+.fm15-list .b{display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:520px){.fm15-list li{grid-template-columns:2rem minmax(0,1fr)}.fm15-list .b{grid-column:2}}
+.fm15-vs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.fm15-vs > div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.fm15-vs .big{font-size:clamp(1.8rem,5vw,2.6rem);overflow-wrap:anywhere}
+.fm15-rows{display:flex;flex-direction:column;font-size:.88rem}
+.fm15-rows div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-top:1px dashed var(--line)}
+.fm15-rows div span{color:var(--muted)}
+.fm15-rows b{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.fm15-rows div.k b{color:var(--target)}
+.fm15-sens .zero{stroke:var(--muted)}
+.fm15-sens .pos{fill:var(--accent)} .fm15-sens .neg{fill:var(--bad)}
+.fm15-sens .hi{stroke:var(--ink);stroke-width:1.5}
+.fm15-sens .lab{fill:var(--muted);font-family:var(--mono);font-size:11px}
+.fm15-sens text.hi{fill:var(--ink);font-weight:700;stroke:none}
+.fm15-sens .val{fill:var(--ink);font-family:var(--mono);font-size:11px}
+</style>
+</head>
+<body>
+<div class="hazard" aria-hidden="true"></div>
+<div class="wrap">
+<div class="docbar"><div class="logo" role="img" aria-label="Logo placeholder"><!-- Replace this text with <img src="logo.svg" alt="Your organization"> -->Your logo</div><span><b>Field Manual 15</b></span><span>AI for leaders</span><span>Distribution: leaders and managers</span><span>Day 212 after the outbreak</span></div>
+
+<section class="first">
+  <div class="stamp">For the camp council</div>
+  <h1>Council Briefing</h1>
+  <p class="lede">Every camp has more ideas than fuel. Scouts want radios, the kitchen wants a smoker, and someone has a plan to automate the gate. This manual helps the council decide where AI is worth the supplies. <strong>Today's AI is a strong drafter, summarizer and sorter of text</strong> that sometimes gets things wrong with total confidence. Spend on work where that trade pays off, <mark>measure it honestly, and keep people accountable</mark>.</p>
+  <div class="meta">
+    <div><span class="eyebrow">Who it's for</span><p>Leaders and managers who decide which AI projects get time, money and people. No technical background needed.</p></div>
+    <div><span class="eyebrow">Time</span><p>About 50 minutes, plus time with your own numbers.</p></div>
+    <div><span class="eyebrow">Bring</span><p>Two or three candidate projects from your area, and a rough idea of how many hours they take today.</p></div>
+  </div>
+  <ul class="takeaways">
+    <li><b>Start frequent, low-stakes and checkable.</b><p>The best first projects happen often, involve lots of text, and produce output a person can check quickly.</p></li>
+    <li><b>Measure before you scale.</b><p>Record a baseline, run a pilot against a comparison group, and decide in advance what result would make you stop.</p></li>
+    <li><b>People stay accountable.</b><p>AI drafts and suggests. A named person owns each use and every decision that affects someone.</p></li>
+  </ul>
+</section>
+
+<section id="strengths">
+  <div class="stack col">
+    <div class="eyebrow">Part 1 · Know the recruit</div>
+    <h2>What today's AI is good and bad at</h2>
+    <p>Large language models write by predicting likely text, one piece at a time. That makes them fluent and fast with language. It also means they produce wrong answers in the same confident tone as right ones. <em>Field Autopsy</em> (Field Manual 0) explains why in about an hour, and it's the best single investment for a leader who wants to judge AI claims.</p>
+  </div>
+  <div class="two">
+    <div class="panel">
+      <div class="eyebrow">Reliable strengths</div>
+      <ul class="plain">
+        <li><b>Drafting.</b> First versions of emails, reports, job posts and plans. A person edits and sends.</li>
+        <li><b>Summarizing.</b> Long documents, meeting notes and threads cut down to what matters.</li>
+        <li><b>Searching your documents.</b> Answering questions from policies and manuals, with citations, when set up to retrieve from them (<em>Archive Run</em>, Field Manual 7).</li>
+        <li><b>Sorting and extracting.</b> Routing requests by type, pulling fields out of forms, tagging feedback.</li>
+        <li><b>Coding help.</b> Engineers write, review and explain code faster, with review still required (<em>Squad Orders</em>, Field Manual 5).</li>
+        <li><b>Rewording.</b> Translating, simplifying, changing tone for a different audience.</li>
+      </ul>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">Known weaknesses</div>
+      <ul class="plain">
+        <li><b>Confident errors.</b> Invented facts, citations or numbers that read as convincingly as real ones.</li>
+        <li><b>Inconsistency.</b> The same question can get different answers on different runs or after small wording changes.</li>
+        <li><b>No memory unless built.</b> Each conversation starts fresh unless the product stores and supplies history.</li>
+        <li><b>Knowledge cutoff.</b> It knows nothing after its training date, or about your organization, unless you give it the information.</li>
+        <li><b>Shaky arithmetic and counting</b> without a calculator or code tool attached.</li>
+        <li><b>Inherited bias.</b> It reflects patterns in its training data, including unfair ones.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="otable" role="table" aria-label="Common tasks, what to expect and how to check">
+    <div class="orow ohead" role="row"><span role="columnheader">Task</span><span role="columnheader">What to expect</span><span role="columnheader">Main risk</span><span role="columnheader">How people check</span></div>
+    <div class="orow" role="row"><b role="cell">Drafting</b><span role="cell">A usable first draft in seconds. Quality depends on how clearly people ask (<em>Survival Odds</em>, Field Manual 1).</span><span role="cell">Bland or wrong details presented as fact</span><span role="cell">Author reads and edits before sending</span></div>
+    <div class="orow" role="row"><b role="cell">Summaries</b><span role="cell">Good at the gist. Can drop the one detail that mattered, or add one that wasn't there.</span><span role="cell">Omissions</span><span role="cell">Spot-check against the source</span></div>
+    <div class="orow" role="row"><b role="cell">Document Q&amp;A</b><span role="cell">Strong when built to cite sources and say "not covered." Weak when documents are outdated or messy.</span><span role="cell">Stale or invented answers</span><span role="cell">Citations a reader can open</span></div>
+    <div class="orow" role="row"><b role="cell">Sorting</b><span role="cell">Often fast and consistent at scale, once tested on your own examples.</span><span role="cell">Quiet misroutes</span><span role="cell">Sample audits and error rates</span></div>
+    <div class="orow" role="row"><b role="cell">Decisions about people</b><span role="cell">Can summarize a case for a reviewer. Shouldn't decide alone.</span><span role="cell">Unfair, unexplainable outcomes</span><span role="cell">A person decides and records why</span></div>
+  </div>
+</section>
+
+<section id="scorer">
+  <div class="stack col">
+    <div class="eyebrow">Part 2 · Choose the first missions</div>
+    <h2>Score your candidate projects</h2>
+    <p>Good first projects happen often, involve lots of text, tolerate the occasional error or are easy to check, have data available, can be measured, and have an owner who wants them. Avoid fully automated, high-stakes decisions early. Keep a person in the loop by default. Rate a project below, or load an example, then save it to compare.</p>
+  </div>
+  <div class="chips" id="presets" aria-label="Example projects"></div>
+  <div class="ws">
+    <div class="panel">
+      <div class="field"><label for="ucName">Project name<span>What the AI would help with, in a few words</span></label><input id="ucName" type="text" maxlength="60"></div>
+      <div class="sliders" id="ucSliders"></div>
+      <div class="controls"><button class="btn solid" type="button" id="ucSave">Save to comparison</button><button class="btn" type="button" id="ucNew">New blank project</button></div>
+    </div>
+    <div class="panel out" aria-live="polite">
+      <div class="calcbar"><div><div class="eyebrow">Priority score</div><div class="big good" id="ucScore">0</div></div><span id="ucRec"></span></div>
+      <svg class="fm15-quad" id="quad" viewBox="0 0 420 330" role="img" aria-label="Value versus risk chart"></svg>
+      <p id="ucWhy"></p>
+      <p class="note">Value weighs volume, time spent, fit for today's AI and a measurable baseline. Risk and difficulty weigh stakes, error tolerance, ease of checking, data and ownership. The weights are a starting point for discussion. Change your ratings, not your standards, when you disagree.</p>
+    </div>
+  </div>
+  <div class="stack">
+    <div class="calcbar"><div class="eyebrow">Compared projects · saved in this browser only</div><button class="btn" type="button" id="ucClear">Clear list</button></div>
+    <ol class="fm15-list" id="ucList"></ol>
+  </div>
+</section>
+
+<section id="options">
+  <div class="stack col">
+    <div class="eyebrow">Part 3 · Requisition</div>
+    <h2>Buy, configure or build</h2>
+    <p>Most organizations use all three. Start with the cheapest option that fits the task, and move up only when you've measured a reason to.</p>
+  </div>
+  <div class="otable" role="table" aria-label="Buy, configure or build">
+    <div class="orow ohead" role="row"><span role="columnheader">Option</span><span role="columnheader">What it is</span><span role="columnheader">Fits when</span><span role="columnheader">Watch for</span></div>
+    <div class="orow" role="row"><b role="cell">Buy an assistant</b><span role="cell">A general chat assistant on an enterprise plan, available to staff for everyday drafting, summarizing and analysis.</span><span role="cell">Many people, many small tasks, no integration needed</span><span role="cell">Usage without measurable outcomes; data rules</span></div>
+    <div class="orow" role="row"><b role="cell">Configure</b><span role="cell">AI features inside tools you already run (office suite, help desk, CRM), or no-code assistants set up with your instructions and documents.</span><span role="cell">The work already lives in that tool</span><span role="cell">Per-seat add-on costs; overlapping tools</span></div>
+    <div class="orow" role="row"><b role="cell">Build</b><span role="cell">Engineers connect a model to your data and systems for a specific workflow (<em>Archive Run</em>, <em>Outpost Protocols</em>, <em>Supply Lines</em>).</span><span role="cell">High volume, a distinctive process, and off-the-shelf tools have fallen short</span><span role="cell">Ongoing ownership, testing and running costs</span></div>
+  </div>
+  <div class="stack col"><h3>The costs that don't appear on the quote</h3><p>A license price is the smallest number in most AI budgets. Ask for each of these before you approve a project.</p></div>
+  <div class="flaggrid">
+    <div><b>Evaluation</b><span>Building a test set from real cases and checking quality before launch and after every change (<em>Proving Grounds</em>, Field Manual 11).</span></div>
+    <div><b>Review time</b><span>Hours people spend checking AI output. It comes straight out of the time saved.</span></div>
+    <div><b>Integration</b><span>Connecting to your systems, permissions and single sign-on. Often bigger than the build itself.</span></div>
+    <div><b>Maintenance</b><span>Vendors update and retire models. Prompts, tests and integrations need re-checking each time.</span></div>
+    <div><b>Change management</b><span>Training, updated procedures, champions, and the time managers spend on adoption.</span></div>
+    <div><b>Governance</b><span>Security and legal review, policy upkeep, and keeping a register of AI uses.</span></div>
+    <div><b>Usage growth</b><span>Pay-per-use pricing grows with success. Model the cost at full adoption.</span></div>
+    <div><b>Exit</b><span>Getting your data and configuration out if you switch vendors.</span></div>
+  </div>
+</section>
+
+<section id="measure">
+  <div class="stack col">
+    <div class="eyebrow">Part 4 · Count the supplies honestly</div>
+    <h2>Measure value before you scale</h2>
+    <p>Estimates of time saved are usually guesses until you measure them, and self-reported savings tend to run high. A short, well-designed pilot settles the question cheaply.</p>
+  </div>
+  <ol class="loopsteps">
+    <li><b>Record a baseline</b><span>Before anyone touches the tool, measure how long the task takes, how often, and how many errors it produces today.</span></li>
+    <li><b>Pick outcome metrics</b><span>Time per task, quality as judged by a reviewer, error rate and weekly active use. Decide which one matters most.</span></li>
+    <li><b>Use a comparison group</b><span>A similar team or period without the tool. Without one, you can't separate the tool's effect from everything else that changed.</span></li>
+    <li><b>Run long enough</b><span>Several weeks. The first days show novelty and learning-curve effects, and neither lasts.</span></li>
+    <li><b>Check quality, not just speed</b><span>Faster work that needs rework later isn't a saving. Have a reviewer score a sample from both groups without knowing which is which.</span></li>
+    <li><b>Decide on pre-set terms</b><span>Write down what result means scale, adjust or stop before the pilot starts. Then follow it.</span></li>
+  </ol>
+  <div class="pairs">
+    <div class="pair"><div><span class="tag">Vanity metric</span><pre>Staff sent 5,000 prompts this month.</pre></div><div class="after"><span class="tag">Honest metric</span><pre>Median time to answer a supply request fell from 40 to 25 minutes in the pilot team. The comparison team stayed flat. Error rate on a reviewed sample was unchanged.</pre></div></div>
+    <div class="pair"><div><span class="tag">Vanity metric</span><pre>We rolled out 300 licenses.</pre></div><div class="after"><span class="tag">Honest metric</span><pre>110 of 300 people used it in at least three of the last four weeks, mostly for report summaries and email drafts.</pre></div></div>
+    <div class="pair"><div><span class="tag">Vanity metric</span><pre>92% of users say they like it.</pre></div><div class="after"><span class="tag">Honest metric</span><pre>Users estimate 3 hours saved a week. Timed samples show 1.5. We use 1.5 in the business case.</pre></div></div>
+  </div>
+  <p class="note col">Figures in these examples are illustrative.</p>
+</section>
+
+<section id="calc">
+  <div class="stack col">
+    <div class="eyebrow">Drill · The quartermaster's ledger</div>
+    <h2>Value calculator</h2>
+    <p>Enter your own numbers. The defaults are illustrative only. The share of time saved is the number most likely to be wrong, so the calculator shows what happens if it's half your estimate, and what share you need just to break even. Measure the real figure in a pilot.</p>
+  </div>
+  <div class="ws">
+    <div class="panel">
+      <div class="eyebrow">The work</div>
+      <div class="two">
+        <div class="field"><label for="cPeople">People who do this task</label><input id="cPeople" type="number" min="0" step="1" inputmode="numeric"></div>
+        <div class="field"><label for="cHours">Hours per person per week<span>On this task only</span></label><input id="cHours" type="number" min="0" step="0.5" inputmode="decimal"></div>
+        <div class="field"><label for="cRate">Loaded cost per hour<span>Pay plus overhead</span></label><input id="cRate" type="number" min="0" step="1" inputmode="decimal"></div>
+        <div class="field"><label for="cWeeks">Working weeks per year</label><input id="cWeeks" type="number" min="1" max="52" step="1" inputmode="numeric"></div>
+      </div>
+      <div class="sl"><label for="cSaved">Share of task time saved<span>Your estimate. Replace it with a measured figure after the pilot.</span></label><input id="cSaved" type="range" min="0" max="80" step="5"><output id="cSavedO"></output></div>
+      <div class="sl"><label for="cAdopt">Adoption rate<span>Share of those people who actually use it regularly</span></label><input id="cAdopt" type="range" min="0" max="100" step="5"><output id="cAdoptO"></output></div>
+      <div class="eyebrow">The costs</div>
+      <div class="two">
+        <div class="field"><label for="cLic">License per person per month<span>Charged for everyone who does the task</span></label><input id="cLic" type="number" min="0" step="1" inputmode="decimal"></div>
+        <div class="field"><label for="cBuild">One-time setup or build<span>Integration, configuration, testing, training</span></label><input id="cBuild" type="number" min="0" step="500" inputmode="decimal"></div>
+        <div class="field"><label for="cReview">Review hours added per user per week<span>Checking AI output, if not already netted out</span></label><input id="cReview" type="number" min="0" step="0.25" inputmode="decimal"></div>
+        <div class="field"><label for="cMaint">Maintenance and support per year<span>Re-testing, updates, admin time</span></label><input id="cMaint" type="number" min="0" step="500" inputmode="decimal"></div>
+      </div>
+      <div class="controls"><span class="flabel">Currency</span><div class="chips" id="cCur"></div><button class="btn" type="button" id="cReset">Reset to example</button></div>
+    </div>
+    <div class="panel out" aria-live="polite">
+      <div class="fm15-vs">
+        <div><span class="eyebrow">Net value, first year</span><span class="big" id="cNet1"></span><span class="note">At your estimate</span></div>
+        <div><span class="eyebrow">If time saved is half</span><span class="big" id="cNetHalf"></span><span class="note" id="cHalfNote"></span></div>
+      </div>
+      <div class="verdict" id="cVerdict"></div>
+      <div class="fm15-rows" id="cRows"></div>
+      <div class="eyebrow">Sensitivity · first-year net value as time saved changes</div>
+      <svg class="fm15-sens" id="cSens" viewBox="0 0 420 170" role="img" aria-label="Sensitivity chart"></svg>
+      <p class="note">Saved hours are capacity, not cash. They turn into money only if you change staffing, take on more work, or stop paying for something. Say which one in the business case.</p>
+    </div>
+  </div>
+</section>
+
+<section id="governance">
+  <div class="stack col">
+    <div class="eyebrow">Part 5 · Camp law</div>
+    <h2>Risk and governance</h2>
+    <p>Governance keeps the camp safe without stopping the work. Keep it proportional: a summary of a public report needs less control than a tool that shapes decisions about people. Select a topic.</p>
+  </div>
+  <div class="depot">
+    <div class="layers" id="gov"></div>
+    <div class="panel layerinfo" id="govInfo" aria-live="polite"></div>
+  </div>
+  <div class="stack col"><h3>Which tools may see what</h3><p>A common pattern for data rules. Your security and legal teams set the real tiers and the approved tool list.</p></div>
+  <div class="otable" role="table" aria-label="Data classes and which tools may see them">
+    <div class="orow ohead" role="row"><span role="columnheader">Data class</span><span role="columnheader">Examples</span><span role="columnheader">Consumer AI apps</span><span role="columnheader">Approved enterprise tools</span></div>
+    <div class="orow" role="row"><b role="cell">Public</b><span role="cell">Published reports, press releases, public web pages</span><span role="cell">Allowed</span><span role="cell">Allowed</span></div>
+    <div class="orow" role="row"><b role="cell">Internal</b><span role="cell">Plans, internal procedures, non-sensitive meeting notes</span><span role="cell">Not allowed</span><span role="cell">Allowed</span></div>
+    <div class="orow" role="row"><b role="cell">Confidential</b><span role="cell">Customer records, contracts, financials, unreleased products</span><span role="cell">Not allowed</span><span role="cell">Only tools approved for that data</span></div>
+    <div class="orow" role="row"><b role="cell">Restricted</b><span role="cell">Health and personal data, credentials, classified or export-controlled material</span><span role="cell">Not allowed</span><span role="cell">Only specifically approved systems, often none</span></div>
+  </div>
+  <div class="callout"><b>Regulation is real and moving.</b> The EU AI Act is risk-based: a few uses are banned, "high-risk" uses such as AI in hiring, credit or education carry heavy obligations, some systems such as chatbots must disclose that people are dealing with AI, and most other uses face little added regulation. Its bans and a duty to support staff AI literacy have applied since February 2025. A 2026 amendment moved most high-risk obligations to December 2027 and August 2028. It can apply to organizations outside the EU whose AI is used there. Data protection, employment, consumer and sector laws apply to AI too. In the US, the NIST AI Risk Management Framework is a widely used voluntary guide. Ask your legal team what applies to you; this manual isn't legal advice.</div>
+</section>
+
+<section id="vendors">
+  <div class="stack col">
+    <div class="eyebrow">Part 6 · Traders at the gate</div>
+    <h2>Reading vendor claims</h2>
+    <p>Demos are rehearsed, benchmarks are chosen by the seller, and customer stories come from the happiest customers. None of that makes a vendor dishonest. It means you test on your own work before you sign.</p>
+  </div>
+  <div class="fails">
+    <div class="fail"><div><h3>The perfect demo</h3><p class="sym">Every question answered flawlessly, on data the vendor prepared.</p></div><p class="fix"><b>Ask:</b> can we bring our own examples, including messy ones and questions it shouldn't be able to answer? Then run a paid pilot on your data before a full contract.</p></div>
+    <div class="fail"><div><h3>The accuracy number</h3><p class="sym">"95% accurate," with no detail.</p></div><p class="fix"><b>Ask:</b> accurate on what data, judged by whom, compared to what baseline? What do the errors look like, and how would we catch them?</p></div>
+    <div class="fail"><div><h3>The leaderboard</h3><p class="sym">Top score on a public benchmark.</p></div><p class="fix"><b>Ask:</b> how closely does that benchmark resemble our task? Public benchmarks measure general ability, and models can be tuned to them. Your test set measures your work.</p></div>
+    <div class="fail"><div><h3>The time-saved story</h3><p class="sym">"Customers save ten hours a week."</p></div><p class="fix"><b>Ask:</b> measured how: timed against a baseline, or a survey? In what roles? Can we speak to a customer whose rollout went badly?</p></div>
+    <div class="fail"><div><h3>"Your data is safe"</h3><p class="sym">Reassurance without specifics.</p></div><p class="fix"><b>Ask:</b> what do you retain and for how long, do you train on our data, where is it processed, which subcontractors see it, and which security reports (such as SOC 2 Type II or ISO/IEC 27001) can we read? Get the answers in the contract.</p></div>
+    <div class="fail"><div><h3>"Fully autonomous"</h3><p class="sym">No human needed.</p></div><p class="fix"><b>Ask:</b> when it's wrong, how do we find out, who can override it, and what logs do we get? Autonomy without review is a risk you carry, not the vendor.</p></div>
+  </div>
+  <div class="stack">
+    <div class="eyebrow">Drill · Pick the best follow-up question</div>
+    <div class="drillscore" id="vScore"></div>
+    <div class="drill" id="vDrill"></div>
+  </div>
+</section>
+
+<section id="people">
+  <div class="stack col">
+    <div class="eyebrow">Part 7 · The survivors</div>
+    <h2>People and change</h2>
+    <p>Tools change quickly. How people work changes slowly, and that's where most of the value is won or lost.</p>
+  </div>
+  <div class="cards">
+    <div class="panel"><h3>Train by role</h3><p>Everyone gets the basics; builders get more. The course map has tracks: <b>Foundations</b> for everyone, <b>Citizen builder</b> for non-engineers who make their own tools, and <b>App builder</b> or <b>Agent operator</b> for engineers. Train on real tasks from people's own jobs.</p></div>
+    <div class="panel"><h3>Involve the people who do the work</h3><p>They know where the hours go and which errors matter. Ask them to name the candidate projects, recruit volunteers as pilot champions, and let them shape the new process.</p></div>
+    <div class="panel"><h3>Be straight about jobs</h3><p>Say what you know, what you don't, and what you've decided. Silence gets filled with worst-case rumors, and anxious people hide their best ideas.</p></div>
+    <div class="panel"><h3>Redesign the workflow</h3><p>Adding AI to an unchanged process often moves the bottleneck instead of removing it. Ask which steps, approvals and handoffs still make sense now.</p></div>
+    <div class="panel"><h3>Expect skills to shift</h3><p>More time goes to judging, checking and describing work clearly. Plan how newcomers will learn if AI handles the tasks they used to learn on.</p></div>
+    <div class="panel"><h3>Make the right way the easy way</h3><p>If the approved tool is slow to get or weaker than a personal app, people will use the personal app. Approved tools, simple rules, fast access.</p></div>
+  </div>
+  <div class="pairs">
+    <div class="pair"><div><span class="tag">Bolted on</span><pre>Analysts use AI to draft the weekly report faster. The same three managers still review it in sequence, and it still takes five days.</pre></div><div class="after"><span class="tag">Redesigned</span><pre>AI drafts the report from the logs on Friday morning with sources linked. One analyst checks the numbers against the sources. One manager approves. Two days, and the analysts spend the time they got back on follow-up.</pre></div></div>
+  </div>
+</section>
+
+<section id="triage">
+  <div class="stack col">
+    <div class="eyebrow">Part 8 · Field triage</div>
+    <h2>When a rollout stalls</h2>
+    <p>Most AI rollouts that disappoint fail in a handful of familiar ways. Pick the symptom you're seeing.</p>
+  </div>
+  <div class="triage">
+    <div class="symptoms" id="symptoms"></div>
+    <div class="panel dx" id="dx" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="exercises">
+  <div class="stack col">
+    <div class="eyebrow">Part 9 · Council actions</div>
+    <h2>Five things to do this month</h2>
+    <p>Check each one off as you finish. Progress is saved in this browser only.</p>
+  </div>
+  <div class="progress"><span id="exCount">0 of 5</span><div class="bar"><i id="exBar" style="width:0"></i></div></div>
+  <ul class="ex" id="ex"></ul>
+</section>
+
+<section id="ready">
+  <div class="stack col">
+    <div class="eyebrow">Pocket checklist</div>
+    <h2>Governance readiness</h2>
+    <p>Before AI touches anything beyond public data and personal drafting, you should be able to check most of these. Saved in this browser only.</p>
+  </div>
+  <div class="progress"><span id="rdCount">0 of 9</span><div class="bar"><i id="rdBar" style="width:0"></i></div></div>
+  <ul class="ex" id="rd"></ul>
+</section>
+
+<section id="cheat">
+  <div class="stack col">
+    <div class="eyebrow">Appendix · Pocket card</div>
+    <h2>Cheat sheet</h2>
+  </div>
+  <div class="code solo"><button class="cp" type="button" data-copy="cheatOut">Copy</button><pre id="cheatOut" class="wrapcode">GOOD FIRST PROJECTS
+  frequent · text-heavy · easy to check or tolerant of errors
+  data available · baseline measurable · a named owner
+  person in the loop by default; no high-stakes automation yet
+
+OPTIONS, cheapest first
+  buy an assistant → configure tools you have → build custom
+
+TOTAL COST
+  licenses + integration + evaluation + review time
+  + maintenance + change management + governance + exit
+
+MEASURE
+  baseline first · comparison group · several weeks
+  time AND quality AND error rate AND weekly active use
+  decide scale / adjust / stop before the pilot starts
+  saved hours are capacity, not cash
+
+GOVERN
+  data tiers: which tools may see what
+  acceptable-use policy · review rules scaled to stakes
+  a named owner per AI use · register of uses
+  test decisions about people for unfair outcomes
+
+ASK VENDORS
+  test on our data? accurate on what, judged by whom?
+  retention · training on our data · where processed
+  subprocessors · security reports · model change notice
+  how do we catch and override errors? how do we leave?</pre></div>
+</section>
+
+<footer>Field Manual 15. Pairs with <em>Field Autopsy</em> (how models work and why they make confident errors), <em>Quarantine Protocol</em> (rules for staff who build with AI) and the <em>Course Map</em> (training tracks by role). Camp projects, people and figures are fictional and illustrative. Regulatory notes reflect public information as of October 2026 and aren't legal advice.</footer>
+</div>
+
+<script>
+(function(){
+  function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+  function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+  function load(k,d){try{var v=JSON.parse(store(k));return v==null?d:v}catch(e){return d}}
+
+  /* ---------- Use-case scorer ---------- */
+  var CR=[
+    {k:"vol",n:"Volume",lo:"A few times a year",hi:"Many times a day, across many people",s:"v",w:.3},
+    {k:"eff",n:"Time it takes now",lo:"Minutes, now and then",hi:"Hours per person every week",s:"v",w:.25},
+    {k:"fit",n:"Fit for today's AI",lo:"Physical work, exact arithmetic, or fresh facts",hi:"Reading, writing, summarizing or sorting text",s:"v",w:.25},
+    {k:"base",n:"Measurable baseline",lo:"No idea how long or how well it's done today",hi:"Time, volume and quality already tracked",s:"v",w:.2},
+    {k:"stk",n:"Stakes",lo:"Internal drafts nobody relies on",hi:"Affects people's money, health, jobs or rights",s:"r",w:.3},
+    {k:"tol",n:"Error tolerance",lo:"One mistake causes real harm",hi:"An occasional miss is cheap to fix",s:"r",w:.2,inv:true},
+    {k:"chk",n:"Ease of checking",lo:"Only an expert, slowly, can tell",hi:"Anyone can check it at a glance",s:"r",w:.2,inv:true},
+    {k:"data",n:"Data available",lo:"Scattered, on paper, or off-limits to AI tools",hi:"Digital, organized and approved for use",s:"r",w:.15,inv:true},
+    {k:"own",n:"Clear owner",lo:"Nobody in particular",hi:"A named person who wants it and will run the pilot",s:"r",w:.15,inv:true}
+  ];
+  var PRE=[
+    {n:"Summarize patrol reports",d:"report and meeting summaries",v:{vol:4,eff:4,fit:5,base:3,stk:2,tol:4,chk:4,data:4,own:4}},
+    {n:"Draft replies to supply requests",d:"routine email replies",v:{vol:5,eff:4,fit:5,base:4,stk:2,tol:3,chk:4,data:4,own:4}},
+    {n:"Answer questions from the camp rulebook",d:"policy Q&A over your documents",v:{vol:4,eff:3,fit:5,base:2,stk:2,tol:3,chk:2,data:3,own:3}},
+    {n:"Sort incoming radio messages",d:"ticket classification and routing",v:{vol:5,eff:3,fit:4,base:4,stk:2,tol:4,chk:4,data:4,own:4}},
+    {n:"Decide medicine rations automatically",d:"automated eligibility decisions",v:{vol:3,eff:3,fit:2,base:3,stk:5,tol:1,chk:2,data:3,own:3}},
+    {n:"Screen new arrivals for admission",d:"screening applicants",v:{vol:3,eff:4,fit:3,base:2,stk:5,tol:1,chk:2,data:2,own:2}}
+  ];
+  function blank(){var v={};CR.forEach(function(c){v[c.k]=3});return v}
+  function clone(v){var o={};for(var k in v)o[k]=v[k];return o}
+  function evalUC(v){
+    var val=0,risk=0;
+    CR.forEach(function(c){var x=(v[c.k]-1)/4;if(c.s==="v")val+=c.w*x;else risk+=c.w*(c.inv?1-x:x)});
+    val=Math.round(val*100);risk=Math.round(risk*100);
+    var pr=Math.round(val*.6+(100-risk)*.4),r,why;
+    if(v.stk>=4&&(v.tol<=2||v.chk<=2)){r="no";why="High stakes, and errors are costly or hard to catch. Don't automate this yet. At most, let AI prepare material for a person who makes and records every decision, and only after lower-stakes pilots have taught you how the tools fail."}
+    else if(v.own<=2||v.data<=2){var miss=[];if(v.own<=2)miss.push("a named owner");if(v.data<=2)miss.push("usable, approved data");r="no";why="Missing a prerequisite: "+miss.join(" and ")+". Fix that first; projects without them stall regardless of the technology."}
+    else if(risk>=65){r="no";why="Too risky or difficult for now. Revisit once the camp has run simpler projects and has review and testing habits in place."}
+    else if(val<40){r="no";why="Low payoff as a funded project. If it's still useful, let people handle it with an approved general assistant instead."}
+    else if(val>=55&&risk<40){r="go";why="A strong first project. Frequent, worth measuring, and safe enough to pilot with light review. Record a baseline before you start."}
+    else{r="pilot";why="Worth a pilot with a person reviewing every output. Measure time saved and error rate against a comparison group before widening it."}
+    return {val:val,risk:risk,pr:pr,r:r,why:why}
+  }
+  var REC={go:"Start here",pilot:"Pilot with review",no:"Not yet"};
+  var cur={n:"",v:blank()},P=load("fm15-uc",null);
+  if(!Array.isArray(P)){P=[0,2,4].map(function(i){return {n:PRE[i].n,v:clone(PRE[i].v)}})}
+  var slEl=document.getElementById("ucSliders"),nameEl=document.getElementById("ucName");
+  CR.forEach(function(c){var d=document.createElement("div");d.className="sl";
+    d.innerHTML='<label for="uc-'+c.k+'">'+c.n+'<span>1 = '+esc(c.lo)+' · 5 = '+esc(c.hi)+'</span></label><input id="uc-'+c.k+'" type="range" min="1" max="5" step="1"><output id="uc-'+c.k+'o"></output>';
+    d.querySelector("input").addEventListener("input",function(e){cur.v[c.k]=+e.target.value;drawUC()});slEl.appendChild(d)});
+  nameEl.addEventListener("input",function(){cur.n=nameEl.value;drawUC()});
+  var prEl=document.getElementById("presets");
+  PRE.forEach(function(p){var b=document.createElement("button");b.type="button";b.className="cchip";b.innerHTML=esc(p.n)+'<small>'+esc(p.d)+'</small>';
+    b.addEventListener("click",function(){cur={n:p.n,v:clone(p.v)};syncForm();drawUC()});prEl.appendChild(b)});
+  function syncForm(){nameEl.value=cur.n;CR.forEach(function(c){document.getElementById("uc-"+c.k).value=cur.v[c.k]})}
+  function px(risk){return 50+risk/100*355} function py(val){return 290-val/100*275}
+  function drawUC(){
+    CR.forEach(function(c){document.getElementById("uc-"+c.k+"o").textContent=cur.v[c.k]});
+    var e=evalUC(cur.v);
+    document.getElementById("ucScore").textContent=e.pr;
+    document.getElementById("ucRec").innerHTML='<span class="fm15-rec '+e.r+'">'+REC[e.r]+'</span>';
+    document.getElementById("ucWhy").textContent=e.why;
+    var s='<rect class="zs" x="50" y="15" width="177.5" height="137.5"/><rect class="zr" x="227.5" y="152.5" width="177.5" height="137.5"/>'+
+      '<line class="mid" x1="227.5" y1="15" x2="227.5" y2="290"/><line class="mid" x1="50" y1="152.5" x2="405" y2="152.5"/>'+
+      '<line class="ax" x1="50" y1="290" x2="405" y2="290"/><line class="ax" x1="50" y1="15" x2="50" y2="290"/>'+
+      '<text class="zl" x="58" y="31">Start here</text><text class="zl" x="397" y="31" text-anchor="end">Pilot, plan carefully</text>'+
+      '<text class="zl" x="58" y="282">Personal use only</text><text class="zl" x="397" y="282" text-anchor="end">Avoid for now</text>'+
+      '<text class="al" x="227.5" y="312" text-anchor="middle">Risk and difficulty →</text><text class="al" x="16" y="152.5" text-anchor="middle" transform="rotate(-90 16 152.5)">Value →</text>';
+    var desc=[];
+    P.forEach(function(p,i){var q=evalUC(p.v);s+='<g class="dot"><circle cx="'+px(q.risk).toFixed(1)+'" cy="'+py(q.val).toFixed(1)+'" r="11"/><text x="'+px(q.risk).toFixed(1)+'" y="'+(py(q.val)+4).toFixed(1)+'">'+(i+1)+'</text></g>';desc.push((i+1)+" "+p.n+": value "+q.val+", risk "+q.risk)});
+    s+='<g class="dot cur"><circle cx="'+px(e.risk).toFixed(1)+'" cy="'+py(e.val).toFixed(1)+'" r="9"/><text x="'+px(e.risk).toFixed(1)+'" y="'+(py(e.val)+4).toFixed(1)+'">★</text></g>';
+    var q=document.getElementById("quad");q.innerHTML=s;
+    q.setAttribute("aria-label","Value versus risk chart. Current project: value "+e.val+", risk "+e.risk+". "+desc.join("; "));
+    var L=document.getElementById("ucList");
+    L.innerHTML=P.length?P.map(function(p,i){var r=evalUC(p.v);return '<li><span class="n">'+(i+1)+'</span><div><b>'+esc(p.n)+'</b><div class="m">Priority '+r.pr+' · value '+r.val+' · risk '+r.risk+' · <span class="fm15-rec '+r.r+'">'+REC[r.r]+'</span></div></div><div class="b"><button class="btn" type="button" data-load="'+i+'" aria-label="Edit '+esc(p.n)+'">Edit</button><button class="btn" type="button" data-del="'+i+'" aria-label="Remove '+esc(p.n)+'">Remove</button></div></li>'}).join(""):'<li><span class="n">·</span><div class="m">No projects saved yet. Rate one above and save it.</div></li>';
+  }
+  document.getElementById("ucList").addEventListener("click",function(ev){var b=ev.target.closest("button");if(!b)return;
+    if(b.hasAttribute("data-load")){var p=P[+b.getAttribute("data-load")];cur={n:p.n,v:clone(p.v)};syncForm();drawUC();nameEl.focus()}
+    if(b.hasAttribute("data-del")){P.splice(+b.getAttribute("data-del"),1);store("fm15-uc",JSON.stringify(P));drawUC()}});
+  document.getElementById("ucSave").addEventListener("click",function(){var n=cur.n.trim()||("Project "+(P.length+1));cur.n=n;nameEl.value=n;
+    var i=-1;P.forEach(function(p,j){if(p.n.toLowerCase()===n.toLowerCase())i=j});
+    if(i>=0)P[i]={n:n,v:clone(cur.v)};else{if(P.length>=10)P.shift();P.push({n:n,v:clone(cur.v)})}
+    store("fm15-uc",JSON.stringify(P));drawUC()});
+  document.getElementById("ucNew").addEventListener("click",function(){cur={n:"",v:blank()};syncForm();drawUC();nameEl.focus()});
+  document.getElementById("ucClear").addEventListener("click",function(){P=[];store("fm15-uc","[]");drawUC()});
+  cur={n:PRE[1].n,v:clone(PRE[1].v)};syncForm();drawUC();
+
+  /* ---------- Value calculator ---------- */
+  var DEF={people:40,hours:6,rate:65,weeks:46,saved:20,adopt:60,lic:30,build:15000,review:.5,maint:5000,cur:"$"};
+  var F={people:"cPeople",hours:"cHours",rate:"cRate",weeks:"cWeeks",saved:"cSaved",adopt:"cAdopt",lic:"cLic",build:"cBuild",review:"cReview",maint:"cMaint"};
+  var cv=load("fm15-calc",null);if(!cv||typeof cv!=="object")cv=clone(DEF);for(var dk in DEF)if(cv[dk]==null)cv[dk]=DEF[dk];
+  var CUR=["$","€","£"],curEl=document.getElementById("cCur");
+  CUR.forEach(function(c){var b=document.createElement("button");b.type="button";b.className="chipbtn";b.textContent=c;b.setAttribute("aria-label","Currency "+c);b.addEventListener("click",function(){cv.cur=c;calc()});curEl.appendChild(b)});
+  function num(x){x=+x;return isFinite(x)&&x>0?x:0}
+  function money(x){var s=cv.cur+Math.round(Math.abs(x)).toLocaleString("en-US");return x<-.5?"−"+s:s}
+  function hrs(x){return Math.round(x).toLocaleString("en-US")+" h"}
+  function model(c,mult){
+    var active=num(c.people)*num(c.adopt)/100,wk=Math.min(52,num(c.weeks)),rate=num(c.rate);
+    var gross=active*num(c.hours)*num(c.saved)/100*mult*wk,rev=active*num(c.review)*wk,net=gross-rev,val=net*rate;
+    var lic=num(c.lic)*num(c.people)*12,run=lic+num(c.maint),ongoing=val-run,first=ongoing-num(c.build);
+    return {active:active,gross:gross,rev:rev,net:net,val:val,lic:lic,run:run,ongoing:ongoing,first:first,wk:wk,rate:rate}
+  }
+  Object.keys(F).forEach(function(k){document.getElementById(F[k]).addEventListener("input",function(e){cv[k]=e.target.value===""?0:+e.target.value;calc(true)})});
+  function fill(){Object.keys(F).forEach(function(k){document.getElementById(F[k]).value=cv[k]})}
+  document.getElementById("cReset").addEventListener("click",function(){cv=clone(DEF);fill();calc()});
+  function calc(){
+    store("fm15-calc",JSON.stringify(cv));
+    Array.prototype.forEach.call(curEl.children,function(b){b.setAttribute("aria-pressed",b.textContent===cv.cur?"true":"false")});
+    document.getElementById("cSavedO").textContent=num(cv.saved)+"%";document.getElementById("cAdoptO").textContent=num(cv.adopt)+"%";
+    var m=model(cv,1),h=model(cv,.5);
+    var n1=document.getElementById("cNet1"),nh=document.getElementById("cNetHalf");
+    n1.textContent=money(m.first);n1.className="big "+(m.first>=0?"good":"bad");
+    nh.textContent=money(h.first);nh.className="big "+(h.first>=0?"good":"bad");
+    document.getElementById("cHalfNote").textContent=num(cv.saved)/2+"% of task time saved";
+    var per=m.active*num(cv.hours)*m.wk*m.rate;
+    var be=per>0?(m.run+num(cv.build)+m.rev*m.rate)/per*100:Infinity;
+    var pay;if(m.ongoing<=0)pay="Never at these numbers";else if(num(cv.build)===0)pay="Immediately";else pay=(num(cv.build)/(m.ongoing/12)).toFixed(1)+" months";
+    var rows=[["Regular users",Math.round(m.active*10)/10+" of "+num(cv.people)],["Hours saved per year",hrs(m.gross)],["Review hours added",(m.rev>0?"−":"")+hrs(m.rev)],["Value of net hours",money(m.val)],
+      ["Licenses per year","−"+money(m.lic)],["Maintenance per year","−"+money(num(cv.maint))],["One-time setup","−"+money(num(cv.build))],
+      ["Net per year after the first",money(m.ongoing)],["Payback on setup",pay],["Time saved needed to break even in year one",isFinite(be)?(be>100?"over 100%":be.toFixed(0)+"%"):"n/a"]];
+    document.getElementById("cRows").innerHTML=rows.map(function(r,i){return '<div'+(i>=7?' class="k"':'')+'><span>'+r[0]+'</span><b>'+esc(r[1])+'</b></div>'}).join("");
+    var v;
+    if(per<=0)v="Enter the number of people, hours and adoption to see a result.";
+    else if(m.first<0)v="Doesn't pay in the first year at these numbers. You'd need about "+(be>100?"more than 100":be.toFixed(0))+"% of task time saved to break even. Look for a cheaper option, a bigger task, or a reason other than time saved.";
+    else if(h.first>=0)v="Holds up even if time saved is half your estimate. A good candidate for a pilot that confirms the figure.";
+    else v="Positive at your estimate, negative at half of it. The whole case rests on the time-saved figure ("+num(cv.saved)+"% against a break-even of "+be.toFixed(0)+"%). Measure it in a pilot before committing to the full cost.";
+    document.getElementById("cVerdict").textContent=v;
+    /* sensitivity chart */
+    var MS=[.25,.5,.75,1,1.5],vals=MS.map(function(x){return model(cv,x).first}),mx=Math.max.apply(null,vals.map(Math.abs))||1;
+    var x0=290,half=122,s='<line class="zero" x1="'+x0+'" y1="4" x2="'+x0+'" y2="166"/>';
+    MS.forEach(function(x,i){var y=8+i*32,w=Math.abs(vals[i])/mx*half,pos=vals[i]>=0;
+      s+='<text class="lab'+(x===1?' hi':'')+'" x="4" y="'+(y+15)+'">'+(x===1?"Your estimate":"× "+x)+' · '+(Math.round(num(cv.saved)*x*10)/10)+'%</text>'+
+        '<rect class="'+(pos?"pos":"neg")+(x===1?" hi":"")+'" x="'+(pos?x0:x0-w).toFixed(1)+'" y="'+y+'" width="'+Math.max(1,w).toFixed(1)+'" height="20"/>'+
+        '<text class="val" x="'+(pos?x0-5:x0+5)+'" y="'+(y+15)+'" text-anchor="'+(pos?"end":"start")+'">'+esc(money(vals[i]))+'</text>'});
+    var sv=document.getElementById("cSens");sv.innerHTML=s;
+    sv.setAttribute("aria-label","First-year net value by share of time saved: "+MS.map(function(x,i){return (Math.round(num(cv.saved)*x*10)/10)+"% gives "+money(vals[i])}).join("; "));
+  }
+  fill();calc();
+
+  /* ---------- Governance layers ---------- */
+  var GV=[
+    {n:"Data rules",s:"Which tools may see what",b:["Classify data into a few tiers and say which approved tools may see each one. The table below shows a common pattern.","Use enterprise plans that give you admin controls and contract terms on data. Consumer apps rarely do.","Remember that inputs can include other people's personal data. Data protection law applies to AI use like any other processing."]},
+    {n:"Acceptable use",s:"One page people will actually read",b:["List what's encouraged, what needs approval, and what's prohibited, with an example for each.","Prohibited usually includes: restricted data in unapproved tools, presenting AI output as checked when it isn't, and using AI to make decisions about people without review.","Say where to ask questions. Update it at least twice a year."]},
+    {n:"Review rules",s:"Scaled to the stakes",b:["Personal drafts: the author reviews. Anything sent outside the team: the sender checks facts, figures and names. Decisions about people or money: a qualified person decides and records the reason.","Watch for review turning into rubber-stamping once the tool seems reliable. Audit samples regularly.","Decide when to tell readers that AI helped produce something, and follow any legal disclosure duties."]},
+    {n:"Accountability",s:"A person owns every use",b:["Each AI use has a named owner who answers for its outcomes, its data and its upkeep.","\"The AI did it\" is never an acceptable explanation. The person who used or approved the output is responsible for it.","Keep a register: each use, its owner, the data it touches, its risk level and when it was last reviewed."]},
+    {n:"Bias and fairness",s:"Test before it touches people",b:["Models learn patterns from human data, including unfair ones. Uses that affect hiring, pay, access to services or discipline need the most care.","Test outcomes across groups on real cases before launch and periodically after. Keep a person deciding.","Anti-discrimination law applies whether or not AI was involved. In the EU, many such uses are classed as high-risk."]},
+    {n:"Vendor questions",s:"Get the answers in writing",b:["Do you retain our inputs and outputs, and for how long? Do you train models on them?","Where is our data processed and stored? Which subcontractors (subprocessors) see it?","Which security reports can we read (SOC 2 Type II, ISO/IEC 27001)? Do you follow an AI management standard such as ISO/IEC 42001?","How do you notify us before changing or retiring the model? How do we export our data and leave?"]},
+    {n:"Monitoring",s:"Keep watching after launch",b:["Re-run a fixed set of test cases after every model or prompt change, and on a schedule (Proving Grounds, Field Manual 11).","Track error reports, override rates and usage. A sudden change in any of them is a signal.","Give staff a simple way to report a bad output, and review those reports."]}
+  ];
+  var gEl=document.getElementById("gov"),gi=document.getElementById("govInfo");
+  GV.forEach(function(g,i){var b=document.createElement("button");b.type="button";b.className="layer";b.setAttribute("aria-pressed","false");
+    b.innerHTML='<span class="ix">'+(i+1)+'</span><b>'+g.n+'</b><span>'+g.s+'</span>';b.addEventListener("click",function(){showGov(i)});gEl.appendChild(b)});
+  function showGov(i){Array.prototype.forEach.call(gEl.children,function(b,j){b.setAttribute("aria-pressed",j===i?"true":"false")});
+    var g=GV[i];gi.innerHTML='<div class="eyebrow">'+(i+1)+' of '+GV.length+' · '+esc(g.s)+'</div><h3>'+g.n+'</h3><ul>'+g.b.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")+'</ul>'}
+  showGov(0);
+
+  /* ---------- Vendor drill ---------- */
+  var VD=[
+    {q:"\"Our assistant is 95% accurate.\"",o:["Is that the newest model on the market?","Accurate on what data, judged by whom? What do the other 5% look like, and can we test it on 50 of our own cases?","Can you put 95% in the contract?"],a:1,f:"A percentage means nothing without the test set, the judge and the baseline. Testing on your own cases tells you more than any number on a slide. A contract figure measured on their data protects you little."},
+    {q:"The demo answered every question perfectly.",o:["Can we bring ten of our own questions, including two it shouldn't be able to answer?","How long did the demo take to prepare?","Can we have a recording to show the team?"],a:0,f:"Demos run on prepared material. Your own questions, including ones with no good answer, show whether it says \"I don't know\" or invents something."},
+    {q:"\"Customers save ten hours a week.\"",o:["Is that per person or per team?","Which of your customers is the biggest?","Was that timed against a baseline or self-reported, and can we talk to a customer whose rollout struggled?"],a:2,f:"Self-reported savings tend to run high, and reference customers are chosen for being happy. Method and a less rosy reference tell you what to expect."},
+    {q:"\"Your data is completely safe with us.\"",o:["Is it encrypted?","Do you retain our data, train on it, where is it processed, which subprocessors see it, and will you put that in the contract?","Have you ever been breached?"],a:1,f:"Encryption is table stakes and breach history is hard to verify. Retention, training use, location and subprocessors are the questions that decide what happens to your data, and the contract is where the answers count."},
+    {q:"\"It's fully autonomous. No human needed.\"",o:["When it's wrong, how do we find out, who can override it, and what logs do we get?","How many staff can we cut?","Does it work offline?"],a:0,f:"Every system makes errors. What matters is how you detect, correct and trace them, and that accountability stays with a person on your side."},
+    {q:"\"We're number one on a public benchmark.\"",o:["Which benchmark, and when?","How does it perform on a sample of our real work, and how will we know if an update changes that?","Will you be number one next year too?"],a:1,f:"Public benchmarks measure general ability and can be gamed. Your own test set, re-run after each update, measures what you're buying."}
+  ];
+  var vEl=document.getElementById("vDrill"),vAns={};
+  function vScore(){var n=0,r=0;for(var k in vAns){n++;if(vAns[k])r++}document.getElementById("vScore").textContent=r+" of "+n+" best picks · "+(VD.length-n)+" to go"}
+  VD.forEach(function(s,i){var d=document.createElement("div");d.className="sc";
+    d.innerHTML='<p class="q"><b>The vendor says:</b> '+esc(s.q)+'</p><div class="acts">'+s.o.map(function(o,j){return '<button class="btn" type="button" data-v="'+j+'">'+esc(o)+'</button>'}).join("")+'</div><div class="fb" hidden></div>';
+    d.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){var pick=+b.getAttribute("data-v"),right=pick===s.a;vAns[i]=right;
+      var fb=d.querySelector(".fb");fb.hidden=false;fb.className="fb "+(right?"ok":"no");
+      fb.innerHTML="<b>"+(right?"Best pick. ":"A weaker pick. The best: ")+(right?"":esc(s.o[s.a])+" ")+"</b>"+esc(s.f);d.classList.add("done");vScore()})});
+    vEl.appendChild(d)});
+  vScore();
+
+  /* ---------- Triage ---------- */
+  var TR=[
+    ["Licenses bought, few people use them","No specific tasks, little training, or confusion about what's allowed.","Pick two or three named workflows per team, train on exactly those, recruit champions, publish a one-page policy, and track weekly active use per workflow."],
+    ["People use it, nothing measurably improves","No baseline, saved time absorbed into other work, or the bottleneck sits elsewhere in the process.","Measure end-to-end time against a baseline and a comparison group. Redesign the step after the one AI sped up. Decide what the freed time is for."],
+    ["Errors are slipping through","Review has become a rubber stamp, or checking is too hard for the reviewer.","Audit a sample every week, require sources people can open, slow down high-stakes steps, and track error rate as a headline metric."],
+    ["Staff use unapproved AI tools","The approved option is missing, slow to get, or weaker than personal apps.","Provide an approved tool quickly, keep the rules short, invite people to declare current use without penalty, and explain the data risks plainly."],
+    ["Costs keep climbing","Usage-based pricing grows with adoption, and overlapping tools multiply.","Keep an inventory with an owner per tool, review usage reports monthly, consolidate overlaps, and model cost at full adoption before expanding."],
+    ["The team is anxious or resisting","Unclear what it means for their jobs, or the change was imposed without them.","Say what you know and don't. Involve them in redesigning the work, show how roles will change, and fund training time."],
+    ["Quality dropped after an update","The vendor changed the model, or prompts and documents drifted.","Keep a fixed test set and re-run it after every change. Ask vendors for advance notice of model changes in the contract."]
+  ];
+  var sEl=document.getElementById("symptoms"),dx=document.getElementById("dx");
+  TR.forEach(function(t,i){var b=document.createElement("button");b.type="button";b.setAttribute("aria-pressed","false");b.textContent=t[0];b.addEventListener("click",function(){showDx(i)});sEl.appendChild(b)});
+  function showDx(i){Array.prototype.forEach.call(sEl.children,function(b,j){b.setAttribute("aria-pressed",j===i?"true":"false")});var t=TR[i];
+    dx.innerHTML='<div><span class="eyebrow">Symptom</span><p>'+esc(t[0])+'</p></div><div><span class="eyebrow">Likely cause</span><p>'+esc(t[1])+'</p></div><div><span class="eyebrow">Fix</span><p>'+esc(t[2])+'</p></div>'}
+  showDx(0);
+
+  /* ---------- Checklists ---------- */
+  function checklist(listId,countId,barId,key,items,numbered){
+    var el=document.getElementById(listId),done=load(key,{});if(!done||typeof done!=="object")done={};
+    function prog(){var n=0;for(var k in done)if(done[k])n++;document.getElementById(countId).textContent=n+" of "+items.length;document.getElementById(barId).style.width=(n/items.length*100)+"%"}
+    items.forEach(function(e,i){var li=document.createElement("li");if(done[i])li.className="checked";var id=listId+"-"+i;
+      li.innerHTML='<label for="'+id+'"><input type="checkbox" id="'+id+'"'+(done[i]?" checked":"")+'><div><b>'+(numbered?(i+1)+". ":"")+esc(e[0])+'</b><span>'+esc(e[1])+'</span></div></label>';
+      li.querySelector("input").addEventListener("change",function(ev){done[i]=ev.target.checked;li.className=ev.target.checked?"checked":"";store(key,JSON.stringify(done));prog()});
+      el.appendChild(li)});
+    prog()}
+  checklist("ex","exCount","exBar","fm15-ex",[
+    ["Score three real candidates","Ask your team for the tasks that eat the most time. Rate three in the scorer and pick one to pilot."],
+    ["Run the ledger with real numbers","Use actual headcount, hours and costs. Note the break-even share of time saved and whether it's plausible."],
+    ["Design a pilot","Write down the baseline, the comparison group, the length, the metrics, and what result means scale, adjust or stop."],
+    ["Draft a one-page acceptable-use policy","Encouraged, needs approval, prohibited, with one example each. Have legal and security review it."],
+    ["Question a vendor","Take the six vendor questions from Part 6 into your next AI sales meeting and record the answers you get."]
+  ],true);
+  checklist("rd","rdCount","rdBar","fm15-ready",[
+    ["Approved tools are listed","Staff know which AI tools they may use and how to get access."],
+    ["Data tiers are defined","Each tier says which tools may see it."],
+    ["An acceptable-use policy exists","Short, with examples, and people have read it."],
+    ["Review rules match the stakes","Who checks what before it leaves the team, and who decides anything that affects people."],
+    ["Every AI use has an owner","Recorded in a register with its data and risk level."],
+    ["Vendor terms are checked","Retention, training on your data, processing location, subprocessors, security reports and model-change notice."],
+    ["Uses affecting people are tested for fairness","Outcomes compared across groups before launch and periodically after."],
+    ["Legal has reviewed what applies","Data protection, employment and sector rules, and the EU AI Act if your AI reaches people in the EU."],
+    ["Staff can report problems","A simple channel for bad outputs, and someone who reads it."]
+  ],false);
+
+  document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".cp");if(!b)return;
+    var el=document.getElementById(b.getAttribute("data-copy"));if(!el)return;var t=el.textContent;
+    function sel(){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected"}
+    try{navigator.clipboard.writeText(t).then(function(){b.textContent="Copied";setTimeout(function(){b.textContent="Copy"},1500)},sel)}catch(err){sel()}});
+})();
+</script>
+
+</body>
+</html>

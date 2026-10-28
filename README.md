@@ -15,10 +15,16 @@ Interactive AI and data trainings, themed around surviving a zombie apocalypse. 
 | 8 | [Line of Sight](08-line-of-sight.html) | Attention in depth: the math step by step, multi-head, and long-context costs |
 | 9 | [Boot Camp](09-boot-camp.html) | Training a tiny model from scratch and fine-tuning an open model with LoRA |
 | 10 | [Quarantine Protocol](10-quarantine-protocol.html) | Responsible vibe coding: building with AI without putting your team at risk |
+| 11 | [Proving Grounds](11-proving-grounds.html) | Evaluating AI systems |
+| 12 | [Breach Drill](12-breach-drill.html) | Prompt injection and LLM app security |
+| 13 | [Trail Network](13-trail-network.html) | Knowledge graphs with LLMs |
+| 14 | [Supply Lines](14-supply-lines.html) | Shipping and running LLM apps |
+| 15 | [Council Briefing](15-council-briefing.html) | AI for leaders and managers |
+| 16 | [Salvaged Records](16-salvaged-records.html) | Getting structured data out of PDFs, scans, forms and images |
 
 ## Course map
 
-[`map.html`](map.html) shows how the courses connect: required and recommended prerequisites, and six learning tracks (Foundations, App builder, Citizen builder, Agent operator, Model internals, Data).
+[`map.html`](map.html) shows how the courses connect: required and recommended prerequisites, and seven learning tracks (Leaders, Foundations, App builder, Citizen builder, Agent operator, Model internals, Data).
 
 ## Viewing
 

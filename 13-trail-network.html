@@ -1,0 +1,1158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Trail Network</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;800;900&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Single deliberate dark look (night watch). Layout: survivor field manual, part 13: graph-paper column, hazard masthead, trail network graph and schema drills */
+:root{
+  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
+  --accent:#4F9C6B; --accent-soft:#1B2D21; --target:#F04D8C; --target-soft:#3A1527; --other:#5B6450;
+  --bad:#F07A3E; --bad-soft:#3A2016; --code-bg:#22281E; --stripe:#0B0D09; --term:#0B0D09; --term-ink:#CFD8B4;
+  --display:"Big Shoulders Stencil Display","Impact","Arial Narrow",sans-serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"Courier Prime","Courier New",ui-monospace,monospace;
+  color-scheme:dark;
+}
+
+
+*{box-sizing:border-box}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;
+  color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto}
+.col{max-width:68ch}
+h1,h2,h3{font-family:var(--display);line-height:1;text-wrap:balance;margin:0;text-transform:uppercase;letter-spacing:.01em}
+h1{font-size:clamp(3.2rem,10vw,6.4rem);font-weight:900}
+h2{font-size:clamp(2rem,4.6vw,2.9rem);font-weight:800}
+h3{font-size:1.45rem;font-weight:800}
+p{margin:0}
+code{font-family:var(--mono);font-size:.92em;background:var(--code-bg);padding:.05em .35em;border-radius:3px;word-break:break-word}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--target)}
+.hazard{height:14px;background:repeating-linear-gradient(-45deg,var(--target) 0 14px,var(--stripe) 14px 28px);margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)))}
+.docbar{display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--mono);font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-block:12px;border-bottom:2px solid var(--ink)}
+.docbar b{color:var(--ink)}
+section{display:flex;flex-direction:column;gap:20px;padding-block:56px;border-top:1px solid var(--line)}
+section.first{border-top:0;padding-top:40px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.lede{font-size:1.2rem;color:var(--muted);max-width:62ch}
+.lede strong{color:var(--ink);font-weight:600}
+mark{background:var(--target-soft);color:var(--ink);padding:0 .2em;border-radius:2px}
+.stamp{align-self:flex-start;font-family:var(--mono);font-weight:700;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bad);border:2px solid var(--bad);padding:4px 10px;transform:rotate(-2deg)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;box-shadow:0 1px 0 var(--line)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+.note{font-size:.82rem;color:var(--muted);line-height:1.45}
+.btn{font:inherit;font-weight:600;font-size:.88rem;border:2px solid var(--accent);color:var(--accent);background:transparent;border-radius:3px;padding:6px 12px;cursor:pointer}
+.btn:hover{background:var(--accent-soft)}
+.btn.solid{background:var(--accent);color:var(--surface)}
+.btn:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.callout{border-left:4px solid var(--bad);background:var(--bad-soft);padding:12px 16px;font-size:.95rem}
+.callout b{color:var(--bad)}
+.tip{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;font-size:.95rem}
+
+/* Facts strip */
+.meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:2px solid var(--ink);background:var(--surface)}
+@media (max-width:700px){.meta{grid-template-columns:1fr}}
+.meta div{padding:14px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.meta .eyebrow{font-size:.72rem}
+.meta p{font-size:.95rem}
+
+/* Depot stack */
+.depot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:20px;align-items:start}
+@media (max-width:820px){.depot{grid-template-columns:1fr}}
+.layers{display:flex;flex-direction:column;gap:0}
+.layer{font:inherit;text-align:left;display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:4px 12px;align-items:center;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-bottom-width:0;cursor:pointer;color:var(--ink)}
+.layer:last-child{border-bottom-width:2px}
+.layer .ix{font-family:var(--display);font-weight:900;font-size:1.6rem;color:var(--muted);line-height:1}
+.layer b{font-family:var(--display);font-size:1.3rem;text-transform:uppercase;font-weight:800;line-height:1.05}
+.layer span{grid-column:2;font-size:.85rem;color:var(--muted);line-height:1.35}
+.layer[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.layer[aria-pressed="true"] .ix,.layer[aria-pressed="true"] span{color:var(--surface)}
+.layer+.connector{display:none}
+.layerinfo h3{font-size:1.7rem}
+.layerinfo ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:.95rem}
+.takeaways{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:760px){.takeaways{grid-template-columns:1fr}}
+.takeaways li{display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--target);padding-top:10px}
+.takeaways b{font-weight:700}
+.takeaways p{font-size:.92rem;color:var(--muted)}
+
+/* Glossary */
+.search{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search input{flex:1;min-width:0;font:inherit;font-size:.95rem;padding:9px 12px;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink)}
+.gloss{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.gloss{grid-template-columns:1fr}}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.term .nm{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.term h3{font-size:1.3rem}
+.term .an{font-family:var(--mono);font-size:.78rem;color:var(--target);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.term p{font-size:.9rem}
+.term .say{font-size:.82rem;color:var(--muted);font-style:italic}
+.empty{color:var(--muted);font-size:.95rem}
+
+/* UI tour */
+.tour{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--surface);border-radius:3px}
+.tour div{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:12px;padding:10px 16px;border-top:1px dashed var(--line);font-size:.93rem}
+.tour div:first-child{border-top:0}
+.tour b{font-family:var(--mono);font-weight:700}
+@media (max-width:560px){.tour div{grid-template-columns:1fr;gap:2px}}
+
+/* Steps */
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column}
+.steps li{display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px dashed var(--line);font-size:.95rem}
+.steps li:first-child{border-top:0}
+.steps li::before{counter-increment:s;content:counter(s);font-family:var(--display);font-weight:900;font-size:1.5rem;color:var(--accent);line-height:1.1}
+.steps li.hot::before{color:var(--target)}
+
+/* Drill */
+.drill{display:flex;flex-direction:column;gap:10px}
+.sc{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.sc p.q{font-size:.95rem}
+.sc .acts{display:flex;gap:8px;flex-wrap:wrap}
+.sc .fb{font-size:.88rem;padding:8px 10px;border-radius:2px}
+.sc .fb.ok{background:var(--accent-soft)}
+.sc .fb.no{background:var(--bad-soft)}
+.sc.done{border-color:var(--accent)}
+.drillscore{font-family:var(--mono);font-size:.9rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+/* Config builder & code */
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:.88rem;font-weight:600}
+.field label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.field input{font-family:var(--mono);font-size:.88rem;padding:8px 10px;border:1px solid var(--line);border-radius:3px;background:var(--code-bg);color:var(--ink);width:100%}
+.warns{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.warns li{font-size:.85rem;padding:6px 10px;border-radius:2px}
+.warns li.w{background:var(--target-soft)}
+.warns li.g{background:var(--accent-soft)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{font:inherit;font-family:var(--mono);font-size:.82rem;font-weight:700;padding:6px 10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:3px 3px 0 0;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--term);color:var(--term-ink);border-color:var(--term)}
+.code{position:relative;background:var(--term);color:var(--term-ink);border-radius:0 3px 3px 3px;min-width:0}
+.code pre{margin:0;padding:16px;font-family:var(--mono);font-size:.84rem;line-height:1.5;overflow-x:auto;white-space:pre}
+.code .cp{position:absolute;top:8px;right:8px;font:inherit;font-family:var(--mono);font-size:.74rem;font-weight:700;padding:3px 8px;background:transparent;color:var(--term-ink);border:1px solid var(--term-ink);border-radius:2px;cursor:pointer;opacity:.85}
+.code .cp:hover{opacity:1}
+.code.solo{border-radius:3px}
+.codehead{display:flex;flex-direction:column;gap:6px}
+.pystep{display:flex;flex-direction:column;gap:12px}
+.pynav{display:flex;gap:6px;flex-wrap:wrap}
+.pynav button{font:inherit;font-size:.85rem;font-weight:600;padding:7px 11px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;gap:6px;align-items:center}
+.pynav button .lv{font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+.pynav button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.pynav button[aria-selected="true"] .lv{color:var(--surface)}
+.pybody{display:flex;flex-direction:column;gap:12px}
+.pybody p{max-width:68ch}
+
+/* Triage */
+.triage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:20px;align-items:start}
+@media (max-width:820px){.triage{grid-template-columns:1fr}}
+.symptoms{display:flex;flex-direction:column;gap:6px}
+.symptoms button{font:inherit;text-align:left;font-family:var(--mono);font-size:.86rem;padding:10px 12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:3px;cursor:pointer;word-break:break-word}
+.symptoms button[aria-pressed="true"]{border-color:var(--bad);background:var(--bad-soft)}
+.dx{display:flex;flex-direction:column;gap:12px}
+.dx .eyebrow{font-size:.72rem}
+.dx p{font-size:.98rem}
+
+/* Exercises */
+.ex{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ex li label{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:10px;align-items:start;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:3px;cursor:pointer}
+.ex input{width:18px;height:18px;margin-top:3px;accent-color:var(--target)}
+.ex b{display:block}
+.ex span{font-size:.9rem;color:var(--muted)}
+.ex li.checked label{border-color:var(--target)}
+.progress{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.progress .bar{flex:1;height:10px;background:repeating-linear-gradient(-45deg,var(--code-bg) 0 6px,var(--line) 6px 12px);position:relative;overflow:hidden}
+.progress .bar i{position:absolute;inset:0 auto 0 0;background:var(--target);transition:width .3s}
+footer{padding-top:28px;border-top:2px solid var(--ink);font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.progress .bar i{transition:none}}
+.docbar{align-items:center}
+.logo{flex:none;width:132px;height:44px;border:2px dashed var(--muted);border-radius:3px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.logo img{max-width:100%;max-height:100%;display:block}
+.picker{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:18px;align-items:start}
+@media (max-width:760px){.picker{grid-template-columns:1fr}}
+.memrow{display:grid;grid-template-columns:minmax(0,1fr) 4rem;gap:12px;align-items:center}
+.memrow input{width:100%;accent-color:var(--accent)}
+.memrow output{font-family:var(--mono);font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.flabel{font-size:.88rem;font-weight:600}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chipbtn{font:inherit;font-size:.84rem;font-weight:600;padding:5px 10px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chipbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.mtable{display:flex;flex-direction:column;overflow-x:auto}
+.mrow{display:grid;grid-template-columns:11rem 5.5rem 5.5rem minmax(14rem,1fr);gap:12px;padding:10px 0;border-top:1px dashed var(--line);align-items:baseline;min-width:560px}
+.mrow.mhead{border-top:0;font-family:var(--mono);font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mrow .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tagname{font-family:var(--mono);font-weight:700;color:var(--ink)}
+.fit{font-family:var(--mono);font-weight:700;font-size:.82rem;padding:1px 8px;border-radius:2px;justify-self:start}
+.fit.ok{background:var(--accent);color:var(--surface)}
+.fit.tight{background:var(--target-soft);color:var(--target)}
+.fit.no{border:1.5px solid var(--other);color:var(--muted)}
+.mnote{font-size:.88rem;color:var(--muted)}
+.caps{display:block;font-family:var(--mono);font-size:.74rem;color:var(--accent);margin-top:2px}
+.final{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.final li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;font-size:1.02rem}
+.final li::before{content:"\2610";font-family:var(--mono);color:var(--target);font-weight:700;font-size:1.1rem;line-height:1.4}
+.plain{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+.actions{display:flex;flex-wrap:wrap;gap:6px}
+.act{font:inherit;font-size:.84rem;font-weight:600;padding:6px 10px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.act span{font-family:var(--mono);color:var(--target)}
+.act:hover{border-color:var(--target)}
+.act.cut{border-color:var(--accent);color:var(--accent)}
+.act.cut:hover{background:var(--accent-soft)}
+.gauge{position:relative;height:26px;background:repeating-linear-gradient(-45deg,var(--code-bg) 0 8px,var(--line) 8px 16px);border-radius:2px;overflow:hidden}
+.gfill{position:absolute;inset:0 auto 0 0;background:var(--accent);transition:width .4s cubic-bezier(.2,.7,.2,1),background .3s}
+.gfill.amber{background:var(--bad)} .gfill.red{background:var(--target)}
+.gmark{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.5}
+.gread{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.gread #gpct{font-family:var(--display);font-weight:900;font-size:2.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.gread #gstate{font-size:.92rem;color:var(--muted);flex:1;min-width:12rem}
+.log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:.8rem}
+.log li{padding:4px 8px;background:var(--code-bg);border-radius:2px;display:flex;justify-content:space-between;gap:10px}
+.log li span{color:var(--target)}
+.log li.cut{background:var(--accent-soft)}
+.ws{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.ws{grid-template-columns:1fr}}
+.field textarea{width:100%;font-family:var(--mono);font-size:.86rem;line-height:1.45;color:var(--ink);background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:9px 10px;resize:vertical}
+.field textarea:focus-visible{outline:2px solid var(--target);outline-offset:1px}
+.out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.score{font-family:var(--mono);font-size:.9rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.code pre.wrapcode{white-space:pre-wrap;word-break:break-word;padding-right:64px}
+.checks{display:flex;flex-direction:column;gap:8px;list-style:none;margin:0;padding:0}
+.checks li{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:8px;font-size:.9rem;line-height:1.4}
+.chip{width:1.4rem;height:1.4rem;border-radius:2px;display:grid;place-items:center;font-family:var(--mono);font-size:.8rem;font-weight:700}
+.chip.y{background:var(--target);color:var(--surface)}
+.chip.n{border:1.5px solid var(--other);color:var(--muted)}
+.checks .hint{color:var(--muted);display:block;font-size:.82rem}
+.pairs{display:flex;flex-direction:column;gap:12px}
+.pair{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:12px}
+@media (max-width:640px){.pair{grid-template-columns:1fr}}
+.pair > div{min-width:0}
+.pair .tag{display:block;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.pair pre{margin:0;font-family:var(--mono);font-size:.84rem;line-height:1.45;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:10px 12px;white-space:pre-wrap;word-break:break-word}
+.pair .after pre{border-left:3px solid var(--target)}
+.phase{display:flex;flex-direction:column;gap:14px}
+.otable{display:flex;flex-direction:column;border:2px solid var(--ink);background:var(--surface);overflow-x:auto}
+.orow{display:grid;grid-template-columns:9rem minmax(14rem,1.4fr) minmax(10rem,1fr) minmax(9rem,.8fr);gap:14px;padding:12px 16px;border-top:1px dashed var(--line);font-size:.9rem;min-width:640px;align-items:baseline}
+.orow.ohead{border-top:0;font-family:var(--mono);font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.orow b{font-weight:700;color:var(--target)}
+.orow span:nth-child(2){color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.cards{grid-template-columns:1fr}}
+.cards p{font-size:.93rem;color:var(--muted)}
+.fails{display:flex;flex-direction:column}
+.fail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:6px 24px;padding:16px 0;border-top:1px dashed var(--line)}
+.fail:first-child{border-top:0}
+@media (max-width:640px){.fail{grid-template-columns:1fr}}
+.fail h3{font-size:1.3rem}
+.fail .sym{font-size:.88rem;color:var(--muted);margin-top:4px}
+.fail .fix{font-size:.92rem}
+.fail .fix b{color:var(--target);font-weight:700}
+.sliders{display:flex;flex-direction:column;gap:14px}
+.sl{display:grid;grid-template-columns:minmax(0,1fr) 4rem;gap:2px 12px;align-items:center}
+.sl label{grid-column:1/-1;font-size:.9rem;font-weight:600}
+.sl label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.sl input{width:100%;accent-color:var(--accent)}
+.sl output{font-family:var(--mono);font-size:.95rem;text-align:right;font-variant-numeric:tabular-nums}
+.verdict{font-size:.95rem;background:var(--accent-soft);border-left:3px solid var(--accent);padding:12px 14px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vs > div{display:flex;flex-direction:column;gap:2px}
+.big{font-family:var(--display);font-weight:900;font-size:3.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.big.bad{color:var(--bad)} .big.good{color:var(--target)}
+.search{display:flex;gap:14px;align-items:end;flex-wrap:wrap}
+.search input[type=search]{flex:1 1 18rem;min-width:0;font:inherit;font-size:1rem;padding:10px 12px;border:1px solid var(--line);border-radius:3px;background:var(--code-bg);color:var(--ink)}
+.kslider{flex:0 1 14rem}
+.chunkstats{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:.86rem;color:var(--muted)}
+.chunkstats b{color:var(--ink)}
+.chunkstats .okc{color:var(--accent)} .chunkstats .badc{color:var(--target)}
+.chunkview{display:flex;flex-direction:column;gap:8px;max-height:460px;overflow:auto}
+.chunk{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;padding:10px 12px;background:var(--code-bg);border-left:3px solid var(--accent);border-radius:2px}
+.chunk:nth-child(even){border-left-color:var(--other)}
+.chunk .cn{font-family:var(--display);font-weight:900;font-size:1.3rem;color:var(--accent);line-height:1.1}
+.chunk p{font-size:.88rem;line-height:1.55}
+.chunk .lap{color:var(--muted);text-decoration:underline dotted}
+.chunk .hot{background:var(--target-soft);color:var(--ink)}
+.hits{display:flex;flex-direction:column;gap:6px}
+.hit{padding:8px 10px;border:1px solid var(--line);border-radius:3px;display:flex;flex-direction:column;gap:5px;opacity:.6}
+.hit.top{opacity:1;border-color:var(--target);background:var(--surface)}
+.hhead{display:flex;justify-content:space-between;gap:10px}
+.hhead .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.hbar{height:5px;background:var(--code-bg);border-radius:2px;overflow:hidden}
+.hbar i{display:block;height:100%;background:var(--target)}
+.hit p{font-size:.84rem;color:var(--muted)}
+details{border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+summary{cursor:pointer;padding:9px 14px;font-size:.88rem;font-weight:600;color:var(--accent);list-style:none;display:flex;gap:8px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--mono);width:1em}
+details[open] summary::before{content:"\2212"}
+summary:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.deep{padding:0 16px 14px;font-size:.92rem;display:flex;flex-direction:column;gap:10px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.bpestats{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:.86rem;color:var(--muted)}
+.bpestats b{color:var(--ink)}
+.toks{display:flex;flex-wrap:wrap;gap:3px;align-items:center;min-height:2.4rem;padding:10px;background:var(--code-bg);border-radius:3px}
+.tk{font-family:var(--mono);font-size:.92rem;padding:2px 5px;border-radius:2px;color:var(--ink)}
+.tk.t0{background:var(--accent-soft)} .tk.t1{background:var(--target-soft)} .tk.t2{background:var(--bad-soft)} .tk.t3{background:var(--surface);outline:1px solid var(--line)}
+.toks .sp{width:10px}
+.merges{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem}
+.mg i{font-style:normal;color:var(--muted);font-family:var(--mono);font-size:.78rem}
+.emap{overflow-x:auto}
+.emsvg{display:block;width:100%;min-width:420px;height:auto;background:var(--code-bg);border-radius:3px}
+.emsvg text.lab{fill:var(--ink);font-family:var(--body);font-size:12px}
+.emsvg .g0,.legend .g0{fill:var(--accent);background:var(--accent)}
+.emsvg .g1,.legend .g1{fill:#8FB3E8;background:#8FB3E8}
+.emsvg .g2,.legend .g2{fill:var(--target);background:var(--target)}
+.emsvg .g3,.legend .g3{fill:var(--bad);background:var(--bad)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.attn{display:flex;flex-wrap:wrap;gap:6px;padding:14px;background:var(--code-bg);border-radius:3px}
+.at{display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--mono);font-size:1rem;padding:6px 8px;border-radius:2px;background:color-mix(in srgb, var(--target) calc(var(--w,0) * 100%), transparent);color:var(--ink)}
+.at small{font-size:.68rem;color:var(--muted)}
+.at.q{outline:2px solid var(--accent)}
+.at.q small{color:var(--accent)}
+.prefix{font-family:var(--mono);font-size:1.05rem;padding:12px;background:var(--code-bg);border-radius:3px}
+.prefix .blank{color:var(--target);font-weight:700}
+.samples{display:flex;flex-wrap:wrap;gap:4px;min-height:1.8rem}
+.dist{display:flex;flex-direction:column;gap:9px}
+.dist .row{display:grid;grid-template-columns:5.5rem minmax(0,1fr) 3.6rem;gap:10px;align-items:center}
+.dist .lab-t{font-family:var(--mono);font-size:.88rem}
+.dist .track{height:12px;background:var(--code-bg);border-radius:2px;overflow:hidden}
+.dist .fill{height:100%;background:var(--target);transition:width .3s}
+.dist .pct{font-family:var(--mono);font-size:.84rem;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.dist .row.cut .lab-t{color:var(--other);text-decoration:line-through}
+@media (prefers-reduced-motion: reduce){.dist .fill{transition:none}}
+.eq{font-family:var(--mono);font-size:clamp(.9rem,2.2vw,1.15rem);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:18px 20px;overflow-x:auto;white-space:nowrap}
+.calcbar{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap}
+.tog{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:600;cursor:pointer}
+.tog input{width:18px;height:18px;accent-color:var(--target)}
+.stepbody{display:flex;flex-direction:column;gap:12px}
+.stepbody p{max-width:68ch}
+.mx{overflow-x:auto}
+.mx table{border-collapse:collapse;font-family:var(--mono);font-size:.84rem;font-variant-numeric:tabular-nums}
+.mx th{font-weight:700;color:var(--muted);padding:4px 10px;text-align:right;white-space:nowrap}
+.mx thead th{text-align:center}
+.mx td{padding:5px 10px;text-align:right;min-width:3.6rem;background:color-mix(in srgb, var(--target) calc(var(--h,0) * 55%), var(--code-bg));border:1px solid var(--surface)}
+.mx tr.hi th{color:var(--target)}
+.mx tr.hi td{outline:2px solid var(--target);outline-offset:-2px}
+.mx td.masked{background:var(--surface);color:var(--other);text-align:center}
+.mx3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.mx3{grid-template-columns:1fr}}
+.mx3 > div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.minibars{display:flex;align-items:flex-end;gap:6px;height:90px;padding:6px;background:var(--code-bg);border-radius:3px;margin-bottom:10px}
+.minibars span{flex:1;background:var(--target);border-radius:2px 2px 0 0;min-height:2px}
+.heatwrap{overflow-x:auto}
+.hm{border-collapse:collapse;font-family:var(--mono);font-size:.78rem}
+.hm th{color:var(--muted);font-weight:700;padding:3px 6px;text-align:right;white-space:nowrap}
+.hm thead th{height:5.5rem;vertical-align:bottom;text-align:left;padding:0 0 4px}
+.hm thead th span{display:inline-block;transform:rotate(-55deg);transform-origin:left bottom;width:1.6rem;white-space:nowrap}
+.hm td{width:2rem;height:2rem;background:color-mix(in srgb, var(--target) calc(var(--h,0) * 100%), var(--code-bg));border:1px solid var(--surface)}
+.hm td.up{background:transparent}
+.mono{font-family:var(--mono)}
+.lossbox{background:var(--code-bg);border-radius:3px;padding:6px}
+.lossbox canvas{display:block;width:100%;height:auto}
+.legend .lg-t{background:var(--accent);border-radius:1px}
+.legend .lg-v{background:var(--target);border-radius:1px}
+pre.sample{margin:0;font-family:var(--mono);font-size:.9rem;line-height:1.5;background:var(--code-bg);border-radius:3px;padding:12px;white-space:pre-wrap;word-break:break-word;min-height:5.5rem}
+.memrows{display:flex;flex-direction:column;gap:8px}
+.memrow2{display:grid;grid-template-columns:9.5rem minmax(0,1fr) 5rem;gap:10px;align-items:center;font-size:.86rem}
+.memrow2 .track{height:12px;background:var(--code-bg);border-radius:2px;overflow:hidden}
+.memrow2 .fill{height:100%;background:var(--bad)}
+.memrow2 .mono{text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:480px){.memrow2{grid-template-columns:1fr 4.5rem}.memrow2 .track{grid-column:1/-1;grid-row:2}}
+.rq{display:flex;flex-direction:column;gap:6px;padding-block:8px;border-top:1px dashed var(--line)}
+.rq:first-child{border-top:0}
+.riskout{gap:12px}
+.dialrow{display:flex;align-items:center;gap:14px}
+.lamp{width:28px;height:28px;border-radius:50%;flex:none}
+.lamp.g{background:var(--accent);box-shadow:0 0 18px var(--accent)}
+.lamp.a{background:var(--bad);box-shadow:0 0 18px var(--bad)}
+.lamp.r{background:var(--target);box-shadow:0 0 18px var(--target)}
+.dialbar{height:10px;background:linear-gradient(90deg,var(--accent),var(--bad),var(--target));border-radius:2px;position:relative;opacity:.9}
+.dialbar i{position:absolute;inset:0 0 0 auto;background:var(--code-bg);right:0;width:auto;left:var(--x,0)}
+.ruleset{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.ruleset{grid-template-columns:1fr}}
+.rule{display:grid;grid-template-columns:2.6rem minmax(0,1fr);gap:10px;padding:14px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--target);border-radius:3px;transition:opacity .2s}
+.rule .rn{font-family:var(--display);font-weight:900;font-size:1.9rem;color:var(--target);line-height:1}
+.rule b{font-weight:700}
+.rule p{font-size:.9rem;color:var(--muted);margin-top:2px}
+.rule.off{opacity:.45;border-left-color:var(--line)}
+.rule.off .rn{color:var(--muted)}
+.sniphead{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.snip{background:var(--term,#0B0D09);border-radius:3px;padding:8px 0;overflow-x:auto;display:flex;flex-direction:column}
+.ln{font:inherit;display:grid;grid-template-columns:2.6rem max-content;gap:10px;text-align:left;background:transparent;border:0;border-left:3px solid transparent;padding:1px 12px 1px 0;color:var(--term-ink,#CFD8B4);cursor:pointer;min-width:100%}
+.ln:disabled{cursor:default}
+.ln .no{font-family:var(--mono);font-size:.78rem;color:var(--other);text-align:right;padding-top:2px}
+.ln code{font-family:var(--mono);font-size:.84rem;background:none;padding:0;white-space:pre;color:inherit}
+.ln:not(:disabled):hover{background:rgba(255,255,255,.04)}
+.ln.pk{background:var(--target-soft);border-left-color:var(--target)}
+.ln.hit{background:var(--accent-soft);border-left-color:var(--accent)}
+.ln.miss{background:var(--bad-soft);border-left-color:var(--bad)}
+.ln.fa{background:transparent;border-left-color:var(--other);text-decoration:line-through;text-decoration-color:var(--other)}
+.ln:focus-visible{outline:2px solid var(--target);outline-offset:-2px}
+.findings{display:flex;flex-direction:column;gap:8px}
+.finding{padding:10px 12px;border-radius:3px;border-left:3px solid var(--accent);background:var(--accent-soft)}
+.finding.missed{border-left-color:var(--bad);background:var(--bad-soft)}
+.finding p{font-size:.92rem;margin-top:2px}
+.loopsteps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;counter-reset:l}
+@media (max-width:820px){.loopsteps{grid-template-columns:1fr}}
+.loopsteps li{counter-increment:l;display:flex;flex-direction:column;gap:4px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:3px}
+.loopsteps li::before{content:counter(l);font-family:var(--display);font-weight:900;font-size:1.8rem;color:var(--accent);line-height:1}
+.loopsteps b{font-weight:700}
+.loopsteps span{font-size:.9rem;color:var(--muted)}
+.flaggrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.flaggrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.flaggrid{grid-template-columns:1fr}}
+.flaggrid div{display:flex;flex-direction:column;gap:4px;padding:12px;border:1.5px dashed var(--bad);border-radius:3px}
+.flaggrid b{color:var(--bad);font-weight:700}
+.flaggrid span{font-size:.88rem;color:var(--muted)}
+.trackpick{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:8px}
+.tchip{font:inherit;text-align:left;display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1.5px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink);cursor:pointer}
+.tchip b{font-family:var(--display);font-size:1.3rem;text-transform:uppercase;font-weight:800;line-height:1}
+.tchip span{font-size:.82rem;color:var(--muted)}
+.tchip[aria-pressed="true"]{border-color:var(--target);background:var(--target-soft)}
+.tchip:focus-visible,.node:focus-visible,.cchip:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.niHead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.niHead a.btn{text-decoration:none}
+.route{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;counter-reset:r}
+.route li{counter-increment:r}
+.route a{display:grid;grid-template-columns:2rem 4.5rem minmax(0,1fr);gap:4px 10px;align-items:baseline;padding:10px 12px;border:1px solid var(--line);border-radius:3px;color:inherit;text-decoration:none;background:var(--code-bg)}
+.route a::before{content:counter(r);font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--target);line-height:1;grid-row:span 2}
+.route a:hover{border-color:var(--target)}
+.route .rn{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.route b{font-weight:700}
+.route .rk{grid-column:2 / -1;font-size:.84rem;color:var(--muted)}
+.mapwrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:8px}
+.mapsvg{display:block;width:100%;min-width:900px;height:auto}
+.mapsvg .edge{fill:none;stroke:var(--other);stroke-width:1.6}
+.mapsvg .edge.rec{stroke-dasharray:5 5}
+.mapsvg .edge.hot{stroke:var(--target);stroke-width:2.4}
+.mapsvg .edge.dim{opacity:.25}
+.mapsvg .ahead{fill:var(--other)} .mapsvg .aheadh{fill:var(--target)}
+.mapsvg .node{cursor:pointer}
+.mapsvg .node rect{fill:var(--code-bg);stroke:var(--line);stroke-width:1.5}
+.mapsvg .node:hover rect{stroke:var(--accent)}
+.mapsvg .node text{fill:var(--ink)}
+.mapsvg .nnum{font-family:var(--mono);font-size:12px;font-weight:700;fill:var(--muted)}
+.mapsvg .ntitle{font-family:var(--display);font-size:19px;font-weight:800;text-transform:uppercase}
+.mapsvg .ntime{font-family:var(--mono);font-size:11px;text-anchor:end;fill:var(--muted)}
+.mapsvg .node.sel rect{fill:var(--target);stroke:var(--target)}
+.mapsvg .node.sel text{fill:var(--surface)}
+.mapsvg .node.pre rect{stroke:var(--accent);stroke-width:2.5;fill:var(--accent-soft)}
+.mapsvg .node.next rect{stroke:var(--target);stroke-width:2;stroke-dasharray:4 3}
+.mapsvg .node.trk rect{stroke:var(--target);stroke-width:2.5;fill:var(--target-soft)}
+.mapsvg .node.trk .nnum{fill:var(--target)}
+.mapsvg .node.dim{opacity:.35}
+.maplegend{display:flex;gap:16px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
+.maplegend i{display:inline-block;width:22px;height:10px;margin-right:6px;vertical-align:0;border-radius:2px}
+.maplegend .lg-req{border-top:2px solid var(--other);height:0;vertical-align:3px}
+.maplegend .lg-rec{border-top:2px dashed var(--other);height:0;vertical-align:3px}
+.maplegend .lg-sel{background:var(--target)}
+.maplegend .lg-pre{background:var(--accent-soft);outline:2px solid var(--accent)}
+.maplegend .lg-next{outline:2px dashed var(--target)}
+.chiprow{display:flex;flex-wrap:wrap;gap:6px}
+.cchip{font:inherit;font-size:.86rem;font-weight:600;padding:6px 10px;border-radius:3px;border:1.5px solid var(--line);background:var(--code-bg);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.cchip small{font-weight:400;font-size:.74rem;color:var(--muted)}
+.otable .orow a{color:var(--target);text-decoration:none}
+.otable .orow a:hover{text-decoration:underline}
+#backlink a{color:var(--target);text-decoration:none}
+/* FM15 */
+.fm15-quad,.fm15-sens{display:block;width:100%;height:auto;background:var(--code-bg);border-radius:3px}
+.fm15-quad .zs{fill:var(--accent-soft)} .fm15-quad .zr{fill:var(--bad-soft)}
+.fm15-quad .mid{stroke:var(--line);stroke-dasharray:4 4} .fm15-quad .ax{stroke:var(--muted)}
+.fm15-quad .zl{fill:var(--muted);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.fm15-quad .al{fill:var(--ink);font-family:var(--body);font-size:12px;font-weight:600}
+.fm15-quad .dot circle{fill:var(--surface);stroke:var(--accent);stroke-width:2}
+.fm15-quad .dot text{fill:var(--ink);font-family:var(--mono);font-size:11px;font-weight:700;text-anchor:middle}
+.fm15-quad .dot.cur circle{fill:var(--target);stroke:var(--target)}
+.fm15-quad .dot.cur text{fill:var(--surface)}
+.fm15-rec{font-family:var(--mono);font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:2px;white-space:nowrap}
+.fm15-rec.go{background:var(--accent);color:var(--surface)}
+.fm15-rec.pilot{background:var(--bad-soft);color:var(--bad);border:1.5px solid var(--bad)}
+.fm15-rec.no{background:var(--target-soft);color:var(--target);border:1.5px solid var(--target)}
+.fm15-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.fm15-list li{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:3px}
+.fm15-list .n{font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--accent);line-height:1}
+.fm15-list .m{font-size:.84rem;color:var(--muted);margin-top:2px}
+.fm15-list .b{display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:520px){.fm15-list li{grid-template-columns:2rem minmax(0,1fr)}.fm15-list .b{grid-column:2}}
+.fm15-vs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.fm15-vs > div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.fm15-vs .big{font-size:clamp(1.8rem,5vw,2.6rem);overflow-wrap:anywhere}
+.fm15-rows{display:flex;flex-direction:column;font-size:.88rem}
+.fm15-rows div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-top:1px dashed var(--line)}
+.fm15-rows div span{color:var(--muted)}
+.fm15-rows b{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.fm15-rows div.k b{color:var(--target)}
+.fm15-sens .zero{stroke:var(--muted)}
+.fm15-sens .pos{fill:var(--accent)} .fm15-sens .neg{fill:var(--bad)}
+.fm15-sens .hi{stroke:var(--ink);stroke-width:1.5}
+.fm15-sens .lab{fill:var(--muted);font-family:var(--mono);font-size:11px}
+.fm15-sens text.hi{fill:var(--ink);font-weight:700;stroke:none}
+.fm15-sens .val{fill:var(--ink);font-family:var(--mono);font-size:11px}
+/* FM12 */
+.fm12-togs{display:flex;flex-direction:column;gap:8px}
+.fm12-togs .tog{align-items:flex-start;font-weight:600}
+.fm12-togs .tog input{margin-top:3px;flex:none}
+.fm12-togs .tog span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.fm12-tri{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.fm12-tri div{padding:8px 10px;border:1.5px dashed var(--line);border-radius:3px;font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.fm12-tri div b{font-family:var(--body);font-size:.84rem;color:var(--muted)}
+.fm12-tri div.on{border-style:solid;border-color:var(--target);background:var(--target-soft);color:var(--ink)}
+.fm12-tri div.on b{color:var(--ink)}
+@media (max-width:480px){.fm12-tri{grid-template-columns:1fr}}
+.fm12-paths{display:flex;flex-direction:column;gap:6px}
+.fm12-path{padding:9px 12px;border-radius:3px;border-left:3px solid var(--line);background:var(--code-bg);display:flex;flex-direction:column;gap:3px}
+.fm12-path .st{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fm12-path b{font-weight:700}
+.fm12-path p{font-size:.85rem;color:var(--muted)}
+.fm12-path p b{color:var(--ink);font-weight:600}
+.fm12-path.open{border-left-color:var(--target);background:var(--target-soft)}
+.fm12-path.open .st{color:var(--target)}
+.fm12-path.narrow{border-left-color:var(--bad);background:var(--bad-soft)}
+.fm12-path.narrow .st{color:var(--bad)}
+.fm12-path.closed{border-left-color:var(--accent);background:var(--accent-soft)}
+.fm12-path.closed .st{color:var(--accent)}
+.fm12-path.na{opacity:.55}
+.fm12-wrap .ln{grid-template-columns:2.6rem minmax(0,1fr)}
+.fm12-wrap .ln code{white-space:pre-wrap;word-break:break-word}
+.finding.fm12-decoy{border-left-color:var(--other);background:var(--code-bg)}
+/* FM14 */
+.fm14-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:10px}
+.fm14-tl{position:relative;display:flex;align-items:flex-end;gap:1px;height:180px;padding:6px;background:var(--code-bg);border-radius:3px}
+.fm14-tl span{flex:1;background:var(--accent);min-height:1px;border-radius:1px 1px 0 0}
+.fm14-tl span.over{background:var(--bad)}
+.fm14-cap{position:absolute;left:6px;right:6px;height:0;border-top:2px dashed var(--target);pointer-events:none}
+.fm14-tlaxis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.76rem;color:var(--muted)}
+.fm14-money{font-size:clamp(1.9rem,7vw,3.2rem);overflow-wrap:anywhere}
+/* FM16 */
+.fm16-paper{position:relative;overflow:hidden;background:color-mix(in srgb,var(--ink) 86%,var(--bad) 14%);color:var(--bg);font-family:var(--mono);font-size:.84rem;line-height:1.45;padding:18px 18px 22px;border-radius:2px;transform:rotate(-.4deg);box-shadow:0 2px 0 var(--line),0 10px 24px rgba(0,0,0,.35);min-width:0}
+.fm16-paper::after{content:"";position:absolute;right:-30px;bottom:-40px;width:220px;height:180px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--bad) 30%,transparent),transparent);pointer-events:none}
+.fm16-paper h4{margin:0 0 2px;font-family:var(--display);font-size:1.35rem;text-transform:uppercase;letter-spacing:.04em;line-height:1}
+.fm16-paper .fm16-sub{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--other);margin-bottom:10px}
+.fm16-hdr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 16px;margin-bottom:12px}
+@media (max-width:520px){.fm16-hdr{grid-template-columns:1fr}}
+.fm16-hdr div{display:flex;flex-direction:column;border-bottom:1px dashed var(--other);padding-bottom:2px;min-width:0}
+.fm16-hdr small{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--other)}
+.fm16-hand{font-family:var(--body);font-style:italic;font-weight:600;font-size:1rem;color:var(--accent-soft)}
+.fm16-fade{opacity:.42}
+.fm16-smudge{filter:blur(2.4px);opacity:.55}
+.fm16-items{overflow-x:auto}
+.fm16-items table{width:100%;border-collapse:collapse;min-width:300px;color:var(--bg);font:inherit}
+.fm16-items th{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--other);text-align:left;border-bottom:1.5px solid var(--bg);padding:3px 4px}
+.fm16-items td{padding:4px;border-bottom:1px dashed var(--other)}
+.fm16-items td.n,.fm16-items th.n{text-align:right;font-variant-numeric:tabular-nums}
+.fm16-items tr.fm16-tot td{border-bottom:0;font-weight:700}
+.fm16-seal{position:absolute;top:14px;right:14px;border:2px solid var(--target);color:var(--target);font-weight:700;font-size:.7rem;letter-spacing:.12em;padding:2px 6px;transform:rotate(8deg);opacity:.7}
+.fm16-rows{display:flex;flex-direction:column;gap:3px;max-height:560px;overflow:auto}
+.fm16-row{font:inherit;display:grid;grid-template-columns:minmax(0,9.5rem) minmax(0,1fr) 5.4rem;gap:8px;align-items:baseline;text-align:left;padding:5px 8px;border:1px solid var(--line);border-left:3px solid transparent;border-radius:2px;background:var(--code-bg);color:var(--ink);cursor:pointer;font-size:.84rem}
+.fm16-row .k{font-family:var(--mono);font-size:.76rem;color:var(--muted);word-break:break-word}
+.fm16-row .v{font-family:var(--mono);word-break:break-word}
+.fm16-row .s{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;text-align:right;color:var(--muted)}
+.fm16-row[aria-pressed="true"]{border-left-color:var(--target);background:var(--target-soft)}
+.fm16-row.ok{border-left-color:var(--accent)}
+.fm16-row.err{border-left-color:var(--bad);background:var(--bad-soft)}
+.fm16-row.err .s{color:var(--bad)}
+.fm16-row.fa{text-decoration:line-through;text-decoration-color:var(--other)}
+.fm16-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.fm16-metrics div{display:flex;flex-direction:column;gap:2px;padding:10px;border:1px solid var(--line);border-radius:3px;background:var(--code-bg);min-width:0}
+.fm16-metrics b{font-family:var(--display);font-weight:900;font-size:2.1rem;line-height:1;font-variant-numeric:tabular-nums}
+.fm16-metrics span{font-size:.76rem;color:var(--muted)}
+.fm16-view{background:var(--code-bg);border-radius:3px;padding:8px}
+.fm16-view canvas{display:block;width:100%;height:auto;border-radius:2px}
+.fm16-rules{display:flex;flex-direction:column;gap:6px}
+.fm16-rule{display:grid;grid-template-columns:minmax(0,1fr) 4rem;gap:4px 10px;align-items:start;padding:8px 10px;border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+.fm16-rule .r{font-family:var(--mono);font-size:.74rem;font-weight:700;text-align:right;text-transform:uppercase}
+.fm16-rule .r.p{color:var(--accent)} .fm16-rule .r.f{color:var(--bad)} .fm16-rule .r.o{color:var(--other)}
+.fm16-rule p{grid-column:1/-1;font-size:.82rem;color:var(--muted)}
+/* FM13 */
+.fm13-net{overflow-x:auto;background:var(--code-bg);border-radius:3px}
+.fm13-net svg{display:block;width:100%;min-width:360px;height:auto}
+.fm13-net .e{fill:none;stroke-width:2;transition:opacity .2s}
+.fm13-net .e.c{stroke:var(--muted)}
+.fm13-net .e.c.blk{stroke:var(--bad);stroke-dasharray:6 5}
+.fm13-net .e.s{stroke:var(--accent);stroke-width:1.6}
+.fm13-net .e.r{stroke:var(--other);stroke-width:1.6;stroke-dasharray:2 4}
+.fm13-net .e.hot{stroke:var(--target);stroke-width:4;stroke-dasharray:none;opacity:1}
+.fm13-net .e.dim{opacity:.3}
+.fm13-net .ah-s{fill:var(--accent)} .fm13-net .ah-r{fill:var(--other)} .fm13-net .ah-h{fill:var(--target)}
+.fm13-net .n rect,.fm13-net .n circle{fill:var(--surface);stroke:var(--muted);stroke-width:1.5}
+.fm13-net .n text{fill:var(--ink);font-family:var(--mono);font-size:12px;font-weight:700;text-anchor:middle}
+.fm13-net .n text.st{fill:var(--accent);font-size:10.5px;font-weight:400}
+.fm13-net .n.src rect,.fm13-net .n.src circle{stroke:var(--accent);stroke-width:3}
+.fm13-net .n.ans rect,.fm13-net .n.ans circle{fill:var(--target);stroke:var(--target)}
+.fm13-net .n.ans text{fill:var(--surface)}
+.fm13-net .n.ans text.st{fill:var(--ink)}
+.fm13-net .n.dim{opacity:.4}
+@media (prefers-reduced-motion: reduce){.fm13-net .e{transition:none}}
+.fm13-key{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.fm13-key i{display:inline-block;width:22px;height:0;border-top:2px solid var(--muted);margin-right:6px;vertical-align:3px}
+.fm13-key i.k-blk{border-top:2px dashed var(--bad)}
+.fm13-key i.k-s{border-top-color:var(--accent)}
+.fm13-key i.k-r{border-top:2px dotted var(--other)}
+.fm13-key i.k-hot{border-top:4px solid var(--target);vertical-align:2px}
+.fm13-rows{display:flex;flex-direction:column;font-size:.88rem}
+.fm13-rows div{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-top:1px dashed var(--line);flex-wrap:wrap}
+.fm13-rows div:first-child{border-top:0}
+.fm13-rows b{font-family:var(--mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fm13-rows .k{font-family:var(--mono);color:var(--accent);font-weight:700}
+.fm13-rows .x{font-family:var(--mono);color:var(--bad);font-weight:700}
+.fm13-sel{font-family:var(--mono);font-size:.88rem;padding:8px 10px;border:1px solid var(--line);border-radius:3px;background:var(--code-bg);color:var(--ink);width:100%}
+.fm13-sel:focus-visible{outline:2px solid var(--target);outline-offset:1px}
+</style>
+</head>
+<body>
+<div class="hazard" aria-hidden="true"></div>
+<div class="wrap">
+<div class="docbar"><div class="logo" role="img" aria-label="Logo placeholder"><!-- Replace this text with <img src="logo.svg" alt="Your organization"> -->Your logo</div><span><b>Field Manual 13</b></span><span>Knowledge graphs and LLMs</span><span>Distribution: engineers and data architects</span><span>Day 212 after the outbreak</span></div>
+
+<section class="first">
+  <div class="stamp">Know who supplies whom</div>
+  <h1>Trail Network</h1>
+  <p class="lede">A vector index finds passages that sound like your question. It can't walk from one outpost to the next. A <strong>knowledge graph</strong> stores camps, outposts and the trails between them as typed, explicit connections. With a graph behind it, a model can <mark>answer questions that take more than one hop</mark> and name the report behind every fact.</p>
+  <div class="meta">
+    <div><span class="eyebrow">Who it's for</span><p>Engineers and data architects putting LLMs on top of connected data.</p></div>
+    <div><span class="eyebrow">Time</span><p>About 90 minutes, half hands-on.</p></div>
+    <div><span class="eyebrow">Bring</span><p>Python 3.10+, Ollama with <code>llama3.2</code> and <code>nomic-embed-text</code> (Field Manual 4), and Docker for Neo4j.</p></div>
+  </div>
+  <ul class="takeaways">
+    <li><b>Graphs answer relationship questions.</b><p>Who supplies whom, what is two hops away, what is cut off. Similarity search can't follow a chain.</p></li>
+    <li><b>The model drafts, the schema decides.</b><p>Let the LLM extract triples and write queries. Validate both against the ontology before anything touches the graph.</p></li>
+    <li><b>Keep the receipts.</b><p>Every relationship carries the ids of the reports that stated it. No source, no fact.</p></li>
+  </ul>
+</section>
+
+<section id="basics">
+  <div class="stack col">
+    <div class="eyebrow">Part 1 · Read the map</div>
+    <h2>What a knowledge graph holds</h2>
+    <p>A knowledge graph is data stored as things and the typed connections between them, plus a schema that says what those types mean. Select a part.</p>
+  </div>
+  <div class="depot">
+    <div class="layers" id="layers"></div>
+    <div class="panel layerinfo" id="layerInfo" aria-live="polite"></div>
+  </div>
+  <div class="two">
+    <div class="panel">
+      <div class="eyebrow">Property graph</div>
+      <h3>Neo4j and Cypher</h3>
+      <p>Nodes and relationships both carry properties. Queries draw the pattern you want as ASCII art. Cypher is the main language; the ISO GQL standard (2024) grew from the same ideas.</p>
+      <div class="code solo"><pre>(:Camp {key:'camp-harbor'})
+  -[:SUPPLIES {sources:['r06']}]->
+(:Outpost {key:'outpost-6'})
+
+MATCH (c:Camp)-[:SUPPLIES]->(o:Outpost)
+RETURN c.name, o.name</pre></div>
+      <p class="note">Schema is optional in the database. Uniqueness constraints exist in every edition; Enterprise adds existence and type constraints. Most of the ontology lives in your loading code.</p>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">RDF</div>
+      <h3>Triples, SPARQL and OWL</h3>
+      <p>Everything is a subject, predicate, object triple, named with global IRIs, so data from different sources merges cleanly. OWL describes classes and properties. SPARQL queries with property paths.</p>
+      <div class="code solo"><pre>tn:harbor a tn:Camp ; tn:supplies tn:op6 .
+
+SELECT ?site WHERE {
+  tn:harbor (tn:connectsTo|^tn:connectsTo)
+           /(tn:connectsTo|^tn:connectsTo)? ?site .
+}</pre></div>
+      <p class="note">Facts about a fact (trail status, sources) need reification, named graphs or RDF 1.2 triple terms. OWL domain and range are inference rules under an open world: a wrong subject gets a new inferred type, not an error. Use SHACL to validate.</p>
+    </div>
+  </div>
+  <div class="otable">
+    <div class="orow ohead"><span>Question shape</span><span>Example</span><span>Tables or vectors</span><span>Graph</span></div>
+    <div class="orow"><b>Multi-hop</b><span>Which outposts are two open trails from a camp with antibiotics?</span><span>Self-joins per hop; vectors return each report alone</span><span>One pattern with <code>{1,2}</code> hops</span></div>
+    <div class="orow"><b>Paths and reachability</b><span>Shortest open route from Ridge to Harbor. What is cut off?</span><span>Recursive SQL at best</span><span><code>SHORTEST</code>, variable-length patterns</span></div>
+    <div class="orow"><b>Hierarchies</b><span>Outpost 5's whole chain of command</span><span>Recursive CTE</span><span><code>-[:REPORTS_TO]->+</code></span></div>
+    <div class="orow"><b>Aggregates over links</b><span>Which outpost has the most open trails?</span><span>Vectors can't count</span><span><code>COUNT { }</code> over relationships</span></div>
+    <div class="orow"><b>Provenance</b><span>Which report says Harbor supplies OP-6?</span><span>Lost once text is summarized</span><span><code>sources</code> on every relationship</span></div>
+  </div>
+  <p class="note col">Stay with tables for flat records and arithmetic, and with vector search for "find the passage about X." Graphs earn their keep when the relationships are the question.</p>
+</section>
+
+<section id="network">
+  <div class="stack col">
+    <div class="eyebrow">Drill 1 · Walk the trails</div>
+    <h2>Ask the trail network</h2>
+    <p>Ten sites, three relationship types, built from twelve field reports. Pick a question. The page runs the traversal in your browser, highlights the answer, and shows the Cypher that does the same in Neo4j. Close a trail and run it again. Below, the same question goes to a vector search over the twelve reports.</p>
+  </div>
+  <div class="chips" id="qpick"></div>
+  <div class="panel">
+    <div class="fm13-net" id="net"></div>
+    <div class="fm13-key"><span><i></i>CONNECTS_TO, open</span><span><i class="k-blk"></i>CONNECTS_TO, blocked</span><span><i class="k-s"></i>SUPPLIES</span><span><i class="k-r"></i>REPORTS_TO</span><span><i class="k-hot"></i>Answer path</span></div>
+    <div class="controls">
+      <label class="tog" for="showS"><input type="checkbox" id="showS">Show SUPPLIES</label>
+      <label class="tog" for="showR"><input type="checkbox" id="showR">Show REPORTS_TO</label>
+    </div>
+    <div class="stack"><span class="flabel">Radio update: close or reopen a trail</span><div class="chips" id="trails"></div></div>
+  </div>
+  <div class="two">
+    <div class="panel" aria-live="polite">
+      <div class="eyebrow">Graph answer</div>
+      <h3 id="gq"></h3>
+      <div id="gans"></div>
+      <div class="code solo"><button class="cp" type="button" data-copy="gcy">Copy</button><pre id="gcy" class="wrapcode"></pre></div>
+    </div>
+    <div class="panel" aria-live="polite">
+      <div class="eyebrow">Vector top 3 for the same question</div>
+      <div class="hits" id="vhits"></div>
+      <div id="vverdict"></div>
+      <p class="note">Keyword vectors (TF-IDF) as in Field Manual 7. An embedding model ranks by meaning and would do better on wording, but it still returns separate passages, and the model still has to chain them.</p>
+    </div>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="stack col">
+    <div class="eyebrow">Part 2 · Where the archive runs out</div>
+    <h2>What vector RAG can't do alone</h2>
+    <p>Field Manual 7's archive run works when one or two passages hold the answer. These question shapes break it, however good the embeddings are.</p>
+  </div>
+  <div class="fails">
+    <div class="fail"><div><h3>Multi-hop</h3><p class="sym">The answer needs facts from several reports that share no words with the question. "Two hops of antibiotics" retrieves the antibiotics report and nothing about the trails.</p></div><p class="fix"><b>Graph:</b> the hops are stored. A traversal follows them and returns every report on the path.</p></div>
+    <div class="fail"><div><h3>Global questions</h3><p class="sym">"What are the main supply problems this month?" No single chunk is about that. Top k gives a few anecdotes.</p></div><p class="fix"><b>Graph:</b> aggregate in Cypher, or summarize communities of related entities ahead of time (GraphRAG).</p></div>
+    <div class="fail"><div><h3>Exhaustive and negative</h3><p class="sym">"Every outpost cut off from Ridge." "Who has no medic?" Retrieval returns what exists, never what's missing, and k caps the list.</p></div><p class="fix"><b>Graph:</b> <code>NOT EXISTS { }</code> over the whole graph gives a complete answer.</p></div>
+    <div class="fail"><div><h3>Direction and type</h3><p class="sym">"Harbor supplies OP-6" and "OP-6 supplies Harbor" embed almost the same. So do "reports to" and "is reported by."</p></div><p class="fix"><b>Graph:</b> direction and type are part of the data, not a guess from wording.</p></div>
+    <div class="fail"><div><h3>Stale facts</h3><p class="sym">The archive keeps the old "trail open" report next to the new "washed out" one, and both rank.</p></div><p class="fix"><b>Graph:</b> one relationship, updated in place, with its sources and a timestamp.</p></div>
+  </div>
+</section>
+
+<section id="patterns">
+  <div class="stack col">
+    <div class="eyebrow">Part 3 · Four routes</div>
+    <h2>How LLMs and graphs work together</h2>
+    <p>Two patterns use the LLM to read the graph, two use it to build the graph. Most real systems combine them. Use the arrow keys to move between tabs.</p>
+  </div>
+  <div class="pynav" role="tablist" id="patnav"></div>
+  <div class="phase" id="pat"></div>
+</section>
+
+<section id="extract">
+  <div class="stack col">
+    <div class="eyebrow">Drill 2 · Read the report</div>
+    <h2>Which triples belong in the graph?</h2>
+    <p>An LLM extracted these candidates from one field report. Keep the ones the ontology allows and the report states as current fact. Reject the rest.</p>
+  </div>
+  <div class="panel">
+    <div class="eyebrow">Field report r-0214-0700 · from OP-6</div>
+    <p class="mono">Harbor Camp sent antibiotics to the third outpost yesterday. The trail from Outpost 3 to OP-6 is washed out at the creek. Ridge Camp is out of antibiotics. Sgt. Okafor is now stationed at OP-6. Mill Camp may start supplying Outpost 5 next week. The third outpost reports to Ridge Camp. Scouts saw walkers near the old mill.</p>
+    <p class="note">Ontology: Camp, Outpost, Person, Supply. CONNECTS_TO and SUPPLIES link sites. REPORTS_TO goes from a site to a Camp. STOCKS goes from a site to a Supply. STATIONED_AT goes from a Person to a site.</p>
+  </div>
+  <div class="drillscore" id="tScore"></div>
+  <div class="drill" id="tDrill"></div>
+  <div class="panel">
+    <div class="eyebrow">Entity resolution in this report</div>
+    <p>Same place, different names. Without resolution, each spelling becomes its own node and the graph quietly splits. Each mention below goes through the same resolver as step 4 of the build.</p>
+    <div class="fm13-rows" id="res"></div>
+    <div id="resSum"></div>
+  </div>
+</section>
+
+<section id="checker">
+  <div class="stack col">
+    <div class="eyebrow">Drill 3 · Check at the gate</div>
+    <h2>Schema checker</h2>
+    <p>Propose a triple. The checker validates it against the ontology, resolves both names to canonical keys, and shows the parameterized MERGE the loader would run. Try a preset, then type your own.</p>
+  </div>
+  <div class="chips" id="presets"></div>
+  <div class="ws">
+    <div class="panel">
+      <div class="two">
+        <div class="field"><label for="sName">Subject name</label><input id="sName" type="text"></div>
+        <div class="field"><label for="sLab">Subject label</label><select id="sLab" class="fm13-sel"></select></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="rel">Relationship type<span>Free text, like an LLM without structured output</span></label><input id="rel" type="text"></div>
+        <div class="field"><label for="stat">Trail status</label><select id="stat" class="fm13-sel"><option>unknown</option><option>open</option><option>blocked</option></select></div>
+      </div>
+      <div class="two">
+        <div class="field"><label for="oName">Object name</label><input id="oName" type="text"></div>
+        <div class="field"><label for="oLab">Object label</label><select id="oLab" class="fm13-sel"></select></div>
+      </div>
+    </div>
+    <div class="panel out">
+      <div class="score" id="cScore"></div>
+      <ul class="checks" id="cChecks"></ul>
+      <div class="code solo"><button class="cp" type="button" data-copy="cOut">Copy</button><pre id="cOut" class="wrapcode"></pre></div>
+    </div>
+  </div>
+</section>
+
+<section id="build">
+  <div class="stack col">
+    <div class="eyebrow">Part 4 · Build the trail graph</div>
+    <h2>Eight steps from reports to answers</h2>
+    <p>Reports in, validated triples out, loaded with provenance, then queried two ways. Steps 2 to 5, 7 and 8 add to one Python file, <code>trail.py</code>. Step 6 is Cypher to run in Neo4j Browser at <code>localhost:7474</code>.</p>
+  </div>
+  <div class="pynav" role="tablist" id="pynav"></div>
+  <div class="pybody" id="pybody"></div>
+</section>
+
+<section id="quality">
+  <div class="stack col">
+    <div class="eyebrow">Part 5 · Keep the map true</div>
+    <h2>Quality is a pipeline</h2>
+    <p>An LLM-built graph inherits every extraction mistake, permanently and with a confident shape. Build these checks in from the first load.</p>
+  </div>
+  <div class="cards">
+    <div class="panel"><h3>Extraction errors</h3><p>Negations, plans and rumors stored as facts; cargo confused with sender. Require an evidence quote that must appear verbatim in the chunk, use temperature 0, and spot-check a sample by hand every load.</p></div>
+    <div class="panel"><h3>Duplicate entities</h3><p>"Outpost 3", "OP-3", "the third outpost." Resolve to canonical keys before MERGE, keep a reviewed alias table, and send unresolvable mentions to a person. Embedding similarity can suggest merges; a person or a rule approves them.</p></div>
+    <div class="panel"><h3>Schema drift</h3><p>Free-text extraction invents types: SEEN_NEAR, SUPPLY, supplies. Constrain output to a closed list, reject anything else at the loader, and audit with <code>db.relationshipTypes()</code>. Change the ontology on purpose, with a version.</p></div>
+    <div class="panel"><h3>Provenance</h3><p>Store source chunk ids on every relationship, append-only. You can then cite, audit, retract everything from a bad report, and count how many reports back a fact.</p></div>
+    <div class="panel"><h3>Time</h3><p>Trails open and close. Keep <code>updated_at</code> and the report date. When history matters, model changes as events with their own nodes instead of overwriting.</p></div>
+    <div class="panel"><h3>Evaluation</h3><p>Score extraction precision and recall against hand-labeled reports. Score text-to-Cypher by comparing result rows, not query text. Score answers end to end on a fixed question set (Field Manual 11).</p></div>
+  </div>
+</section>
+
+<section id="triage">
+  <div class="stack col">
+    <div class="eyebrow">Part 6 · Field triage</div>
+    <h2>Find what broke</h2>
+    <p>Pick the symptom. Most graph answers go wrong at extraction or at query generation, rarely in the database.</p>
+  </div>
+  <div class="triage">
+    <div class="symptoms" id="symptoms"></div>
+    <div class="panel dx" id="dx" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="exercises">
+  <div class="stack col">
+    <div class="eyebrow">Part 7 · Hands-on</div>
+    <h2>Five drills</h2>
+    <p>Check each one off as you finish. Progress is saved in this browser only.</p>
+  </div>
+  <div class="progress"><span id="exCount">0 of 5</span><div class="bar"><i id="exBar" style="width:0"></i></div></div>
+  <ul class="ex" id="ex"></ul>
+</section>
+
+<section>
+  <div class="stack col">
+    <div class="eyebrow">Pocket checklist</div>
+    <h2>Before the graph goes live</h2>
+    <ul class="final">
+      <li>The ontology is written down, versioned, and enforced in code: labels, relationship types, domain and range.</li>
+      <li>Extraction uses structured output with a closed list of types, and rejected triples are logged.</li>
+      <li>Every node has a canonical key with a uniqueness constraint, and every load uses MERGE on it.</li>
+      <li>Every relationship carries the ids of the chunks that stated it.</li>
+      <li>Generated Cypher runs as a read-only user, with a plan-type check, a timeout and a row limit.</li>
+      <li>I have a test set of questions with expected rows, and I rerun it after any schema or prompt change.</li>
+      <li>Audit queries for duplicates, unknown types and single-source facts run on a schedule.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="cheat">
+  <div class="stack col">
+    <div class="eyebrow">Appendix · Pocket card</div>
+    <h2>Cheat sheet</h2>
+  </div>
+  <div class="code solo"><button class="cp" type="button" data-copy="cheatOut">Copy</button><pre id="cheatOut">BUILD   chunk → extract (schema, closed types) → validate → resolve keys → MERGE with sources
+READ    text-to-Cypher (schema + examples, read-only)  or  vector entry → traverse → context
+
+Cypher patterns
+  MATCH (a)-[:T]->(b)                    one hop, directed
+  MATCH (a)-[:T]-(b)                     either direction
+  MATCH (a)-[:T]-{1,2}(b)                1 to 2 hops
+  MATCH (a)-[:T]->+(b)                   one or more hops
+  MATCH (a)-[t:T WHERE t.status='open']-+(b)   filter during traversal
+  MATCH p = SHORTEST 1 (a)-[:T]-+(b)     shortest path
+  WHERE NOT EXISTS { (a)-[:T]->() }      absence
+  COUNT { (a)-[:T]-() }                  degree
+  MERGE (n:Entity {key: $key})           idempotent load on a unique key
+
+Python driver (neo4j)
+  driver = GraphDatabase.driver(uri, auth=(user, pw))
+  records, summary, keys = driver.execute_query(q, name=..., database_="neo4j", routing_="r")
+  session.execute_read(fn, ...)   tx.run(q).consume().query_type == "r"
+
+Text-to-Cypher guard rails, outermost first
+  1. a database user with read-only privileges
+  2. EXPLAIN plan type must be "r"
+  3. keyword tripwire, single statement only
+  4. timeout and row limit
+  5. schema + few-shot examples in the prompt, one retry with the error
+
+Measure
+  extraction   precision / recall of triples vs hand labels
+  resolution   duplicate rate (audit query)
+  text2cypher  result rows match expected rows
+  answers      correct and traceable to sources</pre></div>
+  <p class="note col">Driver calls checked against the neo4j Python driver source (6.x) in October 2026. Cypher syntax as of Neo4j 5.26 LTS and 2026 releases.</p>
+</section>
+
+<footer>Field Manual 13. Builds on <em>Archive Run</em> (vector RAG), <em>Field Autopsy</em> (why models guess) and <em>Common Frequency</em> (giving models tools such as a graph query). The camps, outposts, people and field reports are fictional. GraphRAG is described from Edge et al., "From Local to Global: A GraphRAG Approach to Query-Focused Summarization," Microsoft Research, 2024.</footer>
+</div>
+
+<script>
+(function(){
+  function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+  function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+  function tabs(nav,n,show){Array.prototype.forEach.call(nav.children,function(b,i){
+    b.addEventListener("click",function(){show(i)});
+    b.addEventListener("keydown",function(e){var j=null;if(e.key==="ArrowRight")j=(i+1)%n;if(e.key==="ArrowLeft")j=(i+n-1)%n;if(j!==null){e.preventDefault();show(j);nav.children[j].focus()}})})}
+  function sel(nav,i){Array.prototype.forEach.call(nav.children,function(b,j){b.setAttribute("aria-selected",j===i?"true":"false");b.tabIndex=j===i?0:-1})}
+
+  /* Part 1 layers */
+  var layers=[
+    {n:"Nodes",s:"The things: camps, outposts, people, supplies",b:["A node is one real thing. Give each a stable key that doesn't depend on how a report spelled its name: <code>outpost-3</code>, not \"the third outpost\".","Names, aliases and descriptions are properties on the node. Identity is the key."]},
+    {n:"Labels",s:"What kind of thing each node is",b:["In Neo4j a node can carry several labels, such as <code>:Entity:Outpost</code>. A shared label like <code>:Entity</code> lets one uniqueness constraint cover every node.","In RDF the equivalent is <code>rdf:type</code> pointing at a class, and classes can form a hierarchy."]},
+    {n:"Relationships",s:"Typed, directed links between two nodes",b:["Each relationship has exactly one type and one direction, and is stored, not computed by a join. Following one is a local lookup, however big the graph gets.","Symmetric facts like trails are stored once and matched without direction: <code>(a)-[:CONNECTS_TO]-(b)</code>."]},
+    {n:"Properties",s:"Facts about nodes and about links",b:["Key-value pairs on nodes and on relationships: <code>status: 'blocked'</code>, <code>sources: ['r05']</code>, <code>updated_at</code>.","Properties on relationships are where property graphs and RDF differ most. RDF needs reification, named graphs or RDF 1.2 triple terms to say things about a triple."]},
+    {n:"Ontology",s:"The rules: what may connect to what, and what it means",b:["Allowed labels and relationship types, which labels each type may connect (domain and range), and meaning: CONNECTS_TO is symmetric, REPORTS_TO forms a hierarchy.","For LLM work it does two jobs. It gives the model a closed vocabulary to extract into and query against, and it gives you something to validate every output against."]}
+  ];
+  var lEl=document.getElementById("layers"),info=document.getElementById("layerInfo");
+  layers.forEach(function(l,i){var b=document.createElement("button");b.type="button";b.className="layer";b.setAttribute("aria-pressed","false");
+    b.innerHTML='<span class="ix">'+(i+1)+'</span><b>'+l.n+'</b><span>'+l.s+'</span>';b.addEventListener("click",function(){showLayer(i)});lEl.appendChild(b)});
+  function showLayer(i){Array.prototype.forEach.call(lEl.children,function(b,j){b.setAttribute("aria-pressed",j===i?"true":"false")});
+    var l=layers[i];info.innerHTML='<div class="eyebrow">Part '+(i+1)+' of 5</div><h3>'+l.n+'</h3><ul>'+l.b.map(function(x){return "<li>"+x+"</li>"}).join("")+'</ul>'}
+  showLayer(2);
+
+  /* Drill 1: trail network */
+  var N={ridge:{n:"Ridge Camp",t:"Camp",x:300,y:48,st:"fuel"},op1:{n:"OP-1",t:"Outpost",x:110,y:135},op2:{n:"OP-2",t:"Outpost",x:470,y:130},
+    op3:{n:"OP-3",t:"Outpost",x:265,y:215},op7:{n:"OP-7",t:"Outpost",x:585,y:225},op6:{n:"OP-6",t:"Outpost",x:70,y:305},
+    op4:{n:"OP-4",t:"Outpost",x:345,y:310},harbor:{n:"Harbor Camp",t:"Camp",x:185,y:392,st:"antibiotics"},op5:{n:"OP-5",t:"Outpost",x:470,y:385},
+    mill:{n:"Mill Camp",t:"Camp",x:590,y:345,st:"water tablets"}};
+  var C=[["ridge","op1","r01"],["ridge","op2","r03"],["op2","op7","r03"],["op1","op3","r04"],["op2","op3","r04"],["op3","op6","r05",1],
+    ["harbor","op6","r07"],["harbor","op4","r07"],["op3","op4","r08"],["op4","op5","r09"],["op5","mill","r09"],["mill","op7","r10"]];
+  var S=[["ridge","op1","r02"],["ridge","op2","r02"],["harbor","op6","r06"],["harbor","op4","r06"],["op4","op5","r08"],["mill","op7","r10"]];
+  var R=[["op1","ridge","r12"],["op2","ridge","r12"],["op3","ridge","r12"],["op4","harbor","r11"],["op6","harbor","r11"],["op5","mill","r11"],["op7","mill","r11"],["harbor","ridge","r12"],["mill","ridge","r12"]];
+  var STOCK={ridge:"r02",harbor:"r06",mill:"r10"};
+  var blocked=C.map(function(c){return !!c[3]}),initBlocked=blocked.slice();
+  var REP=[
+    ["r01","Scout log: the trail from Ridge Camp to Outpost 1 is open, about two hours on foot."],
+    ["r02","Ridge Camp quartermaster: we supply Outpost 1 and Outpost 2 with fuel and food every week. Ridge holds the fuel reserve."],
+    ["r03","Outpost 2 radio: trail to Ridge Camp open. Trail east to Outpost 7 open but slow."],
+    ["r04","Outpost 3 log: both trails north, to Outpost 1 and Outpost 2, are clear."],
+    ["r05","Creek crossing between Outpost 3 and Outpost 6 washed out. Trail closed until the water drops."],
+    ["r06","Harbor Camp medical: antibiotics in stock. Harbor runs supply boats to Outpost 6 and carts to Outpost 4."],
+    ["r07","Trail survey: Harbor Camp to Outpost 6 open. Harbor Camp to Outpost 4 open."],
+    ["r08","Outpost 4 log: the ridge path to Outpost 3 is open. We pass half our supplies on to Outpost 5."],
+    ["r09","Outpost 5 radio: trail to Outpost 4 open, trail to Mill Camp open."],
+    ["r10","Mill Camp: water tablets in stock. We supply Outpost 7 by the river trail, which is open."],
+    ["r11","Command roster: Outposts 4 and 6 report to Harbor Camp. Outposts 5 and 7 report to Mill Camp."],
+    ["r12","Command roster: Harbor Camp and Mill Camp report to Ridge Camp. Outposts 1, 2 and 3 report to Ridge Camp."]];
+  function openAdj(){var a={};for(var k in N)a[k]=[];C.forEach(function(c,i){if(!blocked[i]){a[c[0]].push([c[1],i]);a[c[1]].push([c[0],i])}});return a}
+  function bfs(start){var adj=openAdj(),d={},par={},q=[start];d[start]=0;
+    while(q.length){var u=q.shift();adj[u].forEach(function(e){if(d[e[0]]===undefined){d[e[0]]=d[u]+1;par[e[0]]=[u,e[1]];q.push(e[0])}})}return {d:d,par:par}}
+  function pathTo(b,v){var p=[],e=[];while(b.par[v]){e.push(b.par[v][1]);p.push(v);v=b.par[v][0]}p.push(v);return {nodes:p.reverse(),edges:e}}
+  function srcOfC(list){return list.map(function(i){return C[i][2]})}
+  var Q=[
+    {l:"Antibiotics within 2 hops",q:"Which outposts can get antibiotics within two open trail hops of a camp that stocks them?",rel:"",
+     cy:"MATCH (c:Camp)-[:STOCKS]->(:Supply {key: 'supply-antibiotics'})\nMATCH (c)-[t:CONNECTS_TO WHERE t.status = 'open']-{1,2}(o:Outpost)\nRETURN o.name AS outpost, collect(DISTINCT c.name) AS from_camps",
+     run:function(){var b=bfs("harbor"),ans=[],edges=[],need=[STOCK.harbor];
+       for(var v in b.d)if(b.d[v]>0&&b.d[v]<=2&&N[v].t==="Outpost"){ans.push(v);edges=edges.concat(pathTo(b,v).edges)}
+       need=need.concat(srcOfC(edges));
+       return {src:["harbor"],ans:ans,ce:edges,need:need,rows:ans.map(function(v){return N[v].n+" · "+b.d[v]+" hop"+(b.d[v]>1?"s":"")+" from Harbor Camp"})}}},
+    {l:"Shortest open route",q:"What is the shortest open trail route from Ridge Camp to Harbor Camp?",rel:"",
+     cy:"MATCH p = SHORTEST 1 (:Camp {key: 'camp-ridge'})\n          -[t:CONNECTS_TO WHERE t.status = 'open']-+\n          (:Camp {key: 'camp-harbor'})\nRETURN [n IN nodes(p) | n.name] AS route, length(p) AS hops",
+     run:function(){var b=bfs("ridge");if(b.d.harbor===undefined)return {src:["ridge"],ans:[],ce:[],need:srcOfC(C.map(function(c,i){return i})),rows:[]};
+       var p=pathTo(b,"harbor");return {src:["ridge"],ans:["harbor"],nodes:p.nodes,ce:p.edges,need:srcOfC(p.edges),rows:[p.nodes.map(function(v){return N[v].n}).join(" → ")+" · "+p.edges.length+" hops"]}}},
+    {l:"Chain of command",q:"Who does Outpost 5 report to, all the way up the chain?",rel:"r",
+     cy:"MATCH p = (:Outpost {key: 'outpost-5'})-[:REPORTS_TO]->+(top:Camp)\nWHERE NOT EXISTS { (top)-[:REPORTS_TO]->() }\nRETURN [n IN nodes(p) | n.name] AS chain",
+     run:function(){var v="op5",chain=[v],re=[],need=[];for(var g=0;g<10;g++){var r=R.filter(function(x){return x[0]===v})[0];if(!r)break;re.push(R.indexOf(r));need.push(r[2]);v=r[1];chain.push(v)}
+       return {src:["op5"],ans:chain.slice(1),nodes:chain,re:re,need:need,rows:[chain.map(function(x){return N[x].n}).join(" → ")]}}},
+    {l:"Supply chain upstream",q:"Where do Outpost 5's supplies come from, and who supplies them?",rel:"s",
+     cy:"MATCH p = (origin)-[:SUPPLIES]->+(:Outpost {key: 'outpost-5'})\nWHERE NOT EXISTS { ()-[:SUPPLIES]->(origin) }\nRETURN [n IN nodes(p) | n.name] AS supply_chain",
+     run:function(){var v="op5",chain=[v],se=[],need=[];for(var g=0;g<10;g++){var s=S.filter(function(x){return x[1]===v})[0];if(!s)break;se.push(S.indexOf(s));need.push(s[2]);v=s[0];chain.unshift(v)}
+       return {src:["op5"],ans:chain.slice(0,-1),nodes:chain,se:se,need:need,rows:[chain.map(function(x){return N[x].n}).join(" → ")]}}},
+    {l:"Cut off from Ridge",q:"Which sites have no open trail route to Ridge Camp?",rel:"",
+     cy:"MATCH (s:Camp|Outpost)\nWHERE s.key <> 'camp-ridge'\n  AND NOT EXISTS {\n    (s)-[t:CONNECTS_TO WHERE t.status = 'open']-+(:Camp {key: 'camp-ridge'})\n  }\nRETURN s.name AS cut_off",
+     run:function(){var b=bfs("ridge"),ans=[];for(var v in N)if(b.d[v]===undefined)ans.push(v);
+       return {src:["ridge"],ans:ans,ce:[],need:srcOfC(C.map(function(c,i){return i})),rows:ans.length?ans.map(function(v){return N[v].n}):["(no rows) Every site can still reach Ridge Camp. Close a trail and run it again."]}}},
+    {l:"Most open trails",q:"Which outpost has the most open trails?",rel:"",
+     cy:"MATCH (o:Outpost)\nRETURN o.name AS outpost,\n       COUNT { (o)-[t:CONNECTS_TO WHERE t.status = 'open']-() } AS open_trails\nORDER BY open_trails DESC\nLIMIT 3",
+     run:function(){var adj=openAdj(),list=[];for(var v in N)if(N[v].t==="Outpost")list.push([v,adj[v].length]);list.sort(function(a,b){return b[1]-a[1]});
+       var top=list[0][1],ans=list.filter(function(x){return x[1]===top}).map(function(x){return x[0]}),ce=[];
+       C.forEach(function(c,i){if(!blocked[i]&&(ans.indexOf(c[0])>=0||ans.indexOf(c[1])>=0))ce.push(i)});
+       return {src:[],ans:ans,ce:ce,need:srcOfC(C.map(function(c,i){return i})),rows:list.slice(0,3).map(function(x){return N[x[0]].n+" · "+x[1]+" open"})}}}
+  ];
+  /* TF-IDF over reports */
+  var STOP="a an the and or of to in on at for is are be by with from it its any every after before your you their them then than this that each until only never must per who what when how do does can which has have there our we all way up".split(" ");
+  function toks(t){return t.toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(function(w){return w&&STOP.indexOf(w)<0}).map(function(w){return w.length>4?w.replace(/(ing|ed|es|s)$/,""):w})}
+  var docT=REP.map(function(r){return toks(r[1])}),df={};docT.forEach(function(ts){var seen={};ts.forEach(function(w){if(!seen[w]){df[w]=(df[w]||0)+1;seen[w]=1}})});
+  function vec(ts){var v={},n=0,w;ts.forEach(function(x){v[x]=(v[x]||0)+1});for(w in v){v[w]*=Math.log((REP.length+1)/((df[w]||0)+1));n+=v[w]*v[w]}n=Math.sqrt(n)||1;for(w in v)v[w]/=n;return v}
+  var docV=docT.map(vec);function cos(a,b){var s=0;for(var w in a)if(b[w])s+=a[w]*b[w];return s}
+
+  var qi=0,net=document.getElementById("net"),showS=document.getElementById("showS"),showR=document.getElementById("showR");
+  var qp=document.getElementById("qpick");
+  Q.forEach(function(q,i){var b=document.createElement("button");b.type="button";b.className="chipbtn";b.textContent=q.l;b.addEventListener("click",function(){qi=i;if(q.rel==="s")showS.checked=true;if(q.rel==="r")showR.checked=true;drawNet()});qp.appendChild(b)});
+  var tr=document.getElementById("trails");
+  C.forEach(function(c,i){var b=document.createElement("button");b.type="button";b.className="chipbtn";b.addEventListener("click",function(){blocked[i]=!blocked[i];drawNet()});tr.appendChild(b)});
+  showS.addEventListener("change",drawNet);showR.addEventListener("change",drawNet);
+  function curve(a,b,off){var mx=(a.x+b.x)/2,my=(a.y+b.y)/2,dx=b.x-a.x,dy=b.y-a.y,l=Math.sqrt(dx*dx+dy*dy)||1;return [mx-dy/l*off,my+dx/l*off]}
+  function trim(a,b,r){var dx=b.x-a.x,dy=b.y-a.y,l=Math.sqrt(dx*dx+dy*dy)||1;return {x:b.x-dx/l*r,y:b.y-dy/l*r}}
+  function drawNet(){var q=Q[qi],res=q.run(),ansSet={},srcSet={},hotC={},hotS={},hotR={},onPath={};
+    (res.ans||[]).forEach(function(v){ansSet[v]=1});(res.src||[]).forEach(function(v){srcSet[v]=1});(res.nodes||[]).forEach(function(v){onPath[v]=1});
+    (res.ce||[]).forEach(function(i){hotC[i]=1;onPath[C[i][0]]=1;onPath[C[i][1]]=1});(res.se||[]).forEach(function(i){hotS[i]=1});(res.re||[]).forEach(function(i){hotR[i]=1});
+    var any=Object.keys(onPath).length+Object.keys(ansSet).length>0;
+    Array.prototype.forEach.call(qp.children,function(b,j){b.setAttribute("aria-pressed",j===qi?"true":"false")});
+    Array.prototype.forEach.call(tr.children,function(b,i){var c=C[i];b.setAttribute("aria-pressed",blocked[i]?"true":"false");b.textContent=N[c[0]].n+" – "+N[c[1]].n+(blocked[i]?": blocked":": open")});
+    var s='<svg viewBox="0 0 660 430" role="img" aria-label="Trail network: '+esc(q.q)+'"><defs>'+
+      '<marker id="mS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-s" d="M0 0L10 5L0 10z"/></marker>'+
+      '<marker id="mR" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="ah-r" d="M0 0L10 5L0 10z"/></marker>'+
+      '<marker id="mH" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ah-h" d="M0 0L10 5L0 10z"/></marker></defs>';
+    C.forEach(function(c,i){var a=N[c[0]],b=N[c[1]];s+='<line class="e c'+(blocked[i]?" blk":"")+(hotC[i]?" hot":(any?" dim":""))+'" x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'"/>'});
+    function arcs(list,cls,mk,hot,off,on){if(!on)return;list.forEach(function(e,i){var a=N[e[0]],b=N[e[1]],cp=curve(a,b,off),end=trim({x:cp[0],y:cp[1]},b,b.t==="Camp"?30:20);
+      s+='<path class="e '+cls+(hot[i]?" hot":(any?" dim":""))+'" d="M'+a.x+' '+a.y+'Q'+cp[0].toFixed(1)+' '+cp[1].toFixed(1)+' '+end.x.toFixed(1)+' '+end.y.toFixed(1)+'" marker-end="url(#'+(hot[i]?"mH":mk)+')"/>'})}
+    arcs(S,"s","mS",hotS,22,showS.checked);arcs(R,"r","mR",hotR,-26,showR.checked);
+    for(var k in N){var v=N[k],cl="n"+(ansSet[k]?" ans":srcSet[k]?" src":"")+(any&&!ansSet[k]&&!srcSet[k]&&!onPath[k]?" dim":"");
+      s+='<g class="'+cl+'">'+(v.t==="Camp"?'<rect x="'+(v.x-48)+'" y="'+(v.y-16)+'" width="96" height="32" rx="3"/>':'<circle cx="'+v.x+'" cy="'+v.y+'" r="19"/>')+
+        '<text x="'+v.x+'" y="'+(v.y+4)+'">'+esc(v.t==="Camp"?v.n:v.n.replace("OP-","OP "))+'</text>'+(v.st?'<text class="st" x="'+v.x+'" y="'+(v.y+(v.y<100?-24:30))+'">stocks '+v.st+'</text>':"")+'</g>'}
+    net.innerHTML=s+"</svg>";
+    document.getElementById("gq").textContent=q.q;
+    document.getElementById("gans").innerHTML='<div class="fm13-rows">'+(res.rows.length?res.rows:["(no rows) No open route. Reopen a trail."]).map(function(r){return '<div><span>'+esc(r)+'</span></div>'}).join("")+'</div>'+
+      '<p class="note">Facts used come from reports '+uniq(res.need).sort().join(", ")+'. In the graph, each relationship carries its report id.</p>';
+    document.getElementById("gcy").textContent=q.cy;
+    /* vector side */
+    var qv=vec(toks(q.q)),ranked=REP.map(function(r,i){return {i:i,s:cos(qv,docV[i])}}).sort(function(a,b){return b.s-a.s}),top=ranked.slice(0,3),need=uniq(res.need);
+    var got=top.filter(function(r){return need.indexOf(REP[r.i][0])>=0}).length;
+    document.getElementById("vhits").innerHTML=top.map(function(r){var hit=need.indexOf(REP[r.i][0])>=0;return '<div class="hit top"><div class="hhead"><span class="tagname">'+REP[r.i][0]+(hit?" · needed":" · not needed")+'</span><span class="mono">'+r.s.toFixed(2)+'</span></div><div class="hbar"><i style="width:'+Math.round(r.s*100)+'%"></i></div><p>'+esc(REP[r.i][1])+'</p></div>'}).join("");
+    var changed=blocked.some(function(b,i){return b!==initBlocked[i]});
+    document.getElementById("vverdict").innerHTML='<div class="vs"><div><span class="eyebrow">Reports needed</span><span class="big">'+need.length+'</span></div><div><span class="eyebrow">Retrieved</span><span class="big '+(got===need.length?"good":"bad")+'">'+got+'</span></div></div>'+
+      '<p class="verdict">'+(got===need.length?"Top 3 holds every report this answer needs. The model still has to chain them correctly in its head.":need.length>3?"This answer depends on "+need.length+" reports. No top 3 can hold them, and the model would have to traverse the trails in its head.":"Top 3 misses "+(need.length-got)+" of the "+need.length+" reports this answer depends on. The model would answer from a partial map.")+'</p>'+
+      (changed?'<p class="note">Your radio update changed the graph with one MERGE. The archive still holds the old reports, so vector search would also return stale trail status.</p>':"")}
+  function uniq(a){return a.filter(function(x,i){return a.indexOf(x)===i})}
+  drawNet();
+
+  /* Part 3 patterns */
+  var P=[
+    {n:"Text-to-Cypher",s:"The model writes the query",d:"Give the model the graph schema and a few example question and query pairs. It writes Cypher (or SPARQL), you validate it, run it read-only, and hand the rows back to the model to phrase the answer.",
+     h:["Put labels, relationship types with direction, and key properties in the prompt. Generate the schema from the database or the ontology so it can't drift.","Few-shot examples teach your conventions: canonical keys, status values, which way REPORTS_TO points.","On a syntax error, retry once with the error message. On an empty result, say so; don't let the model guess."],
+     u:"Precise questions over a stable schema: counts, paths, filters, lists.",w:"Writes and runaway queries. Treat generated Cypher as untrusted input: read-only user, plan check, timeout, row limit. Also wrong-but-valid queries that return plausible rows, which only an eval set catches."},
+    {n:"GraphRAG",s:"Summaries for global questions",d:"Microsoft Research's GraphRAG (Edge et al., 2024) builds a graph from documents with an LLM, then summarizes it so questions about the whole corpus become answerable.",
+     h:["Chunk the documents. An LLM extracts entities, relationships and claims from each chunk, with short descriptions.","Hierarchical Leiden community detection groups closely connected entities into nested communities.","An LLM writes a summary of each community, bottom up. A global question is answered map-reduce style: partial answers from community summaries, each scored for helpfulness, then combined."],
+     u:"Sensemaking over a large corpus: themes, main actors, recurring problems. In the paper's tests on two corpora of about a million tokens, it beat vector RAG on comprehensiveness and diversity, judged by an LLM.",w:"Indexing cost: every chunk goes through an LLM, several times. Summaries go stale as documents change. Microsoft's open-source graphrag library implements the method; its extraction is open-ended unless you supply entity types."},
+    {n:"Hybrid",s:"Vectors find the door, the graph finds the rooms",d:"Embed chunks (or entity descriptions) and store the vectors in the graph. Vector search finds entry points; a traversal pulls in the connected facts, with sources.",
+     h:["Link each chunk to the entities it mentions: <code>(:Chunk)-[:MENTIONS]->(:Entity)</code>.","Vector search returns the top chunks for the question. Cypher expands one or two hops from their entities.","The prompt gets the chunks plus a compact list of facts, each tagged with its report ids."],
+     u:"Fuzzy questions that still need connected context: \"what's going on around OP-6?\" Works without the model writing any query.",w:"Expansion blow-up around busy nodes: cap hops, limit rows, filter by relationship type. Neo4j's neo4j-graphrag package ships this as VectorCypherRetriever."},
+    {n:"Ontology-grounded",s:"Extraction that can't invent types",d:"Constrain extraction to your ontology with structured output, then validate and resolve before loading. This is how the graph stays a graph and not a pile of near-duplicate strings.",
+     h:["Labels and relationship types are closed lists (Literal in pydantic, enums in the JSON schema). The model can only pick from them.","Domain and range rules are checked in code after extraction. Structured output guarantees shape, not truth.","Entity resolution maps every mention to a canonical key before MERGE. Unresolvable mentions go to a person."],
+     u:"Any graph you'll query precisely or join with other data. Neo4j's SimpleKGPipeline takes allowed entity and relation types for the same reason.",w:"An ontology too narrow drops real facts silently. Log rejected triples and review them: that log is where your next ontology version comes from."}
+  ];
+  var pn=document.getElementById("patnav"),pb=document.getElementById("pat");
+  P.forEach(function(p,i){var b=document.createElement("button");b.type="button";b.setAttribute("role","tab");b.innerHTML='<span class="lv">'+String.fromCharCode(97+i)+'</span>'+p.n;pn.appendChild(b)});
+  function showP(i){sel(pn,i);var p=P[i];pb.innerHTML='<h3>'+p.n+' · '+p.s+'</h3><p class="col">'+p.d+'</p><div class="two"><div class="panel"><div class="eyebrow">How it works</div><ul class="plain">'+p.h.map(function(x){return "<li>"+x+"</li>"}).join("")+'</ul></div><div class="panel"><div class="eyebrow">Use it for</div><p>'+p.u+'</p><div class="eyebrow">Watch for</div><p>'+p.w+'</p></div></div>'}
+  tabs(pn,P.length,showP);showP(0);
+
+  /* Drill 2: triples */
+  var T=[
+    {t:"(Harbor Camp:Camp) -[:SUPPLIES]-> (the third outpost:Outpost)",a:1,f:"Stated as done, both ends are sites. \"The third outpost\" must resolve to outpost-3, or it becomes a second node."},
+    {t:"(Outpost 3:Outpost) -[:CONNECTS_TO {status:'blocked'}]- (OP-6:Outpost)",a:1,f:"A current fact with a status. One undirected trail, updated in place, with r-0214-0700 added to its sources."},
+    {t:"(Ridge Camp:Camp) -[:STOCKS]-> (Antibiotics:Supply)",a:0,f:"The report says Ridge is out of antibiotics. Negations are the most common extraction error. If stock levels matter, model them as a property, not as a missing edge."},
+    {t:"(Sgt. Okafor:Person) -[:STATIONED_AT]-> (OP-6:Outpost)",a:1,f:"Person to site, stated as current. Titles like \"Sgt.\" belong in a property; the resolver should strip them or the next report's \"Okafor\" won't match."},
+    {t:"(Mill Camp:Camp) -[:SUPPLIES]-> (Outpost 5:Outpost)",a:0,f:"\"May start next week\" is a plan, not a fact. Storing it makes the graph claim a supply line that doesn't exist."},
+    {t:"(the third outpost:Outpost) -[:REPORTS_TO]-> (Ridge Camp:Camp)",a:1,f:"Valid, and it confirms an existing fact. MERGE on outpost-3 adds this report as a second source instead of a duplicate edge."},
+    {t:"(Walkers:Threat) -[:SEEN_NEAR]-> (the old mill:Place)",a:0,f:"Neither the labels nor the relationship type exist in the ontology. Reject and log it. If sightings matter, add them to the ontology on purpose."},
+    {t:"(Harbor Camp:Camp) -[:STOCKS]-> (Antibiotics:Supply)",a:0,f:"The report says Harbor sent antibiotics, not that it still has any. That's an inference. Keep only what the evidence sentence states."},
+    {t:"(Antibiotics:Supply) -[:SUPPLIES]-> (the third outpost:Outpost)",a:0,f:"The cargo isn't the sender. SUPPLIES must start at a Camp or Outpost; a domain check in code catches this even when the type is allowed."}
+  ];
+  var tEl=document.getElementById("tDrill"),tAns={};
+  function tScore(){var n=0,r=0;for(var k in tAns){n++;if(tAns[k])r++}document.getElementById("tScore").textContent=r+" of "+n+" correct · "+(T.length-n)+" to go"}
+  T.forEach(function(s,i){var d=document.createElement("div");d.className="sc";
+    d.innerHTML='<p class="q mono">'+esc(s.t)+'</p><div class="acts"><button class="btn" type="button" data-v="1">Keep</button><button class="btn" type="button" data-v="0">Reject</button></div><div class="fb" hidden></div>';
+    d.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){var right=+b.getAttribute("data-v")===s.a;tAns[i]=right;
+      var fb=d.querySelector(".fb");fb.hidden=false;fb.className="fb "+(right?"ok":"no");fb.innerHTML="<b>"+(right?"Right. ":"Not quite. ")+(s.a?"Keep.":"Reject.")+"</b> "+esc(s.f);d.classList.add("done");tScore()})});
+    tEl.appendChild(d)});
+  tScore();
+
+  /* Resolver: same rules as step 4 */
+  var ORD={first:1,second:2,third:3,fourth:4,fifth:5,sixth:6,seventh:7,eighth:8,ninth:9,tenth:10};
+  var NUM={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10};
+  var ALIAS={hq:"camp-ridge",headquarters:"camp-ridge","the docks":"camp-harbor"};
+  function resolve(name,label){var t=name.toLowerCase().replace(/\s+/g," ").trim();if(ALIAS[t])return ALIAS[t];t=t.replace(/^the /,"");
+    if(label==="Outpost"){var m=t.match(/^(?:outpost|op)[ -]?(\w+)$/)||t.match(/^(\w+) outpost$/);if(!m)return null;var k=m[1],n=/^\d+$/.test(k)?parseInt(k,10):(ORD[k]||NUM[k]);return n?"outpost-"+n:null}
+    if(label==="Camp")t=t.replace(/ camp$/,"");var slug=t.replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");return slug?label.toLowerCase()+"-"+slug:null}
+  var M=[["Harbor Camp","Camp"],["the third outpost","Outpost"],["Outpost 3","Outpost"],["OP-6","Outpost"],["Ridge Camp","Camp"],["Sgt. Okafor","Person"],["Mill Camp","Camp"],["Outpost 5","Outpost"],["the third outpost","Outpost"],["the old mill","Outpost"]];
+  var raw={},keys={};
+  document.getElementById("res").innerHTML='<div><b>Mention · label</b><b>Canonical key</b></div>'+M.map(function(m){var k=resolve(m[0],m[1]);raw[m[0]]=1;if(k)keys[k]=1;
+    return '<div><span>'+esc(m[0])+' · '+m[1]+'</span>'+(k?'<span class="k">'+k+'</span>':'<span class="x">no match → human review</span>')+'</div>'}).join("");
+  document.getElementById("resSum").innerHTML='<div class="vs"><div><span class="eyebrow">Nodes without resolution</span><span class="big bad">'+Object.keys(raw).length+'</span></div><div><span class="eyebrow">Nodes after resolution</span><span class="big good">'+Object.keys(keys).length+'</span></div></div>'+
+    '<p class="note">'+M.length+' mentions. "Outpost 3" and "the third outpost" collapse to one node. "Sgt. Okafor" becomes person-sgt-okafor, so a later "Okafor" would split it: strip titles or add an alias. "The old mill" is the extractor guessing a label; the resolver refuses it.</p>';
+
+  /* Drill 3: schema checker */
+  var LABELS=["Camp","Outpost","Person","Supply","Place"],SITES=["Camp","Outpost"];
+  var DR={CONNECTS_TO:[SITES,SITES],SUPPLIES:[SITES,SITES],REPORTS_TO:[SITES,["Camp"]],STOCKS:[SITES,["Supply"]],STATIONED_AT:[["Person"],SITES]};
+  var f={sName:0,sLab:0,rel:0,stat:0,oName:0,oLab:0};for(var id in f)f[id]=document.getElementById(id);
+  ["sLab","oLab"].forEach(function(k){f[k].innerHTML=LABELS.map(function(l){return "<option>"+l+"</option>"}).join("")});
+  var PRE=[["Valid trail","the third outpost","Outpost","CONNECTS_TO","blocked","OP-6","Outpost"],["Wrong direction","Ridge Camp","Camp","REPORTS_TO","unknown","OP-2","Outpost"],
+    ["Invented type","Harbor Camp","Camp","SENDS_SUPPLIES_TO","unknown","OP-4","Outpost"],["Cargo as sender","Antibiotics","Supply","SUPPLIES","unknown","Outpost 3","Outpost"],
+    ["Case drift","Mill Camp","Camp","supplies","unknown","Outpost Seven","Outpost"],["Unresolvable","Harbor Camp","Camp","SUPPLIES","unknown","the north post","Outpost"]];
+  var pr=document.getElementById("presets");
+  PRE.forEach(function(p,i){var b=document.createElement("button");b.type="button";b.className="chipbtn";b.textContent=p[0];b.addEventListener("click",function(){
+    f.sName.value=p[1];f.sLab.value=p[2];f.rel.value=p[3];f.stat.value=p[4];f.oName.value=p[5];f.oLab.value=p[6];
+    Array.prototype.forEach.call(pr.children,function(x,j){x.setAttribute("aria-pressed",j===i?"true":"false")});check()});pr.appendChild(b)});
+  ["sName","rel","oName"].forEach(function(k){f[k].addEventListener("input",function(){Array.prototype.forEach.call(pr.children,function(x){x.setAttribute("aria-pressed","false")});check()})});
+  ["sLab","stat","oLab"].forEach(function(k){f[k].addEventListener("change",check)});
+  function check(){var rel=f.rel.value.trim(),sl=f.sLab.value,ol=f.oLab.value,st=f.stat.value,dr=DR[rel],near=null;
+    if(!dr)for(var k in DR)if(k.replace(/_/g,"").toLowerCase()===rel.replace(/[_\s-]/g,"").toLowerCase())near=k;
+    var sk=resolve(f.sName.value,sl),ok2=resolve(f.oName.value,ol);
+    var C2=[
+      ["Relationship type is in the ontology",!!dr,near?"Close to "+near+". Don't auto-correct silently: fix the extraction schema so this can't be produced.":"Unknown type. Reject and log it; extend the ontology only on purpose."],
+      ["Subject label allowed for this type",!!dr&&dr[0].indexOf(sl)>=0,dr?rel+" must start at "+dr[0].join(" or ")+".":"Can't check without a known type."],
+      ["Object label allowed for this type",!!dr&&dr[1].indexOf(ol)>=0,dr?rel+" must end at "+dr[1].join(" or ")+".":"Can't check without a known type."],
+      ["Status only on CONNECTS_TO",st==="unknown"||rel==="CONNECTS_TO","Trail status belongs to trails only."],
+      ["Subject resolves to a canonical key",!!sk,"No rule matches. Send to human review instead of creating a node."],
+      ["Object resolves to a canonical key",!!ok2,"No rule matches. Send to human review instead of creating a node."]];
+    var n=0;document.getElementById("cChecks").innerHTML=C2.map(function(c){if(c[1])n++;return '<li><span class="chip '+(c[1]?"y":"n")+'">'+(c[1]?"✓":"")+'</span><div>'+c[0]+(c[1]?"":'<span class="hint">'+esc(c[2])+'</span>')+'</div></li>'}).join("");
+    var pass=n===C2.length;document.getElementById("cScore").textContent=pass?"Accepted · ready to load":"Rejected · "+(C2.length-n)+" check"+(C2.length-n>1?"s":"")+" failed";
+    document.getElementById("cOut").textContent=pass?
+      "// labels and type come from the allowlist, values are parameters\nMERGE (s:Entity {key: $s_key}) ON CREATE SET s.name = $s_name\nSET s:"+sl+"\nMERGE (o:Entity {key: $o_key}) ON CREATE SET o.name = $o_name\nSET o:"+ol+"\nMERGE (s)-[r:"+rel+"]"+(rel==="CONNECTS_TO"?"-":"->")+"(o)\nSET r.sources = CASE WHEN $source IN coalesce(r.sources, [])\n      THEN r.sources ELSE coalesce(r.sources, []) + $source END"+(st!=="unknown"?",\n    r.status = $status":"")+"\n\n// parameters\n"+JSON.stringify({s_key:sk,s_name:f.sName.value.trim(),o_key:ok2,o_name:f.oName.value.trim(),source:"r-0214-0700",status:st!=="unknown"?st:undefined},null,2)
+      :"// not loaded: logged for review\n"+JSON.stringify({subject:f.sName.value.trim(),subject_label:sl,relation:rel,object:f.oName.value.trim(),object_label:ol,s_key:sk,o_key:ok2,source:"r-0214-0700"},null,2)}
+  pr.children[0].click();
+
+  /* Part 4 build */
+  var py=[{"t": "Set up", "p": ["Run Neo4j in Docker and pull the same two Ollama models as Field Manuals 4 and 7. Use a password of at least eight characters; Neo4j rejects shorter ones by default."], "c": "# Neo4j in Docker (5.26 is the long-term support line)\ndocker run -d --name trail-graph -p 7474:7474 -p 7687:7687 \\\n  -e NEO4J_AUTH=neo4j/change-this-password neo4j:5.26\n\nollama pull llama3.2\nollama pull nomic-embed-text\npip install neo4j ollama pydantic\n\nexport NEO4J_URI=neo4j://localhost:7687\nexport NEO4J_USER=neo4j\nexport NEO4J_PASSWORD=change-this-password\n", "n": "Neo4j Browser opens at localhost:7474. Version 5.26 is the long-term support release; 2026.x releases also work with every step except where step 8 notes."}, {"t": "Ontology", "p": ["Write the ontology as code. <code>Literal<\/code> types become enums in the JSON schema, so the model can only choose labels and relationship types from these lists. Domain and range live in a table you check after extraction, because a JSON schema can't express \"STOCKS must end at a Supply.\"", "The <code>evidence<\/code> field asks the model to quote its source sentence. Step 3 rejects any triple whose quote isn't in the report."], "c": "from typing import Literal\n\nfrom pydantic import BaseModel, Field\n\nLabel = Literal[\"Camp\", \"Outpost\", \"Person\", \"Supply\"]\nRelation = Literal[\"CONNECTS_TO\", \"SUPPLIES\", \"REPORTS_TO\", \"STOCKS\", \"STATIONED_AT\"]\n\nSITES = {\"Camp\", \"Outpost\"}\n\n# relation -> (allowed subject labels, allowed object labels)\nDOMAIN_RANGE: dict[str, tuple[set[str], set[str]]] = {\n    \"CONNECTS_TO\": (SITES, SITES),\n    \"SUPPLIES\": (SITES, SITES),\n    \"REPORTS_TO\": (SITES, {\"Camp\"}),\n    \"STOCKS\": (SITES, {\"Supply\"}),\n    \"STATIONED_AT\": ({\"Person\"}, SITES),\n}\nSYMMETRIC = {\"CONNECTS_TO\"}\n\n\nclass Entity(BaseModel):\n    name: str = Field(description=\"The name exactly as written in the report\")\n    label: Label\n\n\nclass Triple(BaseModel):\n    subject: Entity\n    relation: Relation\n    object: Entity\n    status: Literal[\"open\", \"blocked\", \"unknown\"] = Field(\n        default=\"unknown\", description=\"Trail condition. Only for CONNECTS_TO.\"\n    )\n    evidence: str = Field(description=\"The sentence from the report that states this fact\")\n\n\nclass Extraction(BaseModel):\n    triples: list[Triple]\n\n\ndef schema_errors(t: Triple) -> list[str]:\n    subjects, objects = DOMAIN_RANGE[t.relation]\n    errors = []\n    if t.subject.label not in subjects:\n        errors.append(f\"{t.relation} can't start at a {t.subject.label}\")\n    if t.object.label not in objects:\n        errors.append(f\"{t.relation} can't end at a {t.object.label}\")\n    if t.status != \"unknown\" and t.relation != \"CONNECTS_TO\":\n        errors.append(\"status only applies to CONNECTS_TO\")\n    return errors\n"}, {"t": "Extract", "p": ["Pass the schema to Ollama's <code>format<\/code> argument, exactly as in Field Manual 4. Give the model the rules that matter most: current facts only, no negations or plans, names copied as written.", "Structured output guarantees the shape. It doesn't guarantee the content, so every triple goes through the schema check and the evidence check before it's kept."], "c": "from ollama import chat\n\nMODEL = \"llama3.2\"\nSYSTEM = \"\"\"Extract facts from camp field reports as triples.\nUse only these relations:\n  CONNECTS_TO   a trail between two sites (Camp or Outpost); set status if stated\n  SUPPLIES      one site sends supplies to another site\n  REPORTS_TO    a site takes orders from a Camp\n  STOCKS        a site currently holds a supply item\n  STATIONED_AT  a person is assigned to a site\nExtract only facts the report states as true now. Skip requests, plans, rumors\nand negations: \"Ridge Camp is out of antibiotics\" is not STOCKS.\nCopy names exactly as written. Return an empty list if nothing fits.\"\"\"\n\n\ndef extract(chunk_id: str, text: str) -> list[Triple]:\n    response = chat(\n        model=MODEL,\n        messages=[\n            {\"role\": \"system\", \"content\": SYSTEM},\n            {\"role\": \"user\", \"content\": f'<report id=\"{chunk_id}\">\\n{text}\\n<\/report>'},\n        ],\n        format=Extraction.model_json_schema(),\n        options={\"temperature\": 0},\n    )\n    result = Extraction.model_validate_json(response.message.content)\n\n    kept = []\n    for t in result.triples:\n        errors = schema_errors(t)\n        if t.evidence not in text:\n            errors.append(\"evidence is not a quote from the report\")\n        if errors:\n            print(\"REJECTED\", t.subject.name, t.relation, t.object.name, errors)\n        else:\n            kept.append(t)\n    return kept\n\n\nreport = (\n    \"Harbor Camp sent antibiotics to OP-6 this morning. \"\n    \"The trail from Outpost 3 to Outpost 6 is washed out at the creek. \"\n    \"Ridge Camp is out of antibiotics.\"\n)\nfor t in extract(\"r-0211-1840\", report):\n    print(t.subject.name, t.relation, t.object.name, t.status)\n", "n": "Drill 2 shows the kinds of triples this step should keep and reject. Run it on a few real reports and read every rejection: they show where the prompt or the ontology needs work."}, {"t": "Resolve", "p": ["Map every mention to a canonical key before loading. Deterministic rules handle the regular cases: numbers, ordinals, abbreviations. A small reviewed alias table handles nicknames. Anything else returns <code>None<\/code> and goes to a person.", "For larger graphs, add candidate matching with embeddings or string similarity, but let a rule or a reviewer approve each merge. A wrong merge is harder to undo than a duplicate."], "c": "import re\n\nORDINALS = {\"first\": 1, \"second\": 2, \"third\": 3, \"fourth\": 4, \"fifth\": 5,\n            \"sixth\": 6, \"seventh\": 7, \"eighth\": 8, \"ninth\": 9, \"tenth\": 10}\nNUMBERS = {\"one\": 1, \"two\": 2, \"three\": 3, \"four\": 4, \"five\": 5,\n           \"six\": 6, \"seven\": 7, \"eight\": 8, \"nine\": 9, \"ten\": 10}\n# Curated by people who know the camps. Reviewed, versioned, never generated.\nALIASES = {\"hq\": \"camp-ridge\", \"headquarters\": \"camp-ridge\", \"the docks\": \"camp-harbor\"}\n\n\ndef resolve(name: str, label: str) -> str | None:\n    \"\"\"Return a canonical key, or None to send the mention to human review.\"\"\"\n    text = re.sub(r\"\\s+\", \" \", name.lower()).strip()\n    if text in ALIASES:\n        return ALIASES[text]\n    text = re.sub(r\"^the \", \"\", text)\n    if label == \"Outpost\":\n        m = (re.fullmatch(r\"(?:outpost|op)[ -]?(\\w+)\", text)\n             or re.fullmatch(r\"(\\w+) outpost\", text))\n        if not m:\n            return None\n        token = m.group(1)\n        n = int(token) if token.isdigit() else ORDINALS.get(token) or NUMBERS.get(token)\n        return f\"outpost-{n}\" if n else None\n    if label == \"Camp\":\n        text = re.sub(r\" camp$\", \"\", text)\n    slug = re.sub(r\"[^a-z0-9]+\", \"-\", text).strip(\"-\")\n    return f\"{label.lower()}-{slug}\" if slug else None\n\n\nfor mention, label in [(\"Outpost 3\", \"Outpost\"), (\"the third outpost\", \"Outpost\"),\n                       (\"OP-3\", \"Outpost\"), (\"Outpost Three\", \"Outpost\"),\n                       (\"HQ\", \"Camp\"), (\"Ridge Camp\", \"Camp\"), (\"the old mill\", \"Outpost\")]:\n    print(f\"{mention:18} -> {resolve(mention, label)}\")\n"}, {"t": "Load", "p": ["Use the official <code>neo4j<\/code> driver. <code>execute_query<\/code> runs in a managed transaction with retries and returns records, summary and keys. Pass values as parameters, never in the query string.", "Cypher can't take a label or relationship type as an ordinary parameter, so the loader formats them in. That's safe only because each one passed the step 2 allowlist. The uniqueness constraint makes MERGE on <code>key<\/code> fast and stops concurrent loads from creating duplicates. Each relationship collects the ids of every report that stated it."], "c": "import os\nfrom collections import defaultdict\n\nfrom neo4j import GraphDatabase\n\nURI = os.environ.get(\"NEO4J_URI\", \"neo4j://localhost:7687\")\nAUTH = (os.environ.get(\"NEO4J_USER\", \"neo4j\"), os.environ[\"NEO4J_PASSWORD\"])\nDB = \"neo4j\"\n\n\ndef merge_query(s_label: str, relation: str, o_label: str) -> str:\n    # Labels and relationship types can't be ordinary query parameters, so they\n    # are formatted in from the closed allowlist in step 2. Never format in\n    # anything that hasn't passed schema_errors(). All values stay parameters.\n    arrow = \"-\" if relation in SYMMETRIC else \"->\"\n    return f\"\"\"\nUNWIND $rows AS row\nMERGE (s:Entity {{key: row.s_key}})\n  ON CREATE SET s.name = row.s_name\nSET s:{s_label}\nMERGE (o:Entity {{key: row.o_key}})\n  ON CREATE SET o.name = row.o_name\nSET o:{o_label}\nMERGE (s)-[r:{relation}]{arrow}(o)\nSET r.sources = CASE WHEN row.source IN coalesce(r.sources, [])\n                     THEN r.sources ELSE coalesce(r.sources, []) + row.source END,\n    r.status = CASE WHEN row.status = 'unknown' THEN r.status ELSE row.status END,\n    r.updated_at = datetime()\n\"\"\"\n\n\ndef load(driver, chunk_id: str, triples: list[Triple]) -> list[Triple]:\n    groups, review = defaultdict(list), []\n    for t in triples:\n        s_key = resolve(t.subject.name, t.subject.label)\n        o_key = resolve(t.object.name, t.object.label)\n        if s_key is None or o_key is None:\n            review.append(t)  # a person decides, the loader never guesses\n            continue\n        groups[(t.subject.label, t.relation, t.object.label)].append({\n            \"s_key\": s_key, \"s_name\": t.subject.name,\n            \"o_key\": o_key, \"o_name\": t.object.name,\n            \"status\": t.status, \"source\": chunk_id,\n        })\n    for (s_label, relation, o_label), rows in groups.items():\n        driver.execute_query(merge_query(s_label, relation, o_label),\n                             rows=rows, database_=DB)\n    return review\n\n\nwith GraphDatabase.driver(URI, auth=AUTH) as driver:\n    driver.verify_connectivity()\n    driver.execute_query(\n        \"CREATE CONSTRAINT entity_key IF NOT EXISTS \"\n        \"FOR (n:Entity) REQUIRE n.key IS UNIQUE\",\n        database_=DB,\n    )\n    chunk_id = \"r-0211-1840\"\n    for t in load(driver, chunk_id, extract(chunk_id, report)):\n        print(\"REVIEW\", t.subject.name, t.relation, t.object.name)\n", "n": "Neo4j 5.26 and later also accept dynamic types as <code>MERGE (s)-[:$(row.rel)]-&gt;(o)<\/code>, but Neo4j's own blog notes that dynamic labels in MATCH and MERGE can't use indexes yet. Grouping by type keeps index-backed lookups."}, {"t": "Query", "p": ["Run these in Neo4j Browser. They use quantified path patterns (<code>{1,2}<\/code>, <code>+<\/code>) and <code>SHORTEST<\/code>, available from Neo4j 5.21 and in all 2025 and 2026 releases. A predicate inside the pattern filters during the traversal; one in a trailing <code>WHERE<\/code> filters after paths are chosen.", "The last three are audits. Schedule them: they catch schema drift, missed duplicates and facts that rest on one report."], "c": "// One-time setup: a unique key backs every MERGE (step 5 does this too)\nCREATE CONSTRAINT entity_key IF NOT EXISTS FOR (n:Entity) REQUIRE n.key IS UNIQUE;\n\n// Everything touching Outpost 3, with the reports behind each fact\nMATCH (:Outpost {key: 'outpost-3'})-[r]-(n:Entity)\nRETURN type(r) AS rel, n.name AS other, r.status AS status, r.sources AS sources;\n\n// Outposts within two open trail hops of a camp that stocks antibiotics\nMATCH (c:Camp)-[:STOCKS]->(:Supply {key: 'supply-antibiotics'})\nMATCH (c)-[t:CONNECTS_TO WHERE t.status = 'open']-{1,2}(o:Outpost)\nRETURN o.name AS outpost, collect(DISTINCT c.name) AS from_camps;\n\n// Shortest open route between two camps\nMATCH p = SHORTEST 1 (:Camp {key: 'camp-ridge'})\n          -[t:CONNECTS_TO WHERE t.status = 'open']-+\n          (:Camp {key: 'camp-harbor'})\nRETURN [n IN nodes(p) | n.name] AS route, length(p) AS hops;\n\n// Chain of command, all the way up\nMATCH p = (:Entity {key: 'outpost-5'})-[:REPORTS_TO]->+(top:Camp)\nWHERE NOT EXISTS { (top)-[:REPORTS_TO]->() }\nRETURN [n IN nodes(p) | n.name] AS chain;\n\n// Audit: relationship types the ontology doesn't define (schema drift)\nCALL db.relationshipTypes() YIELD relationshipType\nWITH relationshipType\nWHERE NOT relationshipType IN\n  ['CONNECTS_TO', 'SUPPLIES', 'REPORTS_TO', 'STOCKS', 'STATIONED_AT', 'MENTIONS']\nRETURN relationshipType;\n\n// Audit: likely duplicates that resolution missed\nMATCH (a:Entity), (b:Entity)\nWHERE elementId(a) < elementId(b)\n  AND toLower(a.name) = toLower(b.name) AND a.key <> b.key\nRETURN a.key, b.key, a.name;\n\n// Audit: facts resting on a single report\nMATCH ()-[r]->() WHERE size(coalesce(r.sources, [])) = 1\nRETURN type(r) AS rel, count(*) AS single_source_facts;\n"}, {"t": "Text-to-Cypher", "p": ["The model gets the schema and three worked examples, and returns a query through structured output. Then three checks run before any rows come back: a keyword tripwire, an <code>EXPLAIN<\/code> whose plan type must be <code>\"r\"<\/code> (read only), and the query itself in a read transaction with a timeout and a row limit.", "If the database rejects the query, the model gets one retry with the error. If it says the schema can't answer the question, the assistant says so."], "c": "import re\n\nfrom neo4j import unit_of_work\nfrom neo4j.exceptions import Neo4jError\n\nSCHEMA = \"\"\"Node labels (every node also has :Entity with a unique `key` and a `name`):\n  (:Camp) (:Outpost) (:Person) (:Supply)\nRelationships:\n  (:Camp|Outpost)-[:CONNECTS_TO {status: 'open'|'blocked'}]-(:Camp|Outpost)  undirected trail\n  (:Camp|Outpost)-[:SUPPLIES]->(:Camp|Outpost)\n  (:Camp|Outpost)-[:REPORTS_TO]->(:Camp)\n  (:Camp|Outpost)-[:STOCKS]->(:Supply)\n  (:Person)-[:STATIONED_AT]->(:Camp|Outpost)\nEvery relationship has `sources`, a list of report ids.\"\"\"\n\nEXAMPLES = \"\"\"Q: Which sites stock water tablets?\nMATCH (s)-[r:STOCKS]->(:Supply {key: 'supply-water-tablets'})\nRETURN s.name AS site, r.sources AS sources\n\nQ: Who does Outpost 6 report to, all the way up?\nMATCH (:Outpost {key: 'outpost-6'})-[:REPORTS_TO]->+(c:Camp)\nRETURN c.name AS camp\n\nQ: Which outposts are within two open trail hops of Harbor Camp?\nMATCH (:Camp {key: 'camp-harbor'})-[t:CONNECTS_TO WHERE t.status = 'open']-{1,2}(o:Outpost)\nRETURN DISTINCT o.name AS outpost\"\"\"\n\nWRITE_WORDS = re.compile(\n    r\"\\b(CREATE|MERGE|DELETE|DETACH|SET|REMOVE|DROP|FOREACH|LOAD|CALL|USE)\\b\",\n    re.IGNORECASE,\n)\n\n\nclass CypherDraft(BaseModel):\n    can_answer: bool = Field(description=\"False if the schema can't answer the question\")\n    cypher: str = Field(description=\"One read-only Cypher query, or empty\")\n\n\ndef write_cypher(question: str, error: str = \"\") -> CypherDraft:\n    prompt = (f\"<schema>\\n{SCHEMA}\\n<\/schema>\\n<examples>\\n{EXAMPLES}\\n<\/examples>\\n\"\n              f\"Write one read-only Cypher query for: {question}\")\n    if error:\n        prompt += f\"\\nYour last query failed with: {error}\\nFix it.\"\n    response = chat(\n        model=MODEL,\n        messages=[\n            {\"role\": \"system\", \"content\": \"You write Cypher for Neo4j. Use only the \"\n             \"labels, relationships and properties in the schema. Return sources.\"},\n            {\"role\": \"user\", \"content\": prompt},\n        ],\n        format=CypherDraft.model_json_schema(),\n        options={\"temperature\": 0},\n    )\n    return CypherDraft.model_validate_json(response.message.content)\n\n\ndef guard(cypher: str) -> str | None:\n    \"\"\"Return a reason to reject, or None. A tripwire, not the security boundary.\"\"\"\n    bare = re.sub(r\"'(?:[^'\\\\]|\\\\.)*'|\\\"(?:[^\\\"\\\\]|\\\\.)*\\\"\", \"''\", cypher)  # drop strings\n    bare = re.sub(r\"//[^\\n]*|/\\*.*?\\*/\", \" \", bare, flags=re.S)             # drop comments\n    if \";\" in bare.strip().rstrip(\";\"):\n        return \"more than one statement\"\n    if m := WRITE_WORDS.search(bare):\n        return f\"forbidden keyword {m.group(1).upper()}\"\n    return None\n\n\ndef plan_type(tx, cypher: str) -> str | None:\n    # EXPLAIN plans the query without running it. 'r' means read-only.\n    return tx.run(\"EXPLAIN \" + cypher).consume().query_type\n\n\n@unit_of_work(timeout=5)\ndef fetch_rows(tx, cypher: str, limit: int) -> list[dict]:\n    return [record.data() for record in tx.run(cypher).fetch(limit)]\n\n\ndef ask_graph(driver, question: str, limit: int = 50) -> list[dict]:\n    error = \"\"\n    for _ in range(2):                       # one retry with the error message\n        draft = write_cypher(question, error)\n        if not draft.can_answer:\n            raise ValueError(\"The graph doesn't hold the answer to that question.\")\n        cypher = draft.cypher.strip().rstrip(\";\")\n        if reason := guard(cypher):\n            raise PermissionError(f\"Rejected query ({reason}): {cypher}\")\n        # Connect as a user with only the reader role (see notes). execute_read\n        # routes to a reader in a cluster; it is not access control by itself.\n        with driver.session(database=DB) as session:\n            try:\n                kind = session.execute_read(plan_type, cypher)\n                if kind != \"r\":\n                    raise PermissionError(f\"Plan type {kind!r} is not read-only: {cypher}\")\n                return session.execute_read(fetch_rows, cypher, limit)\n            except Neo4jError as e:\n                error = e.message or str(e)\n    raise RuntimeError(f\"No valid query after retry: {error}\")\n\n\nwith GraphDatabase.driver(URI, auth=AUTH) as driver:\n    question = \"Which outposts are cut off from Ridge Camp by blocked trails?\"\n    rows = ask_graph(driver, question)\n    answer = chat(\n        model=MODEL,\n        messages=[{\"role\": \"user\", \"content\":\n                   f\"Answer from these rows only, and cite the sources.\\n{rows}\\n\\nQuestion: {question}\"}],\n        options={\"temperature\": 0},\n    )\n    print(answer.message.content)\n", "n": "The real boundary is the database user. On Enterprise Edition or Aura, connect with a user that has only the built-in <code>reader<\/code> role. Community Edition has no role-based access control, so point the assistant at a separate instance with <code>server.databases.read_only<\/code> set. The read access mode alone doesn't block writes on a single server. The tripwire also rejects <code>CALL<\/code>, since procedures can write; allow specific read-only procedures by name if you need them."}, {"t": "Hybrid", "p": ["Store each report chunk with its embedding and link it to the entities it mentions. At question time, vector search finds the closest chunks, and Cypher expands to every relationship around their entities, with sources.", "Hand the result of <code>graph_context()<\/code> to the model next to the chunk text, with Field Manual 7's instruction to answer only from sources and cite them."], "c": "from ollama import embed\n\nEMBED_MODEL = \"nomic-embed-text\"   # 768 dimensions\n\nINDEX = \"\"\"\nCREATE VECTOR INDEX chunk_embedding IF NOT EXISTS\nFOR (c:Chunk) ON c.embedding\nOPTIONS {indexConfig: {`vector.dimensions`: 768, `vector.similarity_function`: 'cosine'}}\n\"\"\"\n\nSTORE_CHUNK = \"\"\"\nMERGE (c:Chunk {id: $id})\nSET c.text = $text, c.embedding = $embedding\nWITH c\nUNWIND $keys AS key\nMATCH (e:Entity {key: key})\nMERGE (c)-[:MENTIONS]->(e)\n\"\"\"\n\n# Vector search finds the entry chunks, then the graph supplies the facts\n# around every entity they mention, each with its sources.\nEXPAND = \"\"\"\nCALL db.index.vector.queryNodes('chunk_embedding', $k, $vector)\nYIELD node AS chunk, score\nMATCH (chunk)-[:MENTIONS]->(e:Entity)\nMATCH (e)-[r]-(n:Entity)\nRETURN chunk.id AS chunk, score, e.name AS entity, type(r) AS rel, n.name AS other,\n       r.status AS status, r.sources AS sources\nORDER BY score DESC\nLIMIT 60\n\"\"\"\n\n\ndef store_chunk(driver, chunk_id: str, text: str, keys: list[str]) -> None:\n    vector = embed(model=EMBED_MODEL, input=\"search_document: \" + text).embeddings[0]\n    driver.execute_query(STORE_CHUNK, id=chunk_id, text=text,\n                         embedding=vector, keys=keys, database_=DB)\n\n\ndef graph_context(driver, question: str, k: int = 3) -> str:\n    vector = embed(model=EMBED_MODEL, input=\"search_query: \" + question).embeddings[0]\n    records, _, _ = driver.execute_query(EXPAND, k=k, vector=vector,\n                                         database_=DB, routing_=\"r\")\n    lines = []\n    for r in records:\n        status = f\" ({r['status']})\" if r[\"status\"] else \"\"\n        lines.append(f\"{r['entity']} -[{r['rel']}{status}]- {r['other']}  \"\n                     f\"[sources: {', '.join(r['sources'] or [])}]\")\n    return \"\\n\".join(dict.fromkeys(lines))   # de-duplicate, keep order\n\n\nwith GraphDatabase.driver(URI, auth=AUTH) as driver:\n    driver.execute_query(INDEX, database_=DB)\n    store_chunk(driver, chunk_id, report, [\"camp-harbor\", \"outpost-3\", \"outpost-6\", \"camp-ridge\"])\n    print(graph_context(driver, \"What is happening around OP-6?\"))\n", "n": "<code>db.index.vector.queryNodes<\/code> is the vector search call on Neo4j 5.26. Neo4j 2026.01 added a <code>SEARCH<\/code> subclause to <code>MATCH<\/code>, and 2026.04 deprecated the procedure in favor of it under Cypher 25. Use whichever your server version supports."}];
+  var nav=document.getElementById("pynav"),body=document.getElementById("pybody");
+  py.forEach(function(s,i){var b=document.createElement("button");b.type="button";b.setAttribute("role","tab");b.innerHTML='<span class="lv">'+(i+1)+'</span>'+s.t;nav.appendChild(b)});
+  function showPy(i){sel(nav,i);var s=py[i];
+    body.innerHTML='<h3>Step '+(i+1)+' · '+s.t+'</h3>'+s.p.map(function(x){return "<p>"+x+"</p>"}).join("")+
+      '<div class="code solo"><button class="cp" type="button" data-copy="pyCode">Copy</button><pre id="pyCode">'+esc(s.c)+'</pre></div>'+
+      (s.n?'<p class="note">'+s.n+'</p>':"")+
+      (i<py.length-1?'<div><button class="btn" type="button" id="pyNext">Next: '+py[i+1].t+'</button></div>':"");
+    var nx=document.getElementById("pyNext");if(nx)nx.addEventListener("click",function(){showPy(i+1);nav.children[i+1].focus()})}
+  tabs(nav,py.length,showPy);showPy(0);
+
+  /* Triage */
+  var tri=[
+    ["The same outpost appears as two nodes","Entity resolution missed a spelling, or the loader used CREATE or MERGE on the name.","MERGE only on a canonical key with a uniqueness constraint. Extend the resolver or alias table, then run the duplicate audit and merge the pairs."],
+    ["Relationship types nobody defined","Extraction without a closed type list, or a loader that formats whatever it receives into Cypher.","Use Literal types in the schema, check against the allowlist in the loader, and run the db.relationshipTypes() audit after every load."],
+    ["Generated Cypher returns no rows","Wrong direction, a label or property that doesn't exist, or a value in different case than stored.","Show direction in the schema, add few-shot examples with real keys, and give the model sample property values. Report \"no rows\" honestly instead of answering anyway."],
+    ["Generated Cypher times out","An unbounded variable-length pattern around a busy node.","Cap hops in examples, set a transaction timeout and row limit, and check the EXPLAIN plan before running."],
+    ["An answer cites a fact nobody can trace","Relationships were loaded without source ids, or the model answered from its own knowledge.","Store sources on every relationship and pass them into the prompt. Require citations, and reject triples whose evidence isn't in the chunk."],
+    ["The graph says open and blocked at once","Two reports from different days, both loaded as separate edges, or an older report loaded last.","One relationship per fact, updated in place with the report date. Keep the newer date, or model changes as dated events."],
+    ["Global questions get thin answers","Top-k retrieval over chunks can't see the whole corpus.","Aggregate in Cypher when the question maps to the schema. For themes across free text, use community summaries (GraphRAG)."]
+  ];
+  var sEl=document.getElementById("symptoms"),dx=document.getElementById("dx");
+  tri.forEach(function(t,i){var b=document.createElement("button");b.type="button";b.setAttribute("aria-pressed","false");b.textContent=t[0];b.addEventListener("click",function(){showDx(i)});sEl.appendChild(b)});
+  function showDx(i){Array.prototype.forEach.call(sEl.children,function(b,j){b.setAttribute("aria-pressed",j===i?"true":"false")});var t=tri[i];
+    dx.innerHTML='<div><span class="eyebrow">Symptom</span><p>'+esc(t[0])+'</p></div><div><span class="eyebrow">Likely cause</span><p>'+esc(t[1])+'</p></div><div><span class="eyebrow">Fix</span><p>'+esc(t[2])+'</p></div>'}
+  showDx(0);
+
+  /* Exercises */
+  var exl=[
+    ["Break the vector search","In Drill 1, close the OP-3 to OP-4 trail and run every question. Note which answers changed and which reports vector top 3 still returns."],
+    ["Write the ontology","Model one domain from your own work: five labels, six relationship types, domain and range for each. Write it as the step 2 code."],
+    ["Extract and audit","Run steps 3 to 5 on ten real documents. Count rejected triples, unresolved mentions, and duplicates found by the audit query."],
+    ["Guard the query","Ask the step 7 assistant five questions, including one that tries to delete data. Confirm each layer rejects what it should."],
+    ["Score text-to-Cypher","Write ten questions with expected result rows. Measure how many generated queries return exactly those rows, with and without the few-shot examples."]
+  ];
+  var exEl=document.getElementById("ex"),done={};
+  try{done=JSON.parse(store("fm13-ex")||"{}")||{}}catch(e){done={}}
+  function exProg(){var n=0;for(var k in done)if(done[k])n++;document.getElementById("exCount").textContent=n+" of "+exl.length;document.getElementById("exBar").style.width=(n/exl.length*100)+"%"}
+  exl.forEach(function(e,i){var li=document.createElement("li");if(done[i])li.className="checked";
+    li.innerHTML='<label for="ex'+i+'"><input type="checkbox" id="ex'+i+'"'+(done[i]?" checked":"")+'><div><b>'+(i+1)+'. '+e[0]+'</b><span>'+esc(e[1])+'</span></div></label>';
+    li.querySelector("input").addEventListener("change",function(ev){done[i]=ev.target.checked;li.className=ev.target.checked?"checked":"";store("fm13-ex",JSON.stringify(done));exProg()});
+    exEl.appendChild(li)});
+  exProg();
+
+  document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".cp");if(!b)return;
+    var el=document.getElementById(b.getAttribute("data-copy"));if(!el)return;var t=el.textContent;
+    function selc(){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected"}
+    try{navigator.clipboard.writeText(t).then(function(){b.textContent="Copied";setTimeout(function(){b.textContent="Copy"},1500)},selc)}catch(err){selc()}});
+})();
+</script>
+
+</body>
+</html>

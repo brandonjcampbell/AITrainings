@@ -1,0 +1,1316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Salvaged Records</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;800;900&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Single deliberate dark look (night watch). Layout: survivor field manual, survivor field manual 16: salvaged paper, documents and images into checked data */
+:root{
+  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
+  --accent:#4F9C6B; --accent-soft:#1B2D21; --target:#F04D8C; --target-soft:#3A1527; --other:#5B6450;
+  --bad:#F07A3E; --bad-soft:#3A2016; --code-bg:#22281E; --stripe:#0B0D09; --term:#0B0D09; --term-ink:#CFD8B4;
+  --display:"Big Shoulders Stencil Display","Impact","Arial Narrow",sans-serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"Courier Prime","Courier New",ui-monospace,monospace;
+  color-scheme:dark;
+}
+
+
+*{box-sizing:border-box}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;
+  color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto}
+.col{max-width:68ch}
+h1,h2,h3{font-family:var(--display);line-height:1;text-wrap:balance;margin:0;text-transform:uppercase;letter-spacing:.01em}
+h1{font-size:clamp(3.2rem,10vw,6.4rem);font-weight:900}
+h2{font-size:clamp(2rem,4.6vw,2.9rem);font-weight:800}
+h3{font-size:1.45rem;font-weight:800}
+p{margin:0}
+code{font-family:var(--mono);font-size:.92em;background:var(--code-bg);padding:.05em .35em;border-radius:3px;word-break:break-word}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--target)}
+.hazard{height:14px;background:repeating-linear-gradient(-45deg,var(--target) 0 14px,var(--stripe) 14px 28px);margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)))}
+.docbar{display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--mono);font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-block:12px;border-bottom:2px solid var(--ink)}
+.docbar b{color:var(--ink)}
+section{display:flex;flex-direction:column;gap:20px;padding-block:56px;border-top:1px solid var(--line)}
+section.first{border-top:0;padding-top:40px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.lede{font-size:1.2rem;color:var(--muted);max-width:62ch}
+.lede strong{color:var(--ink);font-weight:600}
+mark{background:var(--target-soft);color:var(--ink);padding:0 .2em;border-radius:2px}
+.stamp{align-self:flex-start;font-family:var(--mono);font-weight:700;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bad);border:2px solid var(--bad);padding:4px 10px;transform:rotate(-2deg)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;box-shadow:0 1px 0 var(--line)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+.note{font-size:.82rem;color:var(--muted);line-height:1.45}
+.btn{font:inherit;font-weight:600;font-size:.88rem;border:2px solid var(--accent);color:var(--accent);background:transparent;border-radius:3px;padding:6px 12px;cursor:pointer}
+.btn:hover{background:var(--accent-soft)}
+.btn.solid{background:var(--accent);color:var(--surface)}
+.btn:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.callout{border-left:4px solid var(--bad);background:var(--bad-soft);padding:12px 16px;font-size:.95rem}
+.callout b{color:var(--bad)}
+.tip{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;font-size:.95rem}
+
+/* Facts strip */
+.meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:2px solid var(--ink);background:var(--surface)}
+@media (max-width:700px){.meta{grid-template-columns:1fr}}
+.meta div{padding:14px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.meta .eyebrow{font-size:.72rem}
+.meta p{font-size:.95rem}
+
+/* Depot stack */
+.depot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:20px;align-items:start}
+@media (max-width:820px){.depot{grid-template-columns:1fr}}
+.layers{display:flex;flex-direction:column;gap:0}
+.layer{font:inherit;text-align:left;display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:4px 12px;align-items:center;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-bottom-width:0;cursor:pointer;color:var(--ink)}
+.layer:last-child{border-bottom-width:2px}
+.layer .ix{font-family:var(--display);font-weight:900;font-size:1.6rem;color:var(--muted);line-height:1}
+.layer b{font-family:var(--display);font-size:1.3rem;text-transform:uppercase;font-weight:800;line-height:1.05}
+.layer span{grid-column:2;font-size:.85rem;color:var(--muted);line-height:1.35}
+.layer[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.layer[aria-pressed="true"] .ix,.layer[aria-pressed="true"] span{color:var(--surface)}
+.layer+.connector{display:none}
+.layerinfo h3{font-size:1.7rem}
+.layerinfo ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:.95rem}
+.takeaways{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:760px){.takeaways{grid-template-columns:1fr}}
+.takeaways li{display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--target);padding-top:10px}
+.takeaways b{font-weight:700}
+.takeaways p{font-size:.92rem;color:var(--muted)}
+
+/* Glossary */
+.search{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search input{flex:1;min-width:0;font:inherit;font-size:.95rem;padding:9px 12px;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink)}
+.gloss{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.gloss{grid-template-columns:1fr}}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.term .nm{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.term h3{font-size:1.3rem}
+.term .an{font-family:var(--mono);font-size:.78rem;color:var(--target);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.term p{font-size:.9rem}
+.term .say{font-size:.82rem;color:var(--muted);font-style:italic}
+.empty{color:var(--muted);font-size:.95rem}
+
+/* UI tour */
+.tour{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--surface);border-radius:3px}
+.tour div{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:12px;padding:10px 16px;border-top:1px dashed var(--line);font-size:.93rem}
+.tour div:first-child{border-top:0}
+.tour b{font-family:var(--mono);font-weight:700}
+@media (max-width:560px){.tour div{grid-template-columns:1fr;gap:2px}}
+
+/* Steps */
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column}
+.steps li{display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px dashed var(--line);font-size:.95rem}
+.steps li:first-child{border-top:0}
+.steps li::before{counter-increment:s;content:counter(s);font-family:var(--display);font-weight:900;font-size:1.5rem;color:var(--accent);line-height:1.1}
+.steps li.hot::before{color:var(--target)}
+
+/* Drill */
+.drill{display:flex;flex-direction:column;gap:10px}
+.sc{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.sc p.q{font-size:.95rem}
+.sc .acts{display:flex;gap:8px;flex-wrap:wrap}
+.sc .fb{font-size:.88rem;padding:8px 10px;border-radius:2px}
+.sc .fb.ok{background:var(--accent-soft)}
+.sc .fb.no{background:var(--bad-soft)}
+.sc.done{border-color:var(--accent)}
+.drillscore{font-family:var(--mono);font-size:.9rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+/* Config builder & code */
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:.88rem;font-weight:600}
+.field label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.field input{font-family:var(--mono);font-size:.88rem;padding:8px 10px;border:1px solid var(--line);border-radius:3px;background:var(--code-bg);color:var(--ink);width:100%}
+.warns{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.warns li{font-size:.85rem;padding:6px 10px;border-radius:2px}
+.warns li.w{background:var(--target-soft)}
+.warns li.g{background:var(--accent-soft)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{font:inherit;font-family:var(--mono);font-size:.82rem;font-weight:700;padding:6px 10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:3px 3px 0 0;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--term);color:var(--term-ink);border-color:var(--term)}
+.code{position:relative;background:var(--term);color:var(--term-ink);border-radius:0 3px 3px 3px;min-width:0}
+.code pre{margin:0;padding:16px;font-family:var(--mono);font-size:.84rem;line-height:1.5;overflow-x:auto;white-space:pre}
+.code .cp{position:absolute;top:8px;right:8px;font:inherit;font-family:var(--mono);font-size:.74rem;font-weight:700;padding:3px 8px;background:transparent;color:var(--term-ink);border:1px solid var(--term-ink);border-radius:2px;cursor:pointer;opacity:.85}
+.code .cp:hover{opacity:1}
+.code.solo{border-radius:3px}
+.codehead{display:flex;flex-direction:column;gap:6px}
+.pystep{display:flex;flex-direction:column;gap:12px}
+.pynav{display:flex;gap:6px;flex-wrap:wrap}
+.pynav button{font:inherit;font-size:.85rem;font-weight:600;padding:7px 11px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;gap:6px;align-items:center}
+.pynav button .lv{font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+.pynav button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.pynav button[aria-selected="true"] .lv{color:var(--surface)}
+.pybody{display:flex;flex-direction:column;gap:12px}
+.pybody p{max-width:68ch}
+
+/* Triage */
+.triage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:20px;align-items:start}
+@media (max-width:820px){.triage{grid-template-columns:1fr}}
+.symptoms{display:flex;flex-direction:column;gap:6px}
+.symptoms button{font:inherit;text-align:left;font-family:var(--mono);font-size:.86rem;padding:10px 12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:3px;cursor:pointer;word-break:break-word}
+.symptoms button[aria-pressed="true"]{border-color:var(--bad);background:var(--bad-soft)}
+.dx{display:flex;flex-direction:column;gap:12px}
+.dx .eyebrow{font-size:.72rem}
+.dx p{font-size:.98rem}
+
+/* Exercises */
+.ex{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ex li label{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:10px;align-items:start;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:3px;cursor:pointer}
+.ex input{width:18px;height:18px;margin-top:3px;accent-color:var(--target)}
+.ex b{display:block}
+.ex span{font-size:.9rem;color:var(--muted)}
+.ex li.checked label{border-color:var(--target)}
+.progress{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.progress .bar{flex:1;height:10px;background:repeating-linear-gradient(-45deg,var(--code-bg) 0 6px,var(--line) 6px 12px);position:relative;overflow:hidden}
+.progress .bar i{position:absolute;inset:0 auto 0 0;background:var(--target);transition:width .3s}
+footer{padding-top:28px;border-top:2px solid var(--ink);font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.progress .bar i{transition:none}}
+.docbar{align-items:center}
+.logo{flex:none;width:132px;height:44px;border:2px dashed var(--muted);border-radius:3px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.logo img{max-width:100%;max-height:100%;display:block}
+.picker{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:18px;align-items:start}
+@media (max-width:760px){.picker{grid-template-columns:1fr}}
+.memrow{display:grid;grid-template-columns:minmax(0,1fr) 4rem;gap:12px;align-items:center}
+.memrow input{width:100%;accent-color:var(--accent)}
+.memrow output{font-family:var(--mono);font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.flabel{font-size:.88rem;font-weight:600}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chipbtn{font:inherit;font-size:.84rem;font-weight:600;padding:5px 10px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chipbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.mtable{display:flex;flex-direction:column;overflow-x:auto}
+.mrow{display:grid;grid-template-columns:11rem 5.5rem 5.5rem minmax(14rem,1fr);gap:12px;padding:10px 0;border-top:1px dashed var(--line);align-items:baseline;min-width:560px}
+.mrow.mhead{border-top:0;font-family:var(--mono);font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mrow .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tagname{font-family:var(--mono);font-weight:700;color:var(--ink)}
+.fit{font-family:var(--mono);font-weight:700;font-size:.82rem;padding:1px 8px;border-radius:2px;justify-self:start}
+.fit.ok{background:var(--accent);color:var(--surface)}
+.fit.tight{background:var(--target-soft);color:var(--target)}
+.fit.no{border:1.5px solid var(--other);color:var(--muted)}
+.mnote{font-size:.88rem;color:var(--muted)}
+.caps{display:block;font-family:var(--mono);font-size:.74rem;color:var(--accent);margin-top:2px}
+.final{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.final li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;font-size:1.02rem}
+.final li::before{content:"\2610";font-family:var(--mono);color:var(--target);font-weight:700;font-size:1.1rem;line-height:1.4}
+.plain{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+.actions{display:flex;flex-wrap:wrap;gap:6px}
+.act{font:inherit;font-size:.84rem;font-weight:600;padding:6px 10px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.act span{font-family:var(--mono);color:var(--target)}
+.act:hover{border-color:var(--target)}
+.act.cut{border-color:var(--accent);color:var(--accent)}
+.act.cut:hover{background:var(--accent-soft)}
+.gauge{position:relative;height:26px;background:repeating-linear-gradient(-45deg,var(--code-bg) 0 8px,var(--line) 8px 16px);border-radius:2px;overflow:hidden}
+.gfill{position:absolute;inset:0 auto 0 0;background:var(--accent);transition:width .4s cubic-bezier(.2,.7,.2,1),background .3s}
+.gfill.amber{background:var(--bad)} .gfill.red{background:var(--target)}
+.gmark{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.5}
+.gread{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.gread #gpct{font-family:var(--display);font-weight:900;font-size:2.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.gread #gstate{font-size:.92rem;color:var(--muted);flex:1;min-width:12rem}
+.log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:.8rem}
+.log li{padding:4px 8px;background:var(--code-bg);border-radius:2px;display:flex;justify-content:space-between;gap:10px}
+.log li span{color:var(--target)}
+.log li.cut{background:var(--accent-soft)}
+.ws{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.ws{grid-template-columns:1fr}}
+.field textarea{width:100%;font-family:var(--mono);font-size:.86rem;line-height:1.45;color:var(--ink);background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:9px 10px;resize:vertical}
+.field textarea:focus-visible{outline:2px solid var(--target);outline-offset:1px}
+.out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.score{font-family:var(--mono);font-size:.9rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.code pre.wrapcode{white-space:pre-wrap;word-break:break-word;padding-right:64px}
+.checks{display:flex;flex-direction:column;gap:8px;list-style:none;margin:0;padding:0}
+.checks li{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:8px;font-size:.9rem;line-height:1.4}
+.chip{width:1.4rem;height:1.4rem;border-radius:2px;display:grid;place-items:center;font-family:var(--mono);font-size:.8rem;font-weight:700}
+.chip.y{background:var(--target);color:var(--surface)}
+.chip.n{border:1.5px solid var(--other);color:var(--muted)}
+.checks .hint{color:var(--muted);display:block;font-size:.82rem}
+.pairs{display:flex;flex-direction:column;gap:12px}
+.pair{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:12px}
+@media (max-width:640px){.pair{grid-template-columns:1fr}}
+.pair > div{min-width:0}
+.pair .tag{display:block;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.pair pre{margin:0;font-family:var(--mono);font-size:.84rem;line-height:1.45;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:10px 12px;white-space:pre-wrap;word-break:break-word}
+.pair .after pre{border-left:3px solid var(--target)}
+.phase{display:flex;flex-direction:column;gap:14px}
+.otable{display:flex;flex-direction:column;border:2px solid var(--ink);background:var(--surface);overflow-x:auto}
+.orow{display:grid;grid-template-columns:9rem minmax(14rem,1.4fr) minmax(10rem,1fr) minmax(9rem,.8fr);gap:14px;padding:12px 16px;border-top:1px dashed var(--line);font-size:.9rem;min-width:640px;align-items:baseline}
+.orow.ohead{border-top:0;font-family:var(--mono);font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.orow b{font-weight:700;color:var(--target)}
+.orow span:nth-child(2){color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.cards{grid-template-columns:1fr}}
+.cards p{font-size:.93rem;color:var(--muted)}
+.fails{display:flex;flex-direction:column}
+.fail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:6px 24px;padding:16px 0;border-top:1px dashed var(--line)}
+.fail:first-child{border-top:0}
+@media (max-width:640px){.fail{grid-template-columns:1fr}}
+.fail h3{font-size:1.3rem}
+.fail .sym{font-size:.88rem;color:var(--muted);margin-top:4px}
+.fail .fix{font-size:.92rem}
+.fail .fix b{color:var(--target);font-weight:700}
+.sliders{display:flex;flex-direction:column;gap:14px}
+.sl{display:grid;grid-template-columns:minmax(0,1fr) 4rem;gap:2px 12px;align-items:center}
+.sl label{grid-column:1/-1;font-size:.9rem;font-weight:600}
+.sl label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.sl input{width:100%;accent-color:var(--accent)}
+.sl output{font-family:var(--mono);font-size:.95rem;text-align:right;font-variant-numeric:tabular-nums}
+.verdict{font-size:.95rem;background:var(--accent-soft);border-left:3px solid var(--accent);padding:12px 14px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vs > div{display:flex;flex-direction:column;gap:2px}
+.big{font-family:var(--display);font-weight:900;font-size:3.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.big.bad{color:var(--bad)} .big.good{color:var(--target)}
+.search{display:flex;gap:14px;align-items:end;flex-wrap:wrap}
+.search input[type=search]{flex:1 1 18rem;min-width:0;font:inherit;font-size:1rem;padding:10px 12px;border:1px solid var(--line);border-radius:3px;background:var(--code-bg);color:var(--ink)}
+.kslider{flex:0 1 14rem}
+.chunkstats{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:.86rem;color:var(--muted)}
+.chunkstats b{color:var(--ink)}
+.chunkstats .okc{color:var(--accent)} .chunkstats .badc{color:var(--target)}
+.chunkview{display:flex;flex-direction:column;gap:8px;max-height:460px;overflow:auto}
+.chunk{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;padding:10px 12px;background:var(--code-bg);border-left:3px solid var(--accent);border-radius:2px}
+.chunk:nth-child(even){border-left-color:var(--other)}
+.chunk .cn{font-family:var(--display);font-weight:900;font-size:1.3rem;color:var(--accent);line-height:1.1}
+.chunk p{font-size:.88rem;line-height:1.55}
+.chunk .lap{color:var(--muted);text-decoration:underline dotted}
+.chunk .hot{background:var(--target-soft);color:var(--ink)}
+.hits{display:flex;flex-direction:column;gap:6px}
+.hit{padding:8px 10px;border:1px solid var(--line);border-radius:3px;display:flex;flex-direction:column;gap:5px;opacity:.6}
+.hit.top{opacity:1;border-color:var(--target);background:var(--surface)}
+.hhead{display:flex;justify-content:space-between;gap:10px}
+.hhead .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.hbar{height:5px;background:var(--code-bg);border-radius:2px;overflow:hidden}
+.hbar i{display:block;height:100%;background:var(--target)}
+.hit p{font-size:.84rem;color:var(--muted)}
+details{border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+summary{cursor:pointer;padding:9px 14px;font-size:.88rem;font-weight:600;color:var(--accent);list-style:none;display:flex;gap:8px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--mono);width:1em}
+details[open] summary::before{content:"\2212"}
+summary:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.deep{padding:0 16px 14px;font-size:.92rem;display:flex;flex-direction:column;gap:10px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.bpestats{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:.86rem;color:var(--muted)}
+.bpestats b{color:var(--ink)}
+.toks{display:flex;flex-wrap:wrap;gap:3px;align-items:center;min-height:2.4rem;padding:10px;background:var(--code-bg);border-radius:3px}
+.tk{font-family:var(--mono);font-size:.92rem;padding:2px 5px;border-radius:2px;color:var(--ink)}
+.tk.t0{background:var(--accent-soft)} .tk.t1{background:var(--target-soft)} .tk.t2{background:var(--bad-soft)} .tk.t3{background:var(--surface);outline:1px solid var(--line)}
+.toks .sp{width:10px}
+.merges{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.85rem}
+.mg i{font-style:normal;color:var(--muted);font-family:var(--mono);font-size:.78rem}
+.emap{overflow-x:auto}
+.emsvg{display:block;width:100%;min-width:420px;height:auto;background:var(--code-bg);border-radius:3px}
+.emsvg text.lab{fill:var(--ink);font-family:var(--body);font-size:12px}
+.emsvg .g0,.legend .g0{fill:var(--accent);background:var(--accent)}
+.emsvg .g1,.legend .g1{fill:#8FB3E8;background:#8FB3E8}
+.emsvg .g2,.legend .g2{fill:var(--target);background:var(--target)}
+.emsvg .g3,.legend .g3{fill:var(--bad);background:var(--bad)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.attn{display:flex;flex-wrap:wrap;gap:6px;padding:14px;background:var(--code-bg);border-radius:3px}
+.at{display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--mono);font-size:1rem;padding:6px 8px;border-radius:2px;background:color-mix(in srgb, var(--target) calc(var(--w,0) * 100%), transparent);color:var(--ink)}
+.at small{font-size:.68rem;color:var(--muted)}
+.at.q{outline:2px solid var(--accent)}
+.at.q small{color:var(--accent)}
+.prefix{font-family:var(--mono);font-size:1.05rem;padding:12px;background:var(--code-bg);border-radius:3px}
+.prefix .blank{color:var(--target);font-weight:700}
+.samples{display:flex;flex-wrap:wrap;gap:4px;min-height:1.8rem}
+.dist{display:flex;flex-direction:column;gap:9px}
+.dist .row{display:grid;grid-template-columns:5.5rem minmax(0,1fr) 3.6rem;gap:10px;align-items:center}
+.dist .lab-t{font-family:var(--mono);font-size:.88rem}
+.dist .track{height:12px;background:var(--code-bg);border-radius:2px;overflow:hidden}
+.dist .fill{height:100%;background:var(--target);transition:width .3s}
+.dist .pct{font-family:var(--mono);font-size:.84rem;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.dist .row.cut .lab-t{color:var(--other);text-decoration:line-through}
+@media (prefers-reduced-motion: reduce){.dist .fill{transition:none}}
+.eq{font-family:var(--mono);font-size:clamp(.9rem,2.2vw,1.15rem);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:18px 20px;overflow-x:auto;white-space:nowrap}
+.calcbar{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap}
+.tog{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:600;cursor:pointer}
+.tog input{width:18px;height:18px;accent-color:var(--target)}
+.stepbody{display:flex;flex-direction:column;gap:12px}
+.stepbody p{max-width:68ch}
+.mx{overflow-x:auto}
+.mx table{border-collapse:collapse;font-family:var(--mono);font-size:.84rem;font-variant-numeric:tabular-nums}
+.mx th{font-weight:700;color:var(--muted);padding:4px 10px;text-align:right;white-space:nowrap}
+.mx thead th{text-align:center}
+.mx td{padding:5px 10px;text-align:right;min-width:3.6rem;background:color-mix(in srgb, var(--target) calc(var(--h,0) * 55%), var(--code-bg));border:1px solid var(--surface)}
+.mx tr.hi th{color:var(--target)}
+.mx tr.hi td{outline:2px solid var(--target);outline-offset:-2px}
+.mx td.masked{background:var(--surface);color:var(--other);text-align:center}
+.mx3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:900px){.mx3{grid-template-columns:1fr}}
+.mx3 > div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.minibars{display:flex;align-items:flex-end;gap:6px;height:90px;padding:6px;background:var(--code-bg);border-radius:3px;margin-bottom:10px}
+.minibars span{flex:1;background:var(--target);border-radius:2px 2px 0 0;min-height:2px}
+.heatwrap{overflow-x:auto}
+.hm{border-collapse:collapse;font-family:var(--mono);font-size:.78rem}
+.hm th{color:var(--muted);font-weight:700;padding:3px 6px;text-align:right;white-space:nowrap}
+.hm thead th{height:5.5rem;vertical-align:bottom;text-align:left;padding:0 0 4px}
+.hm thead th span{display:inline-block;transform:rotate(-55deg);transform-origin:left bottom;width:1.6rem;white-space:nowrap}
+.hm td{width:2rem;height:2rem;background:color-mix(in srgb, var(--target) calc(var(--h,0) * 100%), var(--code-bg));border:1px solid var(--surface)}
+.hm td.up{background:transparent}
+.mono{font-family:var(--mono)}
+.lossbox{background:var(--code-bg);border-radius:3px;padding:6px}
+.lossbox canvas{display:block;width:100%;height:auto}
+.legend .lg-t{background:var(--accent);border-radius:1px}
+.legend .lg-v{background:var(--target);border-radius:1px}
+pre.sample{margin:0;font-family:var(--mono);font-size:.9rem;line-height:1.5;background:var(--code-bg);border-radius:3px;padding:12px;white-space:pre-wrap;word-break:break-word;min-height:5.5rem}
+.memrows{display:flex;flex-direction:column;gap:8px}
+.memrow2{display:grid;grid-template-columns:9.5rem minmax(0,1fr) 5rem;gap:10px;align-items:center;font-size:.86rem}
+.memrow2 .track{height:12px;background:var(--code-bg);border-radius:2px;overflow:hidden}
+.memrow2 .fill{height:100%;background:var(--bad)}
+.memrow2 .mono{text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:480px){.memrow2{grid-template-columns:1fr 4.5rem}.memrow2 .track{grid-column:1/-1;grid-row:2}}
+.rq{display:flex;flex-direction:column;gap:6px;padding-block:8px;border-top:1px dashed var(--line)}
+.rq:first-child{border-top:0}
+.riskout{gap:12px}
+.dialrow{display:flex;align-items:center;gap:14px}
+.lamp{width:28px;height:28px;border-radius:50%;flex:none}
+.lamp.g{background:var(--accent);box-shadow:0 0 18px var(--accent)}
+.lamp.a{background:var(--bad);box-shadow:0 0 18px var(--bad)}
+.lamp.r{background:var(--target);box-shadow:0 0 18px var(--target)}
+.dialbar{height:10px;background:linear-gradient(90deg,var(--accent),var(--bad),var(--target));border-radius:2px;position:relative;opacity:.9}
+.dialbar i{position:absolute;inset:0 0 0 auto;background:var(--code-bg);right:0;width:auto;left:var(--x,0)}
+.ruleset{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.ruleset{grid-template-columns:1fr}}
+.rule{display:grid;grid-template-columns:2.6rem minmax(0,1fr);gap:10px;padding:14px;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--target);border-radius:3px;transition:opacity .2s}
+.rule .rn{font-family:var(--display);font-weight:900;font-size:1.9rem;color:var(--target);line-height:1}
+.rule b{font-weight:700}
+.rule p{font-size:.9rem;color:var(--muted);margin-top:2px}
+.rule.off{opacity:.45;border-left-color:var(--line)}
+.rule.off .rn{color:var(--muted)}
+.sniphead{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.snip{background:var(--term,#0B0D09);border-radius:3px;padding:8px 0;overflow-x:auto;display:flex;flex-direction:column}
+.ln{font:inherit;display:grid;grid-template-columns:2.6rem max-content;gap:10px;text-align:left;background:transparent;border:0;border-left:3px solid transparent;padding:1px 12px 1px 0;color:var(--term-ink,#CFD8B4);cursor:pointer;min-width:100%}
+.ln:disabled{cursor:default}
+.ln .no{font-family:var(--mono);font-size:.78rem;color:var(--other);text-align:right;padding-top:2px}
+.ln code{font-family:var(--mono);font-size:.84rem;background:none;padding:0;white-space:pre;color:inherit}
+.ln:not(:disabled):hover{background:rgba(255,255,255,.04)}
+.ln.pk{background:var(--target-soft);border-left-color:var(--target)}
+.ln.hit{background:var(--accent-soft);border-left-color:var(--accent)}
+.ln.miss{background:var(--bad-soft);border-left-color:var(--bad)}
+.ln.fa{background:transparent;border-left-color:var(--other);text-decoration:line-through;text-decoration-color:var(--other)}
+.ln:focus-visible{outline:2px solid var(--target);outline-offset:-2px}
+.findings{display:flex;flex-direction:column;gap:8px}
+.finding{padding:10px 12px;border-radius:3px;border-left:3px solid var(--accent);background:var(--accent-soft)}
+.finding.missed{border-left-color:var(--bad);background:var(--bad-soft)}
+.finding p{font-size:.92rem;margin-top:2px}
+.loopsteps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;counter-reset:l}
+@media (max-width:820px){.loopsteps{grid-template-columns:1fr}}
+.loopsteps li{counter-increment:l;display:flex;flex-direction:column;gap:4px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:3px}
+.loopsteps li::before{content:counter(l);font-family:var(--display);font-weight:900;font-size:1.8rem;color:var(--accent);line-height:1}
+.loopsteps b{font-weight:700}
+.loopsteps span{font-size:.9rem;color:var(--muted)}
+.flaggrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:900px){.flaggrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.flaggrid{grid-template-columns:1fr}}
+.flaggrid div{display:flex;flex-direction:column;gap:4px;padding:12px;border:1.5px dashed var(--bad);border-radius:3px}
+.flaggrid b{color:var(--bad);font-weight:700}
+.flaggrid span{font-size:.88rem;color:var(--muted)}
+.trackpick{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:8px}
+.tchip{font:inherit;text-align:left;display:flex;flex-direction:column;gap:2px;padding:12px 14px;border:1.5px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink);cursor:pointer}
+.tchip b{font-family:var(--display);font-size:1.3rem;text-transform:uppercase;font-weight:800;line-height:1}
+.tchip span{font-size:.82rem;color:var(--muted)}
+.tchip[aria-pressed="true"]{border-color:var(--target);background:var(--target-soft)}
+.tchip:focus-visible,.node:focus-visible,.cchip:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.niHead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.niHead a.btn{text-decoration:none}
+.route{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;counter-reset:r}
+.route li{counter-increment:r}
+.route a{display:grid;grid-template-columns:2rem 4.5rem minmax(0,1fr);gap:4px 10px;align-items:baseline;padding:10px 12px;border:1px solid var(--line);border-radius:3px;color:inherit;text-decoration:none;background:var(--code-bg)}
+.route a::before{content:counter(r);font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--target);line-height:1;grid-row:span 2}
+.route a:hover{border-color:var(--target)}
+.route .rn{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.route b{font-weight:700}
+.route .rk{grid-column:2 / -1;font-size:.84rem;color:var(--muted)}
+.mapwrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:8px}
+.mapsvg{display:block;width:100%;min-width:900px;height:auto}
+.mapsvg .edge{fill:none;stroke:var(--other);stroke-width:1.6}
+.mapsvg .edge.rec{stroke-dasharray:5 5}
+.mapsvg .edge.hot{stroke:var(--target);stroke-width:2.4}
+.mapsvg .edge.dim{opacity:.25}
+.mapsvg .ahead{fill:var(--other)} .mapsvg .aheadh{fill:var(--target)}
+.mapsvg .node{cursor:pointer}
+.mapsvg .node rect{fill:var(--code-bg);stroke:var(--line);stroke-width:1.5}
+.mapsvg .node:hover rect{stroke:var(--accent)}
+.mapsvg .node text{fill:var(--ink)}
+.mapsvg .nnum{font-family:var(--mono);font-size:12px;font-weight:700;fill:var(--muted)}
+.mapsvg .ntitle{font-family:var(--display);font-size:19px;font-weight:800;text-transform:uppercase}
+.mapsvg .ntime{font-family:var(--mono);font-size:11px;text-anchor:end;fill:var(--muted)}
+.mapsvg .node.sel rect{fill:var(--target);stroke:var(--target)}
+.mapsvg .node.sel text{fill:var(--surface)}
+.mapsvg .node.pre rect{stroke:var(--accent);stroke-width:2.5;fill:var(--accent-soft)}
+.mapsvg .node.next rect{stroke:var(--target);stroke-width:2;stroke-dasharray:4 3}
+.mapsvg .node.trk rect{stroke:var(--target);stroke-width:2.5;fill:var(--target-soft)}
+.mapsvg .node.trk .nnum{fill:var(--target)}
+.mapsvg .node.dim{opacity:.35}
+.maplegend{display:flex;gap:16px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
+.maplegend i{display:inline-block;width:22px;height:10px;margin-right:6px;vertical-align:0;border-radius:2px}
+.maplegend .lg-req{border-top:2px solid var(--other);height:0;vertical-align:3px}
+.maplegend .lg-rec{border-top:2px dashed var(--other);height:0;vertical-align:3px}
+.maplegend .lg-sel{background:var(--target)}
+.maplegend .lg-pre{background:var(--accent-soft);outline:2px solid var(--accent)}
+.maplegend .lg-next{outline:2px dashed var(--target)}
+.chiprow{display:flex;flex-wrap:wrap;gap:6px}
+.cchip{font:inherit;font-size:.86rem;font-weight:600;padding:6px 10px;border-radius:3px;border:1.5px solid var(--line);background:var(--code-bg);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.cchip small{font-weight:400;font-size:.74rem;color:var(--muted)}
+.otable .orow a{color:var(--target);text-decoration:none}
+.otable .orow a:hover{text-decoration:underline}
+#backlink a{color:var(--target);text-decoration:none}
+/* FM15 */
+.fm15-quad,.fm15-sens{display:block;width:100%;height:auto;background:var(--code-bg);border-radius:3px}
+.fm15-quad .zs{fill:var(--accent-soft)} .fm15-quad .zr{fill:var(--bad-soft)}
+.fm15-quad .mid{stroke:var(--line);stroke-dasharray:4 4} .fm15-quad .ax{stroke:var(--muted)}
+.fm15-quad .zl{fill:var(--muted);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.fm15-quad .al{fill:var(--ink);font-family:var(--body);font-size:12px;font-weight:600}
+.fm15-quad .dot circle{fill:var(--surface);stroke:var(--accent);stroke-width:2}
+.fm15-quad .dot text{fill:var(--ink);font-family:var(--mono);font-size:11px;font-weight:700;text-anchor:middle}
+.fm15-quad .dot.cur circle{fill:var(--target);stroke:var(--target)}
+.fm15-quad .dot.cur text{fill:var(--surface)}
+.fm15-rec{font-family:var(--mono);font-weight:700;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:2px;white-space:nowrap}
+.fm15-rec.go{background:var(--accent);color:var(--surface)}
+.fm15-rec.pilot{background:var(--bad-soft);color:var(--bad);border:1.5px solid var(--bad)}
+.fm15-rec.no{background:var(--target-soft);color:var(--target);border:1.5px solid var(--target)}
+.fm15-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.fm15-list li{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:3px}
+.fm15-list .n{font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--accent);line-height:1}
+.fm15-list .m{font-size:.84rem;color:var(--muted);margin-top:2px}
+.fm15-list .b{display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:520px){.fm15-list li{grid-template-columns:2rem minmax(0,1fr)}.fm15-list .b{grid-column:2}}
+.fm15-vs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.fm15-vs > div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.fm15-vs .big{font-size:clamp(1.8rem,5vw,2.6rem);overflow-wrap:anywhere}
+.fm15-rows{display:flex;flex-direction:column;font-size:.88rem}
+.fm15-rows div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-top:1px dashed var(--line)}
+.fm15-rows div span{color:var(--muted)}
+.fm15-rows b{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+.fm15-rows div.k b{color:var(--target)}
+.fm15-sens .zero{stroke:var(--muted)}
+.fm15-sens .pos{fill:var(--accent)} .fm15-sens .neg{fill:var(--bad)}
+.fm15-sens .hi{stroke:var(--ink);stroke-width:1.5}
+.fm15-sens .lab{fill:var(--muted);font-family:var(--mono);font-size:11px}
+.fm15-sens text.hi{fill:var(--ink);font-weight:700;stroke:none}
+.fm15-sens .val{fill:var(--ink);font-family:var(--mono);font-size:11px}
+/* FM12 */
+.fm12-togs{display:flex;flex-direction:column;gap:8px}
+.fm12-togs .tog{align-items:flex-start;font-weight:600}
+.fm12-togs .tog input{margin-top:3px;flex:none}
+.fm12-togs .tog span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.fm12-tri{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.fm12-tri div{padding:8px 10px;border:1.5px dashed var(--line);border-radius:3px;font-family:var(--mono);font-size:.78rem;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.fm12-tri div b{font-family:var(--body);font-size:.84rem;color:var(--muted)}
+.fm12-tri div.on{border-style:solid;border-color:var(--target);background:var(--target-soft);color:var(--ink)}
+.fm12-tri div.on b{color:var(--ink)}
+@media (max-width:480px){.fm12-tri{grid-template-columns:1fr}}
+.fm12-paths{display:flex;flex-direction:column;gap:6px}
+.fm12-path{padding:9px 12px;border-radius:3px;border-left:3px solid var(--line);background:var(--code-bg);display:flex;flex-direction:column;gap:3px}
+.fm12-path .st{font-family:var(--mono);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fm12-path b{font-weight:700}
+.fm12-path p{font-size:.85rem;color:var(--muted)}
+.fm12-path p b{color:var(--ink);font-weight:600}
+.fm12-path.open{border-left-color:var(--target);background:var(--target-soft)}
+.fm12-path.open .st{color:var(--target)}
+.fm12-path.narrow{border-left-color:var(--bad);background:var(--bad-soft)}
+.fm12-path.narrow .st{color:var(--bad)}
+.fm12-path.closed{border-left-color:var(--accent);background:var(--accent-soft)}
+.fm12-path.closed .st{color:var(--accent)}
+.fm12-path.na{opacity:.55}
+.fm12-wrap .ln{grid-template-columns:2.6rem minmax(0,1fr)}
+.fm12-wrap .ln code{white-space:pre-wrap;word-break:break-word}
+.finding.fm12-decoy{border-left-color:var(--other);background:var(--code-bg)}
+/* FM14 */
+.fm14-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr));gap:10px}
+.fm14-tl{position:relative;display:flex;align-items:flex-end;gap:1px;height:180px;padding:6px;background:var(--code-bg);border-radius:3px}
+.fm14-tl span{flex:1;background:var(--accent);min-height:1px;border-radius:1px 1px 0 0}
+.fm14-tl span.over{background:var(--bad)}
+.fm14-cap{position:absolute;left:6px;right:6px;height:0;border-top:2px dashed var(--target);pointer-events:none}
+.fm14-tlaxis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.76rem;color:var(--muted)}
+.fm14-money{font-size:clamp(1.9rem,7vw,3.2rem);overflow-wrap:anywhere}
+/* FM16 */
+.fm16-paper{position:relative;overflow:hidden;background:color-mix(in srgb,var(--ink) 86%,var(--bad) 14%);color:var(--bg);font-family:var(--mono);font-size:.84rem;line-height:1.45;padding:18px 18px 22px;border-radius:2px;transform:rotate(-.4deg);box-shadow:0 2px 0 var(--line),0 10px 24px rgba(0,0,0,.35);min-width:0}
+.fm16-paper::after{content:"";position:absolute;right:-30px;bottom:-40px;width:220px;height:180px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--bad) 30%,transparent),transparent);pointer-events:none}
+.fm16-paper h4{margin:0 0 2px;font-family:var(--display);font-size:1.35rem;text-transform:uppercase;letter-spacing:.04em;line-height:1}
+.fm16-paper .fm16-sub{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--other);margin-bottom:10px}
+.fm16-hdr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 16px;margin-bottom:12px}
+@media (max-width:520px){.fm16-hdr{grid-template-columns:1fr}}
+.fm16-hdr div{display:flex;flex-direction:column;border-bottom:1px dashed var(--other);padding-bottom:2px;min-width:0}
+.fm16-hdr small{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--other)}
+.fm16-hand{font-family:var(--body);font-style:italic;font-weight:600;font-size:1rem;color:var(--accent-soft)}
+.fm16-fade{opacity:.42}
+.fm16-smudge{filter:blur(2.4px);opacity:.55}
+.fm16-items{overflow-x:auto}
+.fm16-items table{width:100%;border-collapse:collapse;min-width:300px;color:var(--bg);font:inherit}
+.fm16-items th{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--other);text-align:left;border-bottom:1.5px solid var(--bg);padding:3px 4px}
+.fm16-items td{padding:4px;border-bottom:1px dashed var(--other)}
+.fm16-items td.n,.fm16-items th.n{text-align:right;font-variant-numeric:tabular-nums}
+.fm16-items tr.fm16-tot td{border-bottom:0;font-weight:700}
+.fm16-seal{position:absolute;top:14px;right:14px;border:2px solid var(--target);color:var(--target);font-weight:700;font-size:.7rem;letter-spacing:.12em;padding:2px 6px;transform:rotate(8deg);opacity:.7}
+.fm16-rows{display:flex;flex-direction:column;gap:3px;max-height:560px;overflow:auto}
+.fm16-row{font:inherit;display:grid;grid-template-columns:minmax(0,9.5rem) minmax(0,1fr) 5.4rem;gap:8px;align-items:baseline;text-align:left;padding:5px 8px;border:1px solid var(--line);border-left:3px solid transparent;border-radius:2px;background:var(--code-bg);color:var(--ink);cursor:pointer;font-size:.84rem}
+.fm16-row .k{font-family:var(--mono);font-size:.76rem;color:var(--muted);word-break:break-word}
+.fm16-row .v{font-family:var(--mono);word-break:break-word}
+.fm16-row .s{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;text-align:right;color:var(--muted)}
+.fm16-row[aria-pressed="true"]{border-left-color:var(--target);background:var(--target-soft)}
+.fm16-row.ok{border-left-color:var(--accent)}
+.fm16-row.err{border-left-color:var(--bad);background:var(--bad-soft)}
+.fm16-row.err .s{color:var(--bad)}
+.fm16-row.fa{text-decoration:line-through;text-decoration-color:var(--other)}
+.fm16-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.fm16-metrics div{display:flex;flex-direction:column;gap:2px;padding:10px;border:1px solid var(--line);border-radius:3px;background:var(--code-bg);min-width:0}
+.fm16-metrics b{font-family:var(--display);font-weight:900;font-size:2.1rem;line-height:1;font-variant-numeric:tabular-nums}
+.fm16-metrics span{font-size:.76rem;color:var(--muted)}
+.fm16-view{background:var(--code-bg);border-radius:3px;padding:8px}
+.fm16-view canvas{display:block;width:100%;height:auto;border-radius:2px}
+.fm16-rules{display:flex;flex-direction:column;gap:6px}
+.fm16-rule{display:grid;grid-template-columns:minmax(0,1fr) 4rem;gap:4px 10px;align-items:start;padding:8px 10px;border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+.fm16-rule .r{font-family:var(--mono);font-size:.74rem;font-weight:700;text-align:right;text-transform:uppercase}
+.fm16-rule .r.p{color:var(--accent)} .fm16-rule .r.f{color:var(--bad)} .fm16-rule .r.o{color:var(--other)}
+.fm16-rule p{grid-column:1/-1;font-size:.82rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="hazard" aria-hidden="true"></div>
+<div class="wrap">
+<div class="docbar"><div class="logo" role="img" aria-label="Logo placeholder"><!-- Replace this text with <img src="logo.svg" alt="Your organization"> -->Your logo</div><span><b>Field Manual 16</b></span><span>Documents and images</span><span>Distribution: engineers and analysts</span><span>Day 212 after the outbreak</span></div>
+
+<section class="first">
+  <div class="stamp">Read it twice, trust it once</div>
+  <h1>Salvaged Records</h1>
+  <p class="lede">The scavenging crews bring back paper: supply manifests, handwritten logs, faded intake forms, receipts, photos of whiteboards. The camp needs that paper as data. A vision-capable model can read almost any of it, and it will also <strong>fill an unreadable box with a confident guess</strong>. This manual covers how to get structured data out of documents and images, and how to <mark>prove it's right before anyone relies on it</mark>.</p>
+  <div class="meta">
+    <div><span class="eyebrow">Who it's for</span><p>Engineers and analysts turning PDFs, scans, receipts, screenshots and charts into rows.</p></div>
+    <div><span class="eyebrow">Time</span><p>About 75 minutes, half hands-on.</p></div>
+    <div><span class="eyebrow">Bring</span><p>Python 3.10+, Ollama with <code>gemma3</code> pulled (Field Manual 4), and five real documents you're allowed to process.</p></div>
+  </div>
+  <ul class="takeaways">
+    <li><b>Use the cheapest reader that works.</b><p>A PDF with a text layer needs no model at all. Classic OCR handles clean print. Save vision models for layout, handwriting and mixed content.</p></li>
+    <li><b>Schema in, checks out.</b><p>Ask for a fixed JSON shape, then check that totals add up and dates parse. Anything that fails goes to a person.</p></li>
+    <li><b>Measure field by field.</b><p>"It looks right" hides the one wrong digit. Score every field against a hand-labeled set before you trust a model or a change.</p></li>
+  </ul>
+</section>
+
+<section id="sort">
+  <div class="stack col">
+    <div class="eyebrow">Part 1 · Sort the salvage</div>
+    <h2>Know what kind of paper you have</h2>
+    <p>"Extract data from a PDF" covers jobs that differ in cost by orders of magnitude. Sort first. A single batch often holds several kinds, so sort per page.</p>
+  </div>
+  <div class="otable">
+    <div class="orow ohead"><span>Kind</span><span>What's inside</span><span>Start with</span><span>Vision model helps when</span></div>
+    <div class="orow"><b>Text-layer PDF</b><span>Exported from software. The characters are stored in the file; you can select and copy them.</span><span>A PDF library. Fast, free, exact characters.</span><span>Reading order is scrambled, or meaning lives in the layout.</span></div>
+    <div class="orow"><b>Scanned page</b><span>A picture of a page inside a PDF or image file. Nothing to copy.</span><span>OCR (Tesseract) for clean print.</span><span>Skewed, stained or low-contrast pages, or you want fields, not raw text.</span></div>
+    <div class="orow"><b>Tables, columns</b><span>Line items, multi-column logs, forms with boxes.</span><span><code>pdfplumber</code> tables for text-layer PDFs.</span><span>Rulings are missing, cells span rows, or the table is scanned.</span></div>
+    <div class="orow"><b>Handwriting</b><span>Logbooks, notes in margins, signatures.</span><span>A vision model, and a person checking.</span><span>Usually. Classic OCR struggles with handwriting.</span></div>
+    <div class="orow"><b>Receipts, photos</b><span>Phone photos: curled, angled, shadowed, thermal print fading.</span><span>A vision model with a schema.</span><span>Almost always. Crop and straighten first.</span></div>
+    <div class="orow"><b>Charts, screenshots</b><span>Values encoded as bar heights, colors, positions; UI text.</span><span>Ask for the source data instead, if it exists.</span><span>Labels and printed values. Values read off a bar's height are estimates.</span></div>
+  </div>
+  <div class="cards">
+    <div class="panel"><h3>pypdf</h3><p>Pure Python. <code>PdfReader(path).pages[i].extract_text()</code> returns a page's text layer, or almost nothing for a scan. That emptiness is your scan detector.</p></div>
+    <div class="panel"><h3>pdfplumber</h3><p>Built on pdfminer.six. Gives every character's position, plus <code>page.extract_tables()</code>. Use it when you need coordinates or ruled tables from a text-layer PDF.</p></div>
+    <div class="panel"><h3>PyMuPDF</h3><p>Imported as <code>pymupdf</code> (older code uses <code>fitz</code>). Fast text extraction and page rendering with <code>page.get_pixmap(dpi=200)</code>. Licensed AGPL or commercial; check before you ship it.</p></div>
+  </div>
+  <div class="tip"><b>Tesseract</b> is the classic open-source OCR engine. Install the binary, then call it from Python with <code>pytesseract</code>. <code>image_to_data</code> returns each word with its box and a confidence score, which gives you provenance a vision model won't. Its docs say it works best on images of at least 300 DPI.</div>
+</section>
+
+<section id="see">
+  <div class="stack col">
+    <div class="eyebrow">Part 2 · How the model sees</div>
+    <h2>Images become tokens</h2>
+    <p>A vision-language model cuts the image into a grid of small square <strong>patches</strong>, often 14 or 16 pixels on a side. Each patch becomes a vector the language model reads alongside your text. Many models then merge neighboring patches (2×2 is common) to save tokens.</p>
+    <p>Before any of that, the image is resized to fit the model's limit. Three consequences follow.</p>
+    <ul class="plain">
+      <li><b>Cost grows with pixels.</b> More patches means more tokens, more memory and slower answers.</li>
+      <li><b>Big pages get shrunk.</b> A full page squeezed to the limit can leave fine print two or three pixels tall. The model then guesses, fluently.</li>
+      <li><b>Crop and split to buy resolution.</b> Send one region or one page per call. Each piece gets the full pixel budget.</li>
+    </ul>
+    <p class="note">How models differ: Gemma 3 resizes every image to 896×896 and spends 256 tokens on it. Gemma 4 lets you pick a visual token budget from 70 to 1,120. Qwen2.5-VL uses 14-pixel patches merged 2×2, so one token per 28×28 pixel block. Hosted APIs publish their own formulas; read them before you budget.</p>
+  </div>
+</section>
+
+<section id="calc">
+  <div class="stack col">
+    <div class="eyebrow">Drill 1 · The pixel budget</div>
+    <h2>Watch the fine print disappear</h2>
+    <p>Pick a document, a patch size and a resize cap. The page computes the tokens and shows the smallest text at the resolution the model actually receives. Try a full scanned page at a 1,024-pixel cap, then split it into four tiles.</p>
+  </div>
+  <div class="chips" id="rPresets"></div>
+  <div class="two">
+    <div class="panel">
+      <div class="two">
+        <div class="field"><label for="rW">Image width<span>Pixels</span></label><input id="rW" type="number" min="16" max="12000" step="1" value="2550"></div>
+        <div class="field"><label for="rH">Image height<span>Pixels</span></label><input id="rH" type="number" min="16" max="12000" step="1" value="3300"></div>
+      </div>
+      <div class="sl"><label for="rText">Smallest text in the original<span>Height of a capital letter, in pixels</span></label><input id="rText" type="range" min="6" max="60" step="1" value="24"><output id="rTexto"></output></div>
+      <div class="rq"><span class="flabel">Patch size</span><div class="chips" id="rPatch"></div></div>
+      <div class="rq"><span class="flabel">Merge neighboring patches</span><div class="chips" id="rMerge"></div></div>
+      <div class="rq"><span class="flabel">Resize cap (longest side)</span><div class="chips" id="rCap"></div></div>
+      <div class="rq"><span class="flabel">Split into tiles before sending</span><div class="chips" id="rTiles"></div></div>
+    </div>
+    <div class="panel out">
+      <div class="vs">
+        <div><span class="eyebrow">Image tokens, approx.</span><span class="big good" id="rTok">0</span></div>
+        <div><span class="eyebrow">Small text arrives at</span><span class="big" id="rEff">0</span></div>
+      </div>
+      <div class="chunkstats" id="rStats"></div>
+      <div class="verdict" id="rVerdict"></div>
+      <div class="stack">
+        <div class="eyebrow">Original</div>
+        <div class="fm16-view"><canvas id="rOrig" width="720" height="150" aria-label="Sample line of the manifest at original resolution"></canvas></div>
+        <div class="eyebrow">What the model receives, enlarged</div>
+        <div class="fm16-view"><canvas id="rModel" width="720" height="150" aria-label="The same line at the resolution the model receives"></canvas></div>
+        <label class="tog" for="rGrid"><input type="checkbox" id="rGrid" checked> Show patch grid</label>
+      </div>
+      <p class="note">Token math is an approximation: tiles × patches ÷ merge. Real models add special tokens, round to their own grid, use fixed sizes or budgets, and may squash aspect ratio. The legibility labels are this page's rule of thumb, not a published standard. Trust the preview and your test set.</p>
+    </div>
+  </div>
+</section>
+
+<section id="pipeline">
+  <div class="stack col">
+    <div class="eyebrow">Part 3 · The intake line</div>
+    <h2>A pipeline you can audit</h2>
+    <p>One prompt that turns a PDF into JSON is a demo. A pipeline has stages, so you can see where a bad value came from. Select a stage.</p>
+  </div>
+  <div class="depot">
+    <div class="layers" id="layers"></div>
+    <div class="panel layerinfo" id="layerInfo" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="scorer">
+  <div class="stack col">
+    <div class="eyebrow">Drill 2 · Check the quartermaster's copy</div>
+    <h2>Score an extraction field by field</h2>
+    <p>Two models read this salvaged manifest. Compare each extracted field with the form, and select every field you think is wrong. Then check. The page scores your spotting and the model's precision, recall and accuracy.</p>
+  </div>
+  <div class="chips" id="mPick"></div>
+  <div class="two">
+    <div class="fm16-paper" role="img" aria-label="Scanned supply manifest QM-7-0419. Fictional.">
+      <span class="fm16-seal">RECEIVED</span>
+      <h4>Supply Manifest</h4>
+      <div class="fm16-sub">Ridgeline Wholesale Co. · Form RW-22</div>
+      <div class="fm16-hdr">
+        <div><small>Manifest no.</small><span>QM-7-0419</span></div>
+        <div><small>Date (DD/MM/YYYY)</small><span class="fm16-hand">11/03/2026</span></div>
+        <div><small>Supplier</small><span>Ridgeline Wholesale Co.</span></div>
+        <div><small>Deliver to</small><span>Station 7 Depot, Gate B</span></div>
+        <div><small>Vehicle</small><span class="fm16-fade">TRK-4471</span></div>
+        <div><small>Received by</small><span class="fm16-hand fm16-smudge">J. M</span></div>
+      </div>
+      <div class="fm16-items">
+        <table>
+          <thead><tr><th>#</th><th>Description</th><th class="n">Qty</th><th class="n">Unit</th><th class="n">Amount</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Water purification tablets (box 50)</td><td class="n">12</td><td class="n">7.50</td><td class="n">90.00</td></tr>
+            <tr><td>2</td><td>Canned beans (24-pack)</td><td class="n">6</td><td class="n">18.25</td><td class="n">109.50</td></tr>
+            <tr><td>3</td><td>Gauze rolls</td><td class="n">40</td><td class="n">1.10</td><td class="n">44.00</td></tr>
+            <tr><td>4</td><td>Batteries AA (pack 8)</td><td class="n fm16-fade">15</td><td class="n">6.40</td><td class="n">96.00</td></tr>
+            <tr><td>5</td><td>Lamp oil 1 L</td><td class="n">8</td><td class="n">4.75</td><td class="n">38.00</td></tr>
+            <tr class="fm16-tot"><td></td><td>Total</td><td></td><td></td><td class="n">377.50</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:10px"><small>Notes: </small><span class="fm16-hand">2 cases beans dented, accepted</span></p>
+    </div>
+    <div class="panel">
+      <div class="sniphead"><div><div class="eyebrow" id="mAsk"></div><h3 id="mTitle"></h3></div><span class="mono note" id="mFound"></span></div>
+      <div class="fm16-rows" id="mRows" role="list"></div>
+      <div class="controls"><button class="btn solid" type="button" id="mCheck">Check my marks</button><button class="btn" type="button" id="mReset">Clear</button></div>
+    </div>
+  </div>
+  <div class="panel" id="mResult" aria-live="polite"></div>
+</section>
+
+<section id="checks">
+  <div class="stack col">
+    <div class="eyebrow">Drill 3 · Inspection at the gate</div>
+    <h2>Let the paper check itself</h2>
+    <p>Manifests carry redundancy: quantity times unit price gives the amount, the amounts sum to the total, and IDs follow a pattern. Turn the rules on and off and run them over each extraction. Notice which errors no rule can catch.</p>
+  </div>
+  <div class="chips" id="vPick"></div>
+  <div class="two">
+    <div class="panel">
+      <div class="eyebrow">Rules</div>
+      <div class="stack" id="vToggles"></div>
+    </div>
+    <div class="panel out">
+      <div class="score" id="vScore"></div>
+      <div class="fm16-rules" id="vRules" aria-live="polite"></div>
+      <div class="verdict" id="vVerdict"></div>
+    </div>
+  </div>
+</section>
+
+<section id="build">
+  <div class="stack col">
+    <div class="eyebrow">Part 4 · Build the intake line</div>
+    <h2>Five steps in Python</h2>
+    <p>A local pipeline with Ollama, pydantic, pypdf and PyMuPDF. Every sample compiles; swap in your own file paths. Nothing leaves your machine, which matters for Part 6.</p>
+  </div>
+  <div class="pynav" role="tablist" id="pynav" aria-label="Build steps"></div>
+  <div class="pybody" id="pybody" role="tabpanel"></div>
+</section>
+
+<section id="fail">
+  <div class="stack col">
+    <div class="eyebrow">Part 5 · Known misreads</div>
+    <h2>How extractions go wrong</h2>
+    <p>The model rarely returns gibberish. It returns clean, plausible JSON with one wrong value in it. These are the patterns to test for.</p>
+  </div>
+  <div class="fails">
+    <div class="fail"><div><h3>The invented value</h3><p class="sym">A smudged signature comes back as a full name. A torn-off date comes back as a real date.</p></div><p class="fix"><b>Fix:</b> make every field nullable and say "use null if not visible; never guess." Label unreadable fields as null in your test set so a guess counts as an error.</p></div>
+    <div class="fail"><div><h3>Look-alike characters</h3><p class="sym">1 and 7, 0 and O, 5 and S, 8 and B, a dropped decimal point. One digit off and the JSON still looks perfect.</p></div><p class="fix"><b>Fix:</b> constrain types (integers, patterns for IDs), cross-check arithmetic, and raise resolution on the region that holds numbers.</p></div>
+    <div class="fail"><div><h3>Swapped columns</h3><p class="sym">Unit price lands in amount, or a narrow column shifts one cell left.</p></div><p class="fix"><b>Fix:</b> name columns in the schema with descriptions, and check qty × unit = amount on every row.</p></div>
+    <div class="fail"><div><h3>Merged or dropped rows</h3><p class="sym">A wrapped description joins two rows into one. A row near a page break disappears.</p></div><p class="fix"><b>Fix:</b> ask for one item per printed row, check the item count when the form prints one, and check that the items sum to the total.</p></div>
+    <div class="fail"><div><h3>Ambiguous dates</h3><p class="sym">03/11/2026 becomes November 3 or March 11 depending on the model's habits.</p></div><p class="fix"><b>Fix:</b> tell the model the source format, ask for ISO dates, and check that the date is plausible for the batch.</p></div>
+    <div class="fail"><div><h3>Helpful corrections</h3><p class="sym">The form says 96.00 but the model "fixes" it to the computed 96.40. Now your check passes on a value nobody wrote.</p></div><p class="fix"><b>Fix:</b> instruct "copy exactly as written; don't calculate." Validation is your job, not the model's.</p></div>
+    <div class="fail"><div><h3>Lost in the long document</h3><p class="sym">A 30-page PDF sent at once. Pages get shrunk, skipped or blended together.</p></div><p class="fix"><b>Fix:</b> one page per call, or one region per call for dense pages. Keep the page number with every value.</p></div>
+  </div>
+  <div class="pairs">
+    <div class="pair"><div><span class="tag">Loose</span><pre>Extract the data from this receipt as JSON.</pre></div><div class="after"><span class="tag">Tight</span><pre>Extract this receipt using the given JSON schema. Copy values exactly as printed. If a field is unreadable, cut off or absent, use null. Don't calculate or correct anything. One item per printed line.</pre></div></div>
+    <div class="pair"><div><span class="tag">Loose</span><pre>What does this chart say?</pre></div><div class="after"><span class="tag">Tight</span><pre>List each bar's label and its printed value label. If a bar has no printed value, return null for it. Don't estimate values from bar heights.</pre></div></div>
+    <div class="pair"><div><span class="tag">Loose</span><pre>Read this logbook page.</pre></div><div class="after"><span class="tag">Tight</span><pre>Transcribe each dated entry in this handwritten log. Dates are written DD/MM. Mark any word you can't read as [illegible]. Don't fill gaps from context.</pre></div></div>
+  </div>
+  <div class="callout"><b>Confidence scores from the model aren't calibrated.</b> If you ask a model to rate its own certainty, the number tells you little on its own. Route records to review on evidence you can check: failed rules, null required fields, disagreement between two models or two runs, and OCR word confidences where you have them.</div>
+</section>
+
+<section id="privacy">
+  <div class="stack col">
+    <div class="eyebrow">Part 6 · Who else reads the paper</div>
+    <h2>Documents carry people</h2>
+    <p>Intake forms, receipts and logs hold names, addresses, signatures, account numbers and health details. An image carries everything in frame, including what you didn't mean to send: the next form on the desk, a face, a badge.</p>
+  </div>
+  <div class="cards">
+    <div class="panel"><h3>Know where it goes</h3><p>Check which tools your organization has approved for this kind of data before you send a page anywhere. A local model keeps pages on your machine; a hosted API sends them to a provider under their terms.</p></div>
+    <div class="panel"><h3>Send less</h3><p>Crop to the region you need. Mask fields you don't need before extraction. Don't ask for fields you won't use: every extracted field is data you now hold.</p></div>
+    <div class="panel"><h3>Treat text as data</h3><p>A document can contain instructions aimed at your model, such as hidden text in a PDF or a note in an image. Extract into a schema, never let document text trigger tools, and validate the output.</p></div>
+  </div>
+  <p class="note col">Field Manual 15 covers approving AI tools for sensitive data. Field Manual 12 covers prompt injection and other attacks on AI systems.</p>
+</section>
+
+<section id="triage">
+  <div class="stack col">
+    <div class="eyebrow">Part 7 · Field triage</div>
+    <h2>Find what broke</h2>
+    <p>When extracted values are wrong, work back through the stages. Look at the image the model actually received before you touch the prompt.</p>
+  </div>
+  <div class="triage">
+    <div class="symptoms" id="symptoms"></div>
+    <div class="panel dx" id="dx" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="exercises">
+  <div class="stack col">
+    <div class="eyebrow">Part 8 · Hands-on</div>
+    <h2>Five drills</h2>
+    <p>Check each one off as you finish. Progress is saved in this browser only.</p>
+  </div>
+  <div class="progress"><span id="exCount">0 of 5</span><div class="bar"><i id="exBar" style="width:0"></i></div></div>
+  <ul class="ex" id="ex"></ul>
+</section>
+
+<section>
+  <div class="stack col">
+    <div class="eyebrow">Pocket checklist</div>
+    <h2>Before the records go into the ledger</h2>
+    <ul class="final">
+      <li>Every page is sorted: text layer, scan, or needs a vision model.</li>
+      <li>Originals are stored unchanged, and every value points back to its file and page.</li>
+      <li>The schema makes every field nullable, and the prompt forbids guessing.</li>
+      <li>Validation rules run on every record: arithmetic, dates, patterns, required fields.</li>
+      <li>Failures go to a review queue that a named person works through.</li>
+      <li>A hand-labeled test set of at least 50 documents, scored field by field, gates every model or prompt change.</li>
+      <li>The tools that see these documents are approved for the data in them.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="cheat">
+  <div class="stack col">
+    <div class="eyebrow">Appendix · Pocket card</div>
+    <h2>Cheat sheet</h2>
+  </div>
+  <div class="code solo"><button class="cp" type="button" data-copy="cheatOut">Copy</button><pre id="cheatOut">SORT      text layer?  -> pypdf / pdfplumber / pymupdf (no model)
+          clean print? -> Tesseract via pytesseract
+          handwriting, photos, messy layout -> vision model + schema
+          charts       -> ask for the source data first
+
+PREPARE   one page (or one region) per call
+          render scans at ~200-300 DPI, then crop to what you need
+          check the image the model receives, at its real size
+
+EXTRACT   schema with every field nullable (pydantic -> JSON schema)
+          "copy exactly; null if not visible; never guess"
+          state the source date format; ask for ISO dates
+          temperature 0
+
+VALIDATE  qty x unit = amount       items sum to total
+          dates parse and are plausible
+          IDs match their pattern  required fields present
+          fail -> review queue with the reason and the page
+
+MEASURE   hand-labeled set, unreadable fields labeled null
+          precision = right values / values returned
+          recall    = right values / values that exist
+          accuracy  = fields fully right / all fields
+          report per field: one bad field hides in a good average</pre></div>
+</section>
+
+<footer>Field Manual 16. Builds on <em>Off-Grid Intelligence</em> (running models locally with Ollama) and <em>Proving Grounds</em> (evaluation sets and scoring). See <em>Archive Run</em> for searching the text once it's extracted. The manifest, its supplier, Station 7 and every name and number on this page are fictional. Model outputs in the drills are constructed teaching examples, not results from real models.</footer>
+</div>
+<script type="text/plain" id="py0">ollama pull gemma3            # default tag is 4b; vision needs 4b or larger
+pip install ollama pydantic pypdf pymupdf
+
+mkdir salvage pages labeled extracted
+# salvage/    original files, never edited
+# pages/      rendered page images
+# labeled/    hand-checked JSON for your test set
+# extracted/  what the pipeline produced</script>
+<script type="text/plain" id="py1"># pip install pypdf pymupdf
+from pathlib import Path
+
+import pymupdf
+from pypdf import PdfReader
+
+MIN_CHARS = 40  # fewer characters than this: treat the page as a scan
+
+
+def triage_pdf(path: str, out_dir: str = "pages", dpi: int = 200) -> list[dict]:
+    """One record per page: its text if it has a usable text layer, else a rendered PNG."""
+    out = Path(out_dir)
+    out.mkdir(exist_ok=True)
+    reader = PdfReader(path)
+    records = []
+    with pymupdf.open(path) as doc:
+        for i, page in enumerate(reader.pages):
+            text = (page.extract_text() or "").strip()
+            if len(text) >= MIN_CHARS:
+                records.append({"source": path, "page": i + 1, "kind": "text", "text": text})
+                continue
+            image_path = out / f"{Path(path).stem}-p{i + 1:03d}.png"
+            doc[i].get_pixmap(dpi=dpi).save(image_path)
+            records.append({"source": path, "page": i + 1, "kind": "image", "image": str(image_path)})
+    return records
+
+
+for r in triage_pdf("salvage/manifest-0419.pdf"):
+    print(r["page"], r["kind"], r.get("image", r.get("text", "")[:60]))
+</script>
+<script type="text/plain" id="py2"># ollama pull gemma3      (4b or larger; the 1b size is text-only)
+# pip install ollama pydantic
+from ollama import chat
+from pydantic import BaseModel, Field
+
+
+class LineItem(BaseModel):
+    description: str | None
+    qty: int | None
+    unit_price: float | None
+    amount: float | None
+
+
+class Manifest(BaseModel):
+    manifest_no: str | None
+    date: str | None = Field(description="YYYY-MM-DD")
+    supplier: str | None
+    deliver_to: str | None
+    received_by: str | None
+    vehicle_plate: str | None
+    items: list[LineItem]
+    total: float | None
+    notes: str | None
+
+
+PROMPT = """Extract the supply manifest in this image as JSON.
+Rules:
+- Copy values exactly as written. Do not correct, complete or calculate them.
+- If a field is blank, unreadable, smudged or cut off, use null. Never guess.
+- One entry in items per printed row, in the order printed. Never merge rows.
+- Dates as YYYY-MM-DD. Numbers without currency symbols or thousands separators."""
+
+
+def extract(image_path: str, model: str = "gemma3") -> Manifest:
+    response = chat(
+        model=model,
+        messages=[{"role": "user", "content": PROMPT, "images": [image_path]}],
+        format=Manifest.model_json_schema(),
+        options={"temperature": 0},
+    )
+    return Manifest.model_validate_json(response.message.content)
+
+
+m = extract("pages/manifest-0419-p001.png")
+print(m.model_dump_json(indent=2))
+</script>
+<script type="text/plain" id="py3"># pip install pydantic
+import datetime as dt
+import json
+from decimal import Decimal
+
+from pydantic import BaseModel, Field, ValidationError, field_validator, model_validator
+
+CENT = Decimal("0.01")
+LATEST = dt.date(2026, 3, 31)  # nothing in this salvage batch can be newer
+
+
+class LineItem(BaseModel):
+    description: str
+    qty: int = Field(gt=0)
+    unit_price: Decimal
+    amount: Decimal
+
+    @model_validator(mode="after")
+    def line_adds_up(self):
+        if abs(self.qty * self.unit_price - self.amount) > CENT:
+            raise ValueError(f"{self.description}: {self.qty} x {self.unit_price} != {self.amount}")
+        return self
+
+
+class CheckedManifest(BaseModel):
+    manifest_no: str = Field(pattern=r"^QM-7-\d{4}$")
+    date: dt.date  # "2026-03-11" parses; "11/03/26" fails
+    supplier: str
+    items: list[LineItem] = Field(min_length=1)
+    total: Decimal
+
+    @field_validator("date")
+    @classmethod
+    def plausible_date(cls, v: dt.date) -> dt.date:
+        if v > LATEST:
+            raise ValueError(f"{v} is after {LATEST}")
+        return v
+
+    @model_validator(mode="after")
+    def items_sum_to_total(self):
+        lines = sum((i.amount for i in self.items), Decimal(0))
+        if abs(lines - self.total) > CENT:
+            raise ValueError(f"line items sum to {lines}, total says {self.total}")
+        return self
+
+
+accepted, review_queue = [], []
+
+
+def route(raw_json: str, source: str, page: int) -> None:
+    """Accept clean records; send anything that fails a check to a person."""
+    try:
+        record = CheckedManifest.model_validate_json(raw_json)
+        accepted.append({"source": source, "page": page, "data": record})
+    except ValidationError as e:
+        review_queue.append({
+            "source": source,
+            "page": page,
+            "raw": raw_json,
+            "problems": [f"{'.'.join(map(str, err['loc']))}: {err['msg']}" for err in e.errors()],
+        })
+
+
+route(json.dumps({
+    "manifest_no": "QM-7-0419", "date": "2026-03-11", "supplier": "Ridgeline Wholesale Co.",
+    "items": [{"description": "Water tablets", "qty": 17, "unit_price": 7.50, "amount": 90.00}],
+    "total": 90.00,
+}), source="salvage/manifest-0419.pdf", page=1)
+
+for item in review_queue:
+    print(item["source"], item["page"], *item["problems"], sep="\n  ")
+</script>
+<script type="text/plain" id="py4">import json
+from pathlib import Path
+
+
+def flatten(obj, prefix=""):
+    """{"items": [{"qty": 12}]} -> {"items[0].qty": 12}"""
+    out = {}
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            out.update(flatten(v, f"{prefix}.{k}" if prefix else k))
+    elif isinstance(obj, list):
+        for i, v in enumerate(obj):
+            out.update(flatten(v, f"{prefix}[{i}]"))
+    else:
+        out[prefix] = obj
+    return out
+
+
+def same(a, b) -> bool:
+    if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+        return abs(a - b) < 0.005
+    if isinstance(a, str) and isinstance(b, str):
+        return " ".join(a.split()).casefold() == " ".join(b.split()).casefold()
+    return a == b
+
+
+def score(truth: dict, pred: dict) -> dict:
+    t, p = flatten(truth), flatten(pred)
+    tp = fp = fn = correct = 0
+    errors = []
+    for key in sorted(set(t) | set(p)):
+        tv, pv = t.get(key), p.get(key)
+        if tv is None and pv is None:
+            correct += 1
+        elif tv is not None and pv is not None and same(tv, pv):
+            tp += 1
+            correct += 1
+        else:
+            fp += pv is not None  # a value we shouldn't trust
+            fn += tv is not None  # a real value we didn't get
+            errors.append((key, tv, pv))
+    n = len(set(t) | set(p))
+    return {
+        "precision": tp / (tp + fp) if tp + fp else 1.0,
+        "recall": tp / (tp + fn) if tp + fn else 1.0,
+        "accuracy": correct / n if n else 1.0,
+        "errors": errors,
+    }
+
+
+labels = Path("labeled")  # labeled/<doc>.json written by a person
+preds = Path("extracted")  # extracted/<doc>.json from your pipeline
+for truth_file in sorted(labels.glob("*.json")):
+    pred_file = preds / truth_file.name
+    pred = json.loads(pred_file.read_text()) if pred_file.exists() else {}
+    s = score(json.loads(truth_file.read_text()), pred)
+    print(f"{truth_file.stem}: P={s['precision']:.2f} R={s['recall']:.2f} acc={s['accuracy']:.2f}")
+    for key, tv, pv in s["errors"]:
+        print(f"    {key}: expected {tv!r}, got {pv!r}")
+</script>
+
+<script>
+(function(){
+  function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+  function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+  function css(n){try{return getComputedStyle(document.documentElement).getPropertyValue(n).trim()||null}catch(e){return null}}
+  function chipRow(el,opts,get,set){el.innerHTML="";opts.forEach(function(o,i){var b=document.createElement("button");b.type="button";b.className="chipbtn";b.textContent=o[0];b.addEventListener("click",function(){set(i)});el.appendChild(b)});
+    return function(){Array.prototype.forEach.call(el.children,function(b,i){b.setAttribute("aria-pressed",i===get()?"true":"false")})}}
+
+  /* ---------- Drill 1: pixel budget ---------- */
+  var rW=document.getElementById("rW"),rH=document.getElementById("rH"),rText=document.getElementById("rText");
+  var PATCH=[["14 px",14],["16 px",16]],MERGE=[["None",1],["2×2",4]],CAP=[["No cap",0],["896",896],["1024",1024],["1568",1568],["2048",2048]],TILES=[["1",1,1],["2 (top, bottom)",1,2],["4 (2×2)",2,2],["8 (2×4)",2,4]];
+  var st={p:0,m:1,c:2,t:0};
+  try{var saved=JSON.parse(store("fm16-res")||"null");if(saved&&typeof saved==="object"){["p","m","c","t"].forEach(function(k){if(typeof saved[k]==="number")st[k]=saved[k]})}}catch(e){}
+  var upP=chipRow(document.getElementById("rPatch"),PATCH,function(){return st.p},function(i){st.p=i;calc()});
+  var upM=chipRow(document.getElementById("rMerge"),MERGE,function(){return st.m},function(i){st.m=i;calc()});
+  var upC=chipRow(document.getElementById("rCap"),CAP,function(){return st.c},function(i){st.c=i;calc()});
+  var upT=chipRow(document.getElementById("rTiles"),TILES,function(){return st.t},function(i){st.t=i;calc()});
+  var PRE=[["Letter scan, 300 DPI",2550,3300,24],["Same scan, 150 DPI",1275,1650,12],["Phone photo of receipt",3024,4032,38],["Laptop screenshot",1920,1080,11],["Chart export",1600,1000,14]];
+  var pre=document.getElementById("rPresets");
+  PRE.forEach(function(p){var b=document.createElement("button");b.type="button";b.className="chipbtn";b.setAttribute("aria-pressed","false");b.textContent=p[0];
+    b.addEventListener("click",function(){rW.value=p[1];rH.value=p[2];rText.value=p[3];Array.prototype.forEach.call(pre.children,function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});calc()});pre.appendChild(b)});
+  pre.children[0].setAttribute("aria-pressed","true");
+  function num(el,lo,hi,d){var v=Math.round(+el.value);if(!isFinite(v)||v<lo)v=d;return Math.min(hi,v)}
+  var LINES=["QM-7-0419    11/03/2026","4  Batteries AA   15 x 6.40 = 96.00"];
+  function drawLines(cv,scale,patch,showGrid){
+    var ink=css("--ink")||"#E2E5D8",bg=css("--bg")||"#121510",tgt=css("--target")||"#F04D8C";
+    var capOrig=+rText.value,font=capOrig/0.7,lh=font*1.5;
+    var tmp=document.createElement("canvas"),tc=tmp.getContext("2d");tc.font=font+"px 'Courier Prime','Courier New',monospace";
+    var lw=Math.max.apply(null,LINES.map(function(l){return tc.measureText(l).width}))+font,lhTot=lh*LINES.length+font*0.4;
+    tmp.width=Math.ceil(lw);tmp.height=Math.ceil(lhTot);
+    tc.fillStyle=ink;tc.fillRect(0,0,tmp.width,tmp.height);tc.fillStyle=bg;tc.font=font+"px 'Courier Prime','Courier New',monospace";tc.textBaseline="alphabetic";
+    LINES.forEach(function(l,i){tc.fillText(l,font*0.5,lh*(i+1)-font*0.25)});
+    var src=tmp;
+    if(scale<1){var sm=document.createElement("canvas");sm.width=Math.max(1,Math.round(tmp.width*scale));sm.height=Math.max(1,Math.round(tmp.height*scale));
+      var sc=sm.getContext("2d");sc.imageSmoothingEnabled=true;try{sc.imageSmoothingQuality="high"}catch(e){}sc.drawImage(tmp,0,0,sm.width,sm.height);src=sm}
+    var W=cv.width,H=Math.round(W*tmp.height/tmp.width);if(cv.height!==H)cv.height=H;
+    var c=cv.getContext("2d");c.imageSmoothingEnabled=false;c.clearRect(0,0,W,H);c.drawImage(src,0,0,W,H);
+    if(showGrid&&patch){var step=patch*W/src.width;if(step>=4){c.strokeStyle=tgt;c.globalAlpha=.35;c.lineWidth=1;c.beginPath();
+      for(var x=step;x<W;x+=step){c.moveTo(Math.round(x)+.5,0);c.lineTo(Math.round(x)+.5,H)}for(var y=step;y<H;y+=step){c.moveTo(0,Math.round(y)+.5);c.lineTo(W,Math.round(y)+.5)}c.stroke();c.globalAlpha=1}}
+  }
+  function calc(){
+    upP();upM();upC();upT();store("fm16-res",JSON.stringify(st));
+    var W=num(rW,16,12000,2550),H=num(rH,16,12000,3300),txt=+rText.value;document.getElementById("rTexto").textContent=txt+" px";
+    var p=PATCH[st.p][1],mg=MERGE[st.m][1],cap=CAP[st.c][1],cols=TILES[st.t][1],rows=TILES[st.t][2];
+    var tw=W/cols,th=H/rows,s=cap?Math.min(1,cap/Math.max(tw,th)):1,ew=Math.max(1,Math.round(tw*s)),eh=Math.max(1,Math.round(th*s));
+    var patches=Math.ceil(ew/p)*Math.ceil(eh/p),perTile=Math.ceil(patches/mg),tok=perTile*cols*rows,eff=txt*s;
+    document.getElementById("rTok").textContent=tok.toLocaleString("en-US");
+    var effEl=document.getElementById("rEff");effEl.textContent=(eff<10?eff.toFixed(1):Math.round(eff))+" px";
+    var lvl=eff<6?0:eff<10?1:eff<16?2:3;effEl.className="big"+(lvl<2?" bad":" good");
+    document.getElementById("rStats").innerHTML='<span><b>'+(cols*rows)+'</b> tile'+(cols*rows>1?"s":"")+' of <b>'+ew+'×'+eh+'</b></span><span>scale <b>'+(s*100).toFixed(0)+'%</b></span><span><b>'+patches.toLocaleString("en-US")+'</b> patches per tile</span><span>1 token ≈ <b>'+(mg===4?(p*2)+'×'+(p*2):p+'×'+p)+'</b> px</span>';
+    var V=["Unreadable. Capital letters are under 6 pixels tall, so digits and letters blur together. Expect confident guesses. Raise the cap, crop or split.",
+      "Risky. Print may survive; 1/7, 0/O, 5/S and decimal points won't reliably. Split the page or crop the number columns.",
+      "Marginal. Clean print usually reads. Handwriting, faded ink and small digits still fail. Test on your own documents.",
+      "Comfortable. Small text keeps enough pixels per stroke. Check that you aren't paying for more tokens than you need."];
+    document.getElementById("rVerdict").innerHTML="<b>"+["Unreadable","Risky","Marginal","Comfortable"][lvl]+".</b> "+V[lvl].replace(/^[^.]*\.\s*/,"");
+    var g=document.getElementById("rGrid").checked;
+    drawLines(document.getElementById("rOrig"),1,0,false);
+    drawLines(document.getElementById("rModel"),s,p,g);
+  }
+  [rW,rH,rText].forEach(function(el){el.addEventListener("input",function(){Array.prototype.forEach.call(pre.children,function(x){x.setAttribute("aria-pressed","false")});calc()})});
+  document.getElementById("rGrid").addEventListener("change",calc);
+  calc();
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(calc)}
+
+  /* ---------- Pipeline ---------- */
+  var layers=[
+    {n:"Intake",s:"Store the original, untouched",b:["Save every file as received, with a content hash, source and date. Never overwrite it.","Every later stage points back here. When a value is disputed, someone opens the original."]},
+    {n:"Sort",s:"Classify each page",b:["Does the page have a usable text layer? What kind of document is it: manifest, receipt, log, letter?","Route each kind to its own schema and prompt. A receipt schema on a logbook page produces nonsense that validates."]},
+    {n:"Prepare",s:"Render, straighten, crop",b:["Render scanned pages at 200 to 300 DPI. Fix rotation. Split long documents into pages, and dense pages into regions.","Save the exact image you send. When an extraction is wrong, look at what the model saw first."]},
+    {n:"Extract",s:"Fill a fixed schema",b:["Pass a JSON schema (from a pydantic model) so the reply is always parseable. Make every field nullable.","Tell the model to copy exactly, use null when unsure, and never calculate. Temperature 0."]},
+    {n:"Validate",s:"Check the paper against itself",b:["Arithmetic (qty × unit = amount, items sum to total), dates that parse and are plausible, ID patterns, required fields.","Validation catches many misreads. It can't catch a plausible value in a field with no cross-check, like an invented name."]},
+    {n:"Review",s:"People handle the failures",b:["Records that fail a rule, or that two models disagree on, go to a queue with the reason, the page image and the raw output.","Track the queue size. If it grows, fix the stage upstream instead of hiring more reviewers."]},
+    {n:"Record",s:"Store values with provenance",b:["Keep source file, page, region or bounding box, model, prompt version and validation result with every record.","Then you can re-run one model version's output, or find every value read from a damaged batch."]}
+  ];
+  var lEl=document.getElementById("layers"),info=document.getElementById("layerInfo");
+  layers.forEach(function(l,i){var b=document.createElement("button");b.type="button";b.className="layer";b.setAttribute("aria-pressed","false");
+    b.innerHTML='<span class="ix">'+(i+1)+'</span><b>'+l.n+'</b><span>'+l.s+'</span>';b.addEventListener("click",function(){showLayer(i)});lEl.appendChild(b)});
+  function showLayer(i){Array.prototype.forEach.call(lEl.children,function(b,j){b.setAttribute("aria-pressed",j===i?"true":"false")});
+    var l=layers[i];info.innerHTML='<div class="eyebrow">Stage '+(i+1)+' of '+layers.length+'</div><h3>'+l.n+'</h3><ul>'+l.b.map(function(x){return "<li>"+x+"</li>"}).join("")+'</ul>'}
+  showLayer(3);
+
+  /* ---------- Ground truth and two extractions ---------- */
+  var TRUTH={manifest_no:"QM-7-0419",date:"2026-03-11",supplier:"Ridgeline Wholesale Co.",deliver_to:"Station 7 Depot, Gate B",vehicle_plate:"TRK-4471",received_by:null,
+    items:[{description:"Water purification tablets (box 50)",qty:12,unit_price:7.5,amount:90},{description:"Canned beans (24-pack)",qty:6,unit_price:18.25,amount:109.5},
+      {description:"Gauze rolls",qty:40,unit_price:1.1,amount:44},{description:"Batteries AA (pack 8)",qty:15,unit_price:6.4,amount:96},{description:"Lamp oil 1 L",qty:8,unit_price:4.75,amount:38}],
+    total:377.5,notes:"2 cases beans dented, accepted"};
+  function clone(o){return JSON.parse(JSON.stringify(o))}
+  var A=clone(TRUTH);A.manifest_no="QM-7-O419";A.date="2026-11-03";A.received_by="J. Marsh";A.items[0].qty=17;
+  var B=clone(TRUTH);B.vehicle_plate=null;B.items[3].unit_price=96;B.items[3].amount=6.4;B.items.pop();
+  var WHY={
+    "manifest_no":["Look-alike character","The zero in 0419 came back as the letter O. A pattern check on the ID catches it; a person skimming won't."],
+    "date":["Ambiguous date","The form says DD/MM/YYYY. The model read 11/03 as November 3. State the source format in the prompt and check the date is plausible for the batch."],
+    "received_by":["Invented value","The signature is smudged past reading, so the truth is null. The model produced a full name anyway. No arithmetic can catch this; only the null instruction and review can."],
+    "items[0].qty":["Misread digit","12 read as 17. The row check catches it: 17 × 7.50 is 127.50, not 90.00."],
+    "vehicle_plate":["Missed faded field","The plate is faded but readable. Returning null is the safe failure: nothing false enters the ledger, but recall drops."],
+    "items[3].unit_price":["Swapped columns","Unit price and amount traded places. The row check catches it."],
+    "items[3].amount":["Swapped columns","Same row, other half of the swap."],
+    "items[4]":["Dropped row","The last row vanished. Every field in it counts as missed. The sum-to-total check catches it."]
+  };
+  function flat(o,pre,out){out=out||{};if(Array.isArray(o)){o.forEach(function(v,i){flat(v,pre+"["+i+"]",out)})}else if(o&&typeof o==="object"){Object.keys(o).forEach(function(k){flat(o[k],pre?pre+"."+k:k,out)})}else out[pre]=o;return out}
+  var FT=flat(TRUTH,""),KEYS=Object.keys(FT);
+  function same(a,b){if(typeof a==="number"&&typeof b==="number")return Math.abs(a-b)<0.005;if(typeof a==="string"&&typeof b==="string")return a.replace(/\s+/g," ").trim().toLowerCase()===b.replace(/\s+/g," ").trim().toLowerCase();return a===b}
+  function fmt(v){return v===null?"null":v===undefined?"(missing)":typeof v==="string"?'"'+v+'"':(Math.round(v*100)/100).toString()}
+  function scoreModel(pred){var fp0=flat(pred,""),tp=0,fp=0,fn=0,ok=0,rows=[];
+    KEYS.forEach(function(k){var t=FT[k],p=fp0.hasOwnProperty(k)?fp0[k]:undefined,pn=(p===null||p===undefined),tn=(t===null),right=(tn&&pn)||(!tn&&!pn&&same(t,p));
+      if(right){ok++;if(!tn)tp++}else{if(!pn)fp++;if(!tn)fn++}
+      rows.push({k:k,t:t,p:p,right:right})});
+    var n=KEYS.length;return {tp:tp,fp:fp,fn:fn,ok:ok,n:n,P:tp+fp?tp/(tp+fp):1,R:tp+fn?tp/(tp+fn):1,Acc:ok/n,rows:rows}}
+
+  /* ---------- Drill 2: scorer ---------- */
+  var MODELS=[{n:"Model A",d:"Extraction from model A · general vision model, full page",x:A},{n:"Model B",d:"Extraction from model B · smaller model, full page",x:B}];
+  var mi=0,marks={},checked=false;try{mi=+store("fm16-model")||0;if(mi!==1)mi=0}catch(e){mi=0}
+  var mp=document.getElementById("mPick");
+  MODELS.forEach(function(m,i){var b=document.createElement("button");b.type="button";b.className="chipbtn";b.textContent=m.n;b.addEventListener("click",function(){mi=i;marks={};checked=false;store("fm16-model",String(i));drawM()});mp.appendChild(b)});
+  function drawM(){Array.prototype.forEach.call(mp.children,function(b,j){b.setAttribute("aria-pressed",j===mi?"true":"false")});
+    var M=MODELS[mi],S=scoreModel(M.x);document.getElementById("mTitle").textContent=M.n;document.getElementById("mAsk").textContent=M.d;
+    var nErr=S.rows.filter(function(r){return !r.right}).length,nMark=Object.keys(marks).filter(function(k){return marks[k]}).length;
+    var hit=S.rows.filter(function(r){return !r.right&&marks[r.k]}).length,fa=S.rows.filter(function(r){return r.right&&marks[r.k]}).length;
+    document.getElementById("mFound").textContent=checked?hit+" of "+nErr+" found"+(fa?" · "+fa+" false alarm"+(fa>1?"s":""):""):nMark+" marked · "+S.n+" fields";
+    var rowsEl=document.getElementById("mRows");
+    rowsEl.innerHTML=S.rows.map(function(r){var cls="fm16-row";if(checked){cls+=r.right?(marks[r.k]?" fa":" ok"):" err"}
+      var stat=checked?(r.right?(marks[r.k]?"false alarm":"right"):(marks[r.k]?"caught":"missed")):(marks[r.k]?"marked":"");
+      return '<button type="button" role="listitem" class="'+cls+'" data-k="'+esc(r.k)+'" aria-pressed="'+(marks[r.k]?"true":"false")+'"><span class="k">'+esc(r.k)+'</span><span class="v">'+esc(fmt(r.p))+'</span><span class="s">'+stat+'</span></button>'}).join("");
+    rowsEl.querySelectorAll(".fm16-row").forEach(function(b){b.addEventListener("click",function(){if(checked)return;var k=b.getAttribute("data-k");marks[k]=!marks[k];drawM()})});
+    var res=document.getElementById("mResult");
+    if(!checked){res.innerHTML='<div class="eyebrow">Result</div><p>Mark the fields you think are wrong, then select <b>Check my marks</b>. Remember the form itself: a smudged field should come back as null.</p>';return}
+    var seen={},errs=[];S.rows.forEach(function(r){if(r.right)return;var key=/^items\[4\]/.test(r.k)&&r.p===undefined?"items[4]":r.k;if(seen[key])return;seen[key]=1;
+      var w=WHY[key]||["Wrong value",""];errs.push('<div class="finding '+(key==="items[4]"?(S.rows.some(function(x){return /^items\[4\]/.test(x.k)&&marks[x.k]})?"":"missed"):(marks[r.k]?"":"missed"))+'"><span class="mono">'+esc(key)+' · '+esc(w[0])+' · expected '+esc(key==="items[4]"?"a fifth row":fmt(r.t))+', got '+esc(key==="items[4]"?"nothing":fmt(r.p))+'</span><p>'+esc(w[1])+'</p></div>')});
+    res.innerHTML='<div class="eyebrow">'+esc(M.n)+' scored against the hand-checked truth</div>'+
+      '<div class="fm16-metrics"><div><span>Precision</span><b>'+(S.P*100).toFixed(0)+'%</b><span>'+S.tp+' right of '+(S.tp+S.fp)+' values returned</span></div><div><span>Recall</span><b>'+(S.R*100).toFixed(0)+'%</b><span>'+S.tp+' right of '+(S.tp+S.fn)+' values on the form</span></div><div><span>Field accuracy</span><b>'+(S.Acc*100).toFixed(0)+'%</b><span>'+S.ok+' of '+S.n+' fields fully right, nulls included</span></div></div>'+
+      '<p class="note">Precision asks "when it gives a value, is it right?" Recall asks "did it get every value on the form?" A correct null counts toward accuracy only. '+(mi===0?"Model A fills every box, so it scores lower on precision: four values it returned are false.":"Model B leaves gaps instead of guessing, so its precision is higher and its recall lower. For a ledger, false values usually cost more than gaps, because gaps are visible.")+' Compare both models, then see Field Manual 11 for building the labeled set.</p>'+
+      '<div class="findings">'+errs.join("")+'</div>'}
+  document.getElementById("mCheck").addEventListener("click",function(){checked=true;drawM()});
+  document.getElementById("mReset").addEventListener("click",function(){marks={};checked=false;drawM()});
+  drawM();
+
+  /* ---------- Drill 3: validation rules ---------- */
+  var RULES=[
+    {id:"req",n:"Required fields present",d:"manifest_no, date, supplier, total and at least one item are not null.",run:function(x){var miss=["manifest_no","date","supplier","total"].filter(function(k){return x[k]===null||x[k]===undefined});if(!x.items||!x.items.length)miss.push("items");return miss.length?"Missing: "+miss.join(", "):null}},
+    {id:"pat",n:"Manifest number matches QM-7-####",d:"Four digits after the station prefix.",run:function(x){return x.manifest_no&&!/^QM-7-\d{4}$/.test(x.manifest_no)?'"'+x.manifest_no+'" doesn\'t match':null}},
+    {id:"date",n:"Date parses and fits the batch",d:"ISO date between 2025-01-01 and 2026-03-31, when this batch was filed.",run:function(x){if(!x.date)return null;var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(x.date);if(!m)return x.date+" isn't YYYY-MM-DD";var d=new Date(Date.UTC(+m[1],+m[2]-1,+m[3]));if(d.getUTCMonth()!==+m[2]-1)return x.date+" isn't a real date";if(x.date<"2025-01-01"||x.date>"2026-03-31")return x.date+" is outside the batch window";return null}},
+    {id:"row",n:"Each row: qty × unit = amount",d:"Within one cent.",run:function(x){var bad=[];(x.items||[]).forEach(function(it,i){if(it.qty==null||it.unit_price==null||it.amount==null)return;var c=Math.round(it.qty*it.unit_price*100)/100;if(Math.abs(c-it.amount)>0.005)bad.push("row "+(i+1)+": "+it.qty+" × "+it.unit_price.toFixed(2)+" = "+c.toFixed(2)+", not "+it.amount.toFixed(2))});return bad.length?bad.join("; "):null}},
+    {id:"sum",n:"Items sum to the total",d:"Within one cent.",run:function(x){if(x.total==null||!x.items)return null;var s=x.items.reduce(function(a,it){return a+(it.amount||0)},0);s=Math.round(s*100)/100;return Math.abs(s-x.total)>0.005?"items sum to "+s.toFixed(2)+", total says "+x.total.toFixed(2):null}},
+    {id:"opt",n:"Vehicle and receiver present",d:"Flag, don't reject: these are often blank on real forms.",run:function(x){var m=[];if(!x.vehicle_plate)m.push("vehicle_plate");if(!x.received_by)m.push("received_by");return m.length?"Null: "+m.join(", "):null}}
+  ];
+  var ERRS=[
+    [{f:"manifest_no",by:["pat"]},{f:"date",by:["date"]},{f:"items[0].qty",by:["row"]},{f:"received_by (invented)",by:[]}],
+    [{f:"vehicle_plate (missed)",by:["opt"]},{f:"items[3] swapped columns",by:["row","sum"]},{f:"items[4] dropped row",by:["sum"]}],
+    []
+  ];
+  var VX=[{n:"Model A",x:A},{n:"Model B",x:B},{n:"Hand-checked truth",x:TRUTH}],vi=0,on={req:1,pat:1,date:1,row:1,sum:1,opt:0};
+  try{var so=JSON.parse(store("fm16-rules")||"null");if(so&&typeof so==="object")RULES.forEach(function(r){if(so.hasOwnProperty(r.id))on[r.id]=so[r.id]?1:0})}catch(e){}
+  var vp=document.getElementById("vPick");
+  VX.forEach(function(v,i){var b=document.createElement("button");b.type="button";b.className="chipbtn";b.textContent=v.n;b.addEventListener("click",function(){vi=i;drawV()});vp.appendChild(b)});
+  var vt=document.getElementById("vToggles");
+  RULES.forEach(function(r){var l=document.createElement("label");l.className="tog";l.setAttribute("for","vr-"+r.id);
+    l.innerHTML='<input type="checkbox" id="vr-'+r.id+'"'+(on[r.id]?" checked":"")+'><span>'+esc(r.n)+'</span>';
+    l.querySelector("input").addEventListener("change",function(e){on[r.id]=e.target.checked?1:0;store("fm16-rules",JSON.stringify(on));drawV()});vt.appendChild(l)});
+  function drawV(){Array.prototype.forEach.call(vp.children,function(b,j){b.setAttribute("aria-pressed",j===vi?"true":"false")});
+    var x=VX[vi].x,fails={},nOn=0,nFail=0;
+    var html=RULES.map(function(r){var res=r.run(x),act=!!on[r.id];if(act){nOn++;if(res){nFail++;fails[r.id]=1}}
+      var cls=!act?"o":res?"f":"p",lab=!act?"Off":res?"Fail":"Pass";
+      return '<div class="fm16-rule"><b>'+esc(r.n)+'</b><span class="r '+cls+'">'+lab+'</span><p>'+esc(act&&res?res:r.d)+'</p></div>'}).join("");
+    document.getElementById("vRules").innerHTML=html;
+    document.getElementById("vScore").textContent=VX[vi].n+" · "+nOn+" rules on · "+nFail+" failing";
+    var E=ERRS[vi],caught=E.filter(function(e){return e.by.some(function(id){return fails[id]})}),missed=E.filter(function(e){return !e.by.some(function(id){return fails[id]})});
+    var v=document.getElementById("vVerdict");
+    if(!E.length){v.innerHTML=nFail?"<b>False alarm.</b> The correct record fails a rule. A rule that rejects good records trains reviewers to click through. Make it a flag, or loosen it.":"<b>Clean.</b> The correct record passes every rule that's on. Always run your rules over hand-checked records too, to catch rules that reject good data.";return}
+    v.innerHTML="<b>"+(nFail?"Sent to review":"Accepted into the ledger")+".</b> Rules catch "+caught.length+" of "+E.length+" planted errors"+(caught.length?" ("+caught.map(function(e){return esc(e.f)}).join(", ")+")":"")+"."+
+      (missed.length?" Not caught: "+missed.map(function(e){return esc(e.f)}).join(", ")+"."+(missed.some(function(e){return !e.by.length})?" No rule can catch an invented value in a field with nothing to check it against. That's what the null instruction, two-model agreement and spot checks are for.":""):"");
+  }
+  drawV();
+
+  /* ---------- Build steps ---------- */
+  function code(id){var el=document.getElementById(id);return el?el.textContent.replace(/^\n/,""):""}
+  var py=[
+    {k:"1",t:"Set up",p:["Pull a vision-capable model. Gemma 3 at 4B or larger reads images; the 1B size is text-only. Gemma 4, Qwen2.5-VL and Llama 3.2 Vision also run in Ollama; test more than one on your own documents.","Keep originals, page images, labels and outputs in separate folders from the start."],c:"py0"},
+    {k:"2",t:"Sort pages",p:["Try the text layer first. If a page yields almost no text, it's a scan: render it to PNG with PyMuPDF and send it down the vision path.","The character threshold is a starting point. Some scans carry a junk OCR layer from the scanner; spot-check pages that pass."],c:"py1"},
+    {k:"3",t:"Extract",p:["The pydantic model becomes the JSON schema Ollama constrains the reply to, so the output always parses. Every field allows null.","The <code>images</code> key on the message takes file paths, raw bytes or base64 strings. One page per call."],c:"py2"},
+    {k:"4",t:"Validate and route",p:["A stricter model for accepted records: required fields, an ID pattern, real dates, and arithmetic. <code>Decimal</code> avoids floating-point drift in money.","Anything that fails goes to the review queue with the reasons and the page. The sample record has the 12-read-as-17 error from Drill 2, so it lands in review."],c:"py3"},
+    {k:"5",t:"Score",p:["Field-level scoring against hand-labeled JSON, the same math as Drill 2. Label unreadable fields as null so guesses count as errors.","Run it before and after every change of model, prompt, resolution or cropping. Field Manual 11 covers building and maintaining the labeled set."],c:"py4"}
+  ];
+  var nav=document.getElementById("pynav"),body=document.getElementById("pybody"),cur=0;
+  py.forEach(function(s,i){var b=document.createElement("button");b.type="button";b.setAttribute("role","tab");b.id="pt"+i;b.innerHTML='<span class="lv">'+s.k+'</span>'+s.t;
+    b.addEventListener("click",function(){showPy(i)});
+    b.addEventListener("keydown",function(e){var j=null;if(e.key==="ArrowRight")j=(i+1)%py.length;if(e.key==="ArrowLeft")j=(i+py.length-1)%py.length;if(j!==null){e.preventDefault();showPy(j);nav.children[j].focus()}});
+    nav.appendChild(b)});
+  function showPy(i){cur=i;Array.prototype.forEach.call(nav.children,function(b,j){b.setAttribute("aria-selected",j===i?"true":"false");b.tabIndex=j===i?0:-1});
+    body.setAttribute("aria-labelledby","pt"+i);var s=py[i];
+    body.innerHTML='<h3>Step '+s.k+' · '+s.t+'</h3>'+s.p.map(function(x){return "<p>"+x+"</p>"}).join("")+
+      '<div class="code solo"><button class="cp" type="button" data-copy="pyCode">Copy</button><pre id="pyCode">'+esc(code(s.c))+'</pre></div>'+
+      (i<py.length-1?'<div><button class="btn" type="button" id="pyNext">Next: '+py[i+1].t+'</button></div>':"");
+    var nx=document.getElementById("pyNext");if(nx)nx.addEventListener("click",function(){showPy(i+1);nav.children[i+1].focus()})}
+  showPy(0);
+
+  /* ---------- Triage ---------- */
+  var tri=[
+    ["Numbers are almost right: one digit off","The text arrived at the model too small, or the scan is faint.","Open the exact image you sent at 100%. Raise resolution, crop the number columns, or split the page. Add arithmetic checks."],
+    ["A field has a value that isn't on the page","The model filled an unreadable or empty field.","Make the field nullable, add \"use null if not visible; never guess,\" and label such fields as null in your test set."],
+    ["Valid JSON, wrong document","The page was routed to the wrong schema.","Classify pages first and keep one schema per document type. Reject records where the type doesn't match."],
+    ["Rows missing at the bottom of long tables","The page was too dense or a table continued onto the next page.","Split the page into regions, and carry table headers across page breaks. Check that items sum to the total."],
+    ["Text-layer PDF gives jumbled text","Reading order in the file doesn't match the visual layout.","Try pypdf's layout mode or pdfplumber with positions, or render the page and use the vision path."],
+    ["Good on test files, bad in production","Your test set doesn't look like real intake: phone photos, other suppliers, new form versions.","Sample real intake into the labeled set every month and track scores per document type."],
+    ["The review queue keeps growing","An upstream stage is failing for a whole class of documents.","Group queue items by failed rule and document type. Fix the biggest group upstream."]
+  ];
+  var sEl=document.getElementById("symptoms"),dx=document.getElementById("dx");
+  tri.forEach(function(t,i){var b=document.createElement("button");b.type="button";b.setAttribute("aria-pressed","false");b.textContent=t[0];b.addEventListener("click",function(){showDx(i)});sEl.appendChild(b)});
+  function showDx(i){Array.prototype.forEach.call(sEl.children,function(b,j){b.setAttribute("aria-pressed",j===i?"true":"false")});var t=tri[i];
+    dx.innerHTML='<div><span class="eyebrow">Symptom</span><p>'+esc(t[0])+'</p></div><div><span class="eyebrow">Likely cause</span><p>'+esc(t[1])+'</p></div><div><span class="eyebrow">Fix</span><p>'+esc(t[2])+'</p></div>'}
+  showDx(0);
+
+  /* ---------- Exercises ---------- */
+  var exl=[
+    ["Find the cliff","In Drill 1, start from the 300 DPI letter scan with a 1,024 cap. Find the fewest tiles that make the small text comfortable, and note the token cost."],
+    ["Sort a batch","Run step 2 on ten PDFs from your own work. How many pages have a usable text layer? Spot-check two that passed."],
+    ["Label five","Write hand-checked JSON for five documents. Mark every unreadable field as null."],
+    ["Score two models","Run step 3 with two vision models on the same five documents and score both with step 5. Compare precision and recall per field, not just the average."],
+    ["Break the rules","Edit one labeled record so it's wrong in a way your validation rules don't catch. Write a rule or a review step that would."]
+  ];
+  var exEl=document.getElementById("ex"),done={};
+  try{done=JSON.parse(store("fm16-ex")||"{}")||{}}catch(e){done={}}
+  function exProg(){var n=0;for(var k in done)if(done[k])n++;document.getElementById("exCount").textContent=n+" of "+exl.length;document.getElementById("exBar").style.width=(n/exl.length*100)+"%"}
+  exl.forEach(function(e,i){var li=document.createElement("li");if(done[i])li.className="checked";
+    li.innerHTML='<label for="ex'+i+'"><input type="checkbox" id="ex'+i+'"'+(done[i]?" checked":"")+'><div><b>'+(i+1)+'. '+e[0]+'</b><span>'+esc(e[1])+'</span></div></label>';
+    li.querySelector("input").addEventListener("change",function(ev){done[i]=ev.target.checked;li.className=ev.target.checked?"checked":"";store("fm16-ex",JSON.stringify(done));exProg()});
+    exEl.appendChild(li)});
+  exProg();
+
+  document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".cp");if(!b)return;
+    var el=document.getElementById(b.getAttribute("data-copy"));if(!el)return;var t=el.textContent;
+    function sel(){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected"}
+    try{navigator.clipboard.writeText(t).then(function(){b.textContent="Copied";setTimeout(function(){b.textContent="Copy"},1500)},sel)}catch(err){sel()}});
+})();
+</script>
+
+</body>
+</html>
