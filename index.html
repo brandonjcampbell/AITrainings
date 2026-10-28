@@ -50,6 +50,10 @@ p{margin:0}
 @media (max-width:560px){.course a{grid-template-columns:1fr}.num{font-size:2.6rem}}
 footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-size:.85rem;color:var(--muted)}
 @media (prefers-reduced-motion: reduce){.course a{transition:none}.course a:hover{transform:none}}
+.pre{font-family:var(--mono);font-size:.8rem;color:var(--muted)}
+.maplink{align-self:flex-start;font-family:var(--mono);font-weight:700;font-size:.9rem;color:var(--target);text-decoration:none;border:2px solid var(--target);padding:8px 14px;border-radius:3px}
+.maplink:hover{background:var(--target);color:var(--bg)}
+.maplink:focus-visible{outline:2px solid var(--target);outline-offset:3px}
 </style>
 </head>
 <body>
@@ -61,6 +65,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
   <div class="stamp">Training index</div>
   <h1>Survivor Field Manuals</h1>
   <p class="lede">Hands-on courses for working with AI and data, set in a world that already ended. Each manual is a single interactive page. Start with Field Manual 0 if you're new to language models.</p>
+  <a class="maplink" href="map.html">Open the course map: prerequisites and learning tracks →</a>
 </header>
 
 <ol class="courses">
@@ -71,6 +76,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
       <h2>Field Autopsy</h2>
       <p>How large language models actually work: tokens (with a real tokenizer you train in the browser), embeddings, attention, the transformer layers, temperature and top-p sampling, training stages, memory, and why models fail the way they do.</p>
       <div class="tags"><span class="tag">~60 min</span><span class="tag">Everyone</span><span class="tag">Start here</span></div>
+      <span class="pre">Prerequisites: None. Start here.</span>
       <span class="go">Open manual →</span>
     </div></a></li>
   <li class="course"><a href="01-survival-odds.html">
@@ -80,6 +86,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
       <h2>Survival Odds</h2>
       <p>Prompting as shifting the odds toward the answer you need. A live lab shows how naming the reader, the purpose, the shape and an example moves probability onto the right response, followed by seven levers and a prompt inspector.</p>
       <div class="tags"><span class="tag">~30 min</span><span class="tag">Everyone</span><span class="tag">Interactive</span></div>
+      <span class="pre">Prerequisites: Recommended: FM 00</span>
       <span class="go">Open manual →</span>
     </div></a></li>
   <li class="course"><a href="02-outpost-protocols.html">
@@ -89,6 +96,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
       <h2>Outpost Protocols</h2>
       <p>Turning one-shot prompts into agentic solutions. Covers why checks matter more than steps, six patterns from prompt chains to autonomous agents, tool design, common failures, and a worksheet that builds a protocol spec.</p>
       <div class="tags"><span class="tag">~45 min</span><span class="tag">After FM 1</span><span class="tag">Interactive</span></div>
+      <span class="pre">Prerequisites: Required: FM 01</span>
       <span class="go">Open manual →</span>
     </div></a></li>
   <li class="course"><a href="03-lakehouse-supply-run.html">
@@ -98,6 +106,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
       <h2>Lakehouse Supply Run</h2>
       <p>Databricks fundamentals: the lakehouse layers and vocabulary, getting and protecting a personal access token, and pulling data with Python through a SQL warehouse, with field triage and hands-on exercises.</p>
       <div class="tags"><span class="tag">60–90 min</span><span class="tag">Engineers and analysts</span><span class="tag">Hands-on</span></div>
+      <span class="pre">Prerequisites: None. Basic Python helps.</span>
       <span class="go">Open manual →</span>
     </div></a></li>
   <li class="course"><a href="04-off-grid-intelligence.html">
@@ -107,6 +116,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
       <h2>Off-Grid Intelligence</h2>
       <p>Prototyping a Python app with Ollama: install, choosing a model that fits your hardware, then nine build steps from first chat to structured output, tools, document search, a Streamlit interface and an easy path to hosted models.</p>
       <div class="tags"><span class="tag">60–90 min</span><span class="tag">Engineers</span><span class="tag">Hands-on</span></div>
+      <span class="pre">Prerequisites: Recommended: FM 01</span>
       <span class="go">Open manual →</span>
     </div></a></li>
   <li class="course"><a href="05-squad-orders.html">
@@ -116,6 +126,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
       <h2>Squad Orders</h2>
       <p>Getting reliable results from coding agents like Claude Code and Devin: managing context, writing briefs with checks the agent can run, the scout-plan-build-check-ship loop, standing orders, running several agents, and common failures.</p>
       <div class="tags"><span class="tag">~60 min</span><span class="tag">Engineers</span><span class="tag">After FM 1 and 2</span></div>
+      <span class="pre">Prerequisites: Required: FM 01, FM 02</span>
       <span class="go">Open manual →</span>
     </div></a></li>
   <li class="course"><a href="06-common-frequency.html">
@@ -125,6 +136,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
       <h2>Common Frequency</h2>
       <p>The Model Context Protocol: why a standard beats custom integrations, hosts, clients and servers, tools versus resources versus prompts, then building, testing and connecting a Python server with the official SDK, plus security and triage.</p>
       <div class="tags"><span class="tag">60–75 min</span><span class="tag">Engineers</span><span class="tag">Hands-on</span></div>
+      <span class="pre">Prerequisites: Required: FM 02 · Recommended: FM 04</span>
       <span class="go">Open manual →</span>
     </div></a></li>
   <li class="course"><a href="07-archive-run.html">
@@ -134,6 +146,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
       <h2>Archive Run</h2>
       <p>Retrieval-augmented generation: the pipeline, a chunking visualizer, live retrieval in the browser, and a local build with Ollama and NumPy, including measuring retrieval and finding which stage failed.</p>
       <div class="tags"><span class="tag">~75 min</span><span class="tag">Engineers</span><span class="tag">Hands-on</span></div>
+      <span class="pre">Prerequisites: Required: FM 04 · Recommended: FM 01</span>
       <span class="go">Open manual →</span>
     </div></a></li>
   <li class="course"><a href="08-line-of-sight.html">
@@ -143,6 +156,7 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
       <h2>Line of Sight</h2>
       <p>Attention, in depth: why it replaced recurrent models, queries, keys and values, a live calculator that runs one attention head step by step, why scores are divided by √d, multi-head and induction heads, and what attention costs at long context.</p>
       <div class="tags"><span class="tag">~60 min</span><span class="tag">After FM 0</span><span class="tag">Engineers</span></div>
+      <span class="pre">Prerequisites: Required: FM 00</span>
       <span class="go">Open manual →</span>
     </div></a></li>
   <li class="course"><a href="09-boot-camp.html">
@@ -152,6 +166,17 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
       <h2>Boot Camp</h2>
       <p>Training and fine-tuning: when to fine-tune instead of prompting or retrieval, a model you train live in the browser, a tiny GPT from scratch in PyTorch, a LoRA memory calculator, a training-data checker, and a full LoRA fine-tune with Hugging Face TRL through to running it in Ollama.</p>
       <div class="tags"><span class="tag">~90 min</span><span class="tag">Engineers</span><span class="tag">Hands-on, GPU for Part 6</span></div>
+      <span class="pre">Prerequisites: Required: FM 00, FM 04 · Recommended: FM 08</span>
+      <span class="go">Open manual →</span>
+    </div></a></li>
+  <li class="course"><a href="10-quarantine-protocol.html">
+    <span class="num">10</span>
+    <div class="body">
+      <span class="kicker">Field Manual 10 · Responsible vibe coding</span>
+      <h2>Quarantine Protocol</h2>
+      <p>Building software with AI without putting your team at risk: a risk dial for how careful to be, ten rules, a drill to spot dangerous lines in AI-written code, safer ways to ask, red flags, and a checklist for graduating a prototype.</p>
+      <div class="tags"><span class="tag">~60 min</span><span class="tag">Everyone who builds</span><span class="tag">Interactive</span></div>
+      <span class="pre">Prerequisites: Required: FM 01 · Recommended: FM 05</span>
       <span class="go">Open manual →</span>
     </div></a></li>
 </ol>

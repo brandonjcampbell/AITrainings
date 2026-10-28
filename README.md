@@ -14,6 +14,11 @@ Interactive AI and data trainings, themed around surviving a zombie apocalypse. 
 | 7 | [Archive Run](07-archive-run.html) | Retrieval-augmented generation over your own documents |
 | 8 | [Line of Sight](08-line-of-sight.html) | Attention in depth: the math step by step, multi-head, and long-context costs |
 | 9 | [Boot Camp](09-boot-camp.html) | Training a tiny model from scratch and fine-tuning an open model with LoRA |
+| 10 | [Quarantine Protocol](10-quarantine-protocol.html) | Responsible vibe coding: building with AI without putting your team at risk |
+
+## Course map
+
+[`map.html`](map.html) shows how the courses connect: required and recommended prerequisites, and six learning tracks (Foundations, App builder, Citizen builder, Agent operator, Model internals, Data).
 
 ## Viewing
 
