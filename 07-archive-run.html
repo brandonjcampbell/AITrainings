@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Archive Run</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;800;900&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Single deliberate dark look (night watch). Layout: survivor field manual, part 7: graph-paper column, hazard masthead, chunking and retrieval drills */
+:root{
+  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
+  --accent:#4F9C6B; --accent-soft:#1B2D21; --target:#F04D8C; --target-soft:#3A1527; --other:#5B6450;
+  --bad:#F07A3E; --bad-soft:#3A2016; --code-bg:#22281E; --stripe:#0B0D09; --term:#0B0D09; --term-ink:#CFD8B4;
+  --display:"Big Shoulders Stencil Display","Impact","Arial Narrow",sans-serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"Courier Prime","Courier New",ui-monospace,monospace;
+  color-scheme:dark;
+}
+
+
+*{box-sizing:border-box}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;
+  color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto}
+.col{max-width:68ch}
+h1,h2,h3{font-family:var(--display);line-height:1;text-wrap:balance;margin:0;text-transform:uppercase;letter-spacing:.01em}
+h1{font-size:clamp(3.2rem,10vw,6.4rem);font-weight:900}
+h2{font-size:clamp(2rem,4.6vw,2.9rem);font-weight:800}
+h3{font-size:1.45rem;font-weight:800}
+p{margin:0}
+code{font-family:var(--mono);font-size:.92em;background:var(--code-bg);padding:.05em .35em;border-radius:3px;word-break:break-word}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--target)}
+.hazard{height:14px;background:repeating-linear-gradient(-45deg,var(--target) 0 14px,var(--stripe) 14px 28px);margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)))}
+.docbar{display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--mono);font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-block:12px;border-bottom:2px solid var(--ink)}
+.docbar b{color:var(--ink)}
+section{display:flex;flex-direction:column;gap:20px;padding-block:56px;border-top:1px solid var(--line)}
+section.first{border-top:0;padding-top:40px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.lede{font-size:1.2rem;color:var(--muted);max-width:62ch}
+.lede strong{color:var(--ink);font-weight:600}
+mark{background:var(--target-soft);color:var(--ink);padding:0 .2em;border-radius:2px}
+.stamp{align-self:flex-start;font-family:var(--mono);font-weight:700;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bad);border:2px solid var(--bad);padding:4px 10px;transform:rotate(-2deg)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;box-shadow:0 1px 0 var(--line)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+.note{font-size:.82rem;color:var(--muted);line-height:1.45}
+.btn{font:inherit;font-weight:600;font-size:.88rem;border:2px solid var(--accent);color:var(--accent);background:transparent;border-radius:3px;padding:6px 12px;cursor:pointer}
+.btn:hover{background:var(--accent-soft)}
+.btn.solid{background:var(--accent);color:var(--surface)}
+.btn:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.callout{border-left:4px solid var(--bad);background:var(--bad-soft);padding:12px 16px;font-size:.95rem}
+.callout b{color:var(--bad)}
+.tip{border-left:4px solid var(--accent);background:var(--accent-soft);padding:12px 16px;font-size:.95rem}
+
+/* Facts strip */
+.meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:2px solid var(--ink);background:var(--surface)}
+@media (max-width:700px){.meta{grid-template-columns:1fr}}
+.meta div{padding:14px 18px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+.meta .eyebrow{font-size:.72rem}
+.meta p{font-size:.95rem}
+
+/* Depot stack */
+.depot{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:20px;align-items:start}
+@media (max-width:820px){.depot{grid-template-columns:1fr}}
+.layers{display:flex;flex-direction:column;gap:0}
+.layer{font:inherit;text-align:left;display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:4px 12px;align-items:center;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-bottom-width:0;cursor:pointer;color:var(--ink)}
+.layer:last-child{border-bottom-width:2px}
+.layer .ix{font-family:var(--display);font-weight:900;font-size:1.6rem;color:var(--muted);line-height:1}
+.layer b{font-family:var(--display);font-size:1.3rem;text-transform:uppercase;font-weight:800;line-height:1.05}
+.layer span{grid-column:2;font-size:.85rem;color:var(--muted);line-height:1.35}
+.layer[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.layer[aria-pressed="true"] .ix,.layer[aria-pressed="true"] span{color:var(--surface)}
+.layer+.connector{display:none}
+.layerinfo h3{font-size:1.7rem}
+.layerinfo ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:.95rem}
+.takeaways{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:760px){.takeaways{grid-template-columns:1fr}}
+.takeaways li{display:flex;flex-direction:column;gap:6px;border-top:3px solid var(--target);padding-top:10px}
+.takeaways b{font-weight:700}
+.takeaways p{font-size:.92rem;color:var(--muted)}
+
+/* Glossary */
+.search{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search input{flex:1;min-width:0;font:inherit;font-size:.95rem;padding:9px 12px;border:1px solid var(--line);border-radius:3px;background:var(--surface);color:var(--ink)}
+.gloss{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.gloss{grid-template-columns:1fr}}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.term .nm{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap}
+.term h3{font-size:1.3rem}
+.term .an{font-family:var(--mono);font-size:.78rem;color:var(--target);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.term p{font-size:.9rem}
+.term .say{font-size:.82rem;color:var(--muted);font-style:italic}
+.empty{color:var(--muted);font-size:.95rem}
+
+/* UI tour */
+.tour{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--surface);border-radius:3px}
+.tour div{display:grid;grid-template-columns:9rem minmax(0,1fr);gap:12px;padding:10px 16px;border-top:1px dashed var(--line);font-size:.93rem}
+.tour div:first-child{border-top:0}
+.tour b{font-family:var(--mono);font-weight:700}
+@media (max-width:560px){.tour div{grid-template-columns:1fr;gap:2px}}
+
+/* Steps */
+.steps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column}
+.steps li{display:grid;grid-template-columns:2.4rem minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px dashed var(--line);font-size:.95rem}
+.steps li:first-child{border-top:0}
+.steps li::before{counter-increment:s;content:counter(s);font-family:var(--display);font-weight:900;font-size:1.5rem;color:var(--accent);line-height:1.1}
+.steps li.hot::before{color:var(--target)}
+
+/* Drill */
+.drill{display:flex;flex-direction:column;gap:10px}
+.sc{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.sc p.q{font-size:.95rem}
+.sc .acts{display:flex;gap:8px;flex-wrap:wrap}
+.sc .fb{font-size:.88rem;padding:8px 10px;border-radius:2px}
+.sc .fb.ok{background:var(--accent-soft)}
+.sc .fb.no{background:var(--bad-soft)}
+.sc.done{border-color:var(--accent)}
+.drillscore{font-family:var(--mono);font-size:.9rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+/* Config builder & code */
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:.88rem;font-weight:600}
+.field label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.field input{font-family:var(--mono);font-size:.88rem;padding:8px 10px;border:1px solid var(--line);border-radius:3px;background:var(--code-bg);color:var(--ink);width:100%}
+.warns{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.warns li{font-size:.85rem;padding:6px 10px;border-radius:2px}
+.warns li.w{background:var(--target-soft)}
+.warns li.g{background:var(--accent-soft)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{font:inherit;font-family:var(--mono);font-size:.82rem;font-weight:700;padding:6px 10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:3px 3px 0 0;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--term);color:var(--term-ink);border-color:var(--term)}
+.code{position:relative;background:var(--term);color:var(--term-ink);border-radius:0 3px 3px 3px;min-width:0}
+.code pre{margin:0;padding:16px;font-family:var(--mono);font-size:.84rem;line-height:1.5;overflow-x:auto;white-space:pre}
+.code .cp{position:absolute;top:8px;right:8px;font:inherit;font-family:var(--mono);font-size:.74rem;font-weight:700;padding:3px 8px;background:transparent;color:var(--term-ink);border:1px solid var(--term-ink);border-radius:2px;cursor:pointer;opacity:.85}
+.code .cp:hover{opacity:1}
+.code.solo{border-radius:3px}
+.codehead{display:flex;flex-direction:column;gap:6px}
+.pystep{display:flex;flex-direction:column;gap:12px}
+.pynav{display:flex;gap:6px;flex-wrap:wrap}
+.pynav button{font:inherit;font-size:.85rem;font-weight:600;padding:7px 11px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;gap:6px;align-items:center}
+.pynav button .lv{font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+.pynav button[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.pynav button[aria-selected="true"] .lv{color:var(--surface)}
+.pybody{display:flex;flex-direction:column;gap:12px}
+.pybody p{max-width:68ch}
+
+/* Triage */
+.triage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:20px;align-items:start}
+@media (max-width:820px){.triage{grid-template-columns:1fr}}
+.symptoms{display:flex;flex-direction:column;gap:6px}
+.symptoms button{font:inherit;text-align:left;font-family:var(--mono);font-size:.86rem;padding:10px 12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:3px;cursor:pointer;word-break:break-word}
+.symptoms button[aria-pressed="true"]{border-color:var(--bad);background:var(--bad-soft)}
+.dx{display:flex;flex-direction:column;gap:12px}
+.dx .eyebrow{font-size:.72rem}
+.dx p{font-size:.98rem}
+
+/* Exercises */
+.ex{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ex li label{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:10px;align-items:start;padding:12px 14px;background:var(--surface);border:1px solid var(--line);border-radius:3px;cursor:pointer}
+.ex input{width:18px;height:18px;margin-top:3px;accent-color:var(--target)}
+.ex b{display:block}
+.ex span{font-size:.9rem;color:var(--muted)}
+.ex li.checked label{border-color:var(--target)}
+.progress{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.progress .bar{flex:1;height:10px;background:repeating-linear-gradient(-45deg,var(--code-bg) 0 6px,var(--line) 6px 12px);position:relative;overflow:hidden}
+.progress .bar i{position:absolute;inset:0 auto 0 0;background:var(--target);transition:width .3s}
+footer{padding-top:28px;border-top:2px solid var(--ink);font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.progress .bar i{transition:none}}
+.docbar{align-items:center}
+.logo{flex:none;width:132px;height:44px;border:2px dashed var(--muted);border-radius:3px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.logo img{max-width:100%;max-height:100%;display:block}
+.picker{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:18px;align-items:start}
+@media (max-width:760px){.picker{grid-template-columns:1fr}}
+.memrow{display:grid;grid-template-columns:minmax(0,1fr) 4rem;gap:12px;align-items:center}
+.memrow input{width:100%;accent-color:var(--accent)}
+.memrow output{font-family:var(--mono);font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.flabel{font-size:.88rem;font-weight:600}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chipbtn{font:inherit;font-size:.84rem;font-weight:600;padding:5px 10px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.chipbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.mtable{display:flex;flex-direction:column;overflow-x:auto}
+.mrow{display:grid;grid-template-columns:11rem 5.5rem 5.5rem minmax(14rem,1fr);gap:12px;padding:10px 0;border-top:1px dashed var(--line);align-items:baseline;min-width:560px}
+.mrow.mhead{border-top:0;font-family:var(--mono);font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.mrow .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.tagname{font-family:var(--mono);font-weight:700;color:var(--ink)}
+.fit{font-family:var(--mono);font-weight:700;font-size:.82rem;padding:1px 8px;border-radius:2px;justify-self:start}
+.fit.ok{background:var(--accent);color:var(--surface)}
+.fit.tight{background:var(--target-soft);color:var(--target)}
+.fit.no{border:1.5px solid var(--other);color:var(--muted)}
+.mnote{font-size:.88rem;color:var(--muted)}
+.caps{display:block;font-family:var(--mono);font-size:.74rem;color:var(--accent);margin-top:2px}
+.final{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.final li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;font-size:1.02rem}
+.final li::before{content:"\2610";font-family:var(--mono);color:var(--target);font-weight:700;font-size:1.1rem;line-height:1.4}
+.plain{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;font-size:.93rem}
+.actions{display:flex;flex-wrap:wrap;gap:6px}
+.act{font:inherit;font-size:.84rem;font-weight:600;padding:6px 10px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.act span{font-family:var(--mono);color:var(--target)}
+.act:hover{border-color:var(--target)}
+.act.cut{border-color:var(--accent);color:var(--accent)}
+.act.cut:hover{background:var(--accent-soft)}
+.gauge{position:relative;height:26px;background:repeating-linear-gradient(-45deg,var(--code-bg) 0 8px,var(--line) 8px 16px);border-radius:2px;overflow:hidden}
+.gfill{position:absolute;inset:0 auto 0 0;background:var(--accent);transition:width .4s cubic-bezier(.2,.7,.2,1),background .3s}
+.gfill.amber{background:var(--bad)} .gfill.red{background:var(--target)}
+.gmark{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.5}
+.gread{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.gread #gpct{font-family:var(--display);font-weight:900;font-size:2.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.gread #gstate{font-size:.92rem;color:var(--muted);flex:1;min-width:12rem}
+.log{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-family:var(--mono);font-size:.8rem}
+.log li{padding:4px 8px;background:var(--code-bg);border-radius:2px;display:flex;justify-content:space-between;gap:10px}
+.log li span{color:var(--target)}
+.log li.cut{background:var(--accent-soft)}
+.ws{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.ws{grid-template-columns:1fr}}
+.field textarea{width:100%;font-family:var(--mono);font-size:.86rem;line-height:1.45;color:var(--ink);background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:9px 10px;resize:vertical}
+.field textarea:focus-visible{outline:2px solid var(--target);outline-offset:1px}
+.out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.score{font-family:var(--mono);font-size:.9rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.code pre.wrapcode{white-space:pre-wrap;word-break:break-word;padding-right:64px}
+.checks{display:flex;flex-direction:column;gap:8px;list-style:none;margin:0;padding:0}
+.checks li{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:8px;font-size:.9rem;line-height:1.4}
+.chip{width:1.4rem;height:1.4rem;border-radius:2px;display:grid;place-items:center;font-family:var(--mono);font-size:.8rem;font-weight:700}
+.chip.y{background:var(--target);color:var(--surface)}
+.chip.n{border:1.5px solid var(--other);color:var(--muted)}
+.checks .hint{color:var(--muted);display:block;font-size:.82rem}
+.pairs{display:flex;flex-direction:column;gap:12px}
+.pair{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:12px}
+@media (max-width:640px){.pair{grid-template-columns:1fr}}
+.pair > div{min-width:0}
+.pair .tag{display:block;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.pair pre{margin:0;font-family:var(--mono);font-size:.84rem;line-height:1.45;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:10px 12px;white-space:pre-wrap;word-break:break-word}
+.pair .after pre{border-left:3px solid var(--target)}
+.phase{display:flex;flex-direction:column;gap:14px}
+.otable{display:flex;flex-direction:column;border:2px solid var(--ink);background:var(--surface);overflow-x:auto}
+.orow{display:grid;grid-template-columns:9rem minmax(14rem,1.4fr) minmax(10rem,1fr) minmax(9rem,.8fr);gap:14px;padding:12px 16px;border-top:1px dashed var(--line);font-size:.9rem;min-width:640px;align-items:baseline}
+.orow.ohead{border-top:0;font-family:var(--mono);font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.orow b{font-weight:700;color:var(--target)}
+.orow span:nth-child(2){color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:820px){.cards{grid-template-columns:1fr}}
+.cards p{font-size:.93rem;color:var(--muted)}
+.fails{display:flex;flex-direction:column}
+.fail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:6px 24px;padding:16px 0;border-top:1px dashed var(--line)}
+.fail:first-child{border-top:0}
+@media (max-width:640px){.fail{grid-template-columns:1fr}}
+.fail h3{font-size:1.3rem}
+.fail .sym{font-size:.88rem;color:var(--muted);margin-top:4px}
+.fail .fix{font-size:.92rem}
+.fail .fix b{color:var(--target);font-weight:700}
+.sliders{display:flex;flex-direction:column;gap:14px}
+.sl{display:grid;grid-template-columns:minmax(0,1fr) 4rem;gap:2px 12px;align-items:center}
+.sl label{grid-column:1/-1;font-size:.9rem;font-weight:600}
+.sl label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.sl input{width:100%;accent-color:var(--accent)}
+.sl output{font-family:var(--mono);font-size:.95rem;text-align:right;font-variant-numeric:tabular-nums}
+.verdict{font-size:.95rem;background:var(--accent-soft);border-left:3px solid var(--accent);padding:12px 14px}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.vs > div{display:flex;flex-direction:column;gap:2px}
+.big{font-family:var(--display);font-weight:900;font-size:3.6rem;line-height:1;font-variant-numeric:tabular-nums}
+.big.bad{color:var(--bad)} .big.good{color:var(--target)}
+.search{display:flex;gap:14px;align-items:end;flex-wrap:wrap}
+.search input[type=search]{flex:1 1 18rem;min-width:0;font:inherit;font-size:1rem;padding:10px 12px;border:1px solid var(--line);border-radius:3px;background:var(--code-bg);color:var(--ink)}
+.kslider{flex:0 1 14rem}
+.chunkstats{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:.86rem;color:var(--muted)}
+.chunkstats b{color:var(--ink)}
+.chunkstats .okc{color:var(--accent)} .chunkstats .badc{color:var(--target)}
+.chunkview{display:flex;flex-direction:column;gap:8px;max-height:460px;overflow:auto}
+.chunk{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;padding:10px 12px;background:var(--code-bg);border-left:3px solid var(--accent);border-radius:2px}
+.chunk:nth-child(even){border-left-color:var(--other)}
+.chunk .cn{font-family:var(--display);font-weight:900;font-size:1.3rem;color:var(--accent);line-height:1.1}
+.chunk p{font-size:.88rem;line-height:1.55}
+.chunk .lap{color:var(--muted);text-decoration:underline dotted}
+.chunk .hot{background:var(--target-soft);color:var(--ink)}
+.hits{display:flex;flex-direction:column;gap:6px}
+.hit{padding:8px 10px;border:1px solid var(--line);border-radius:3px;display:flex;flex-direction:column;gap:5px;opacity:.6}
+.hit.top{opacity:1;border-color:var(--target);background:var(--surface)}
+.hhead{display:flex;justify-content:space-between;gap:10px}
+.hhead .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.hbar{height:5px;background:var(--code-bg);border-radius:2px;overflow:hidden}
+.hbar i{display:block;height:100%;background:var(--target)}
+.hit p{font-size:.84rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="hazard" aria-hidden="true"></div>
+<div class="wrap">
+<div class="docbar"><div class="logo" role="img" aria-label="Logo placeholder"><!-- Replace this text with <img src="logo.svg" alt="Your organization"> -->Your logo</div><span><b>Field Manual 7</b></span><span>Retrieval-augmented generation</span><span>Distribution: engineers</span><span>Day 212 after the outbreak</span></div>
+
+<section class="first">
+  <div class="stamp">Check the archive first</div>
+  <h1>Archive Run</h1>
+  <p class="lede">The model knows a lot about the world before the outbreak and nothing about your camp's logbooks. You can't paste the whole archive into every question either. <strong>Retrieval-augmented generation (RAG)</strong> finds the few passages that matter and hands them to the model with the question, so it <mark>answers from your documents and cites them</mark>.</p>
+  <div class="meta">
+    <div><span class="eyebrow">Who it's for</span><p>Engineers building question answering, search or assistants over their own documents.</p></div>
+    <div><span class="eyebrow">Time</span><p>About 75 minutes, half hands-on.</p></div>
+    <div><span class="eyebrow">Bring</span><p>Python 3.10+, and Ollama with <code>llama3.2</code> and <code>nomic-embed-text</code> pulled (Field Manual 4).</p></div>
+  </div>
+  <ul class="takeaways">
+    <li><b>Use RAG for facts that live in documents.</b><p>Policies, manuals, tickets, reports. Especially when they change or are too many to fit in one prompt.</p></li>
+    <li><b>Not for everything.</b><p>A few short documents fit in the prompt directly. Numbers in a database want a SQL tool. Tone and format want examples or fine-tuning.</p></li>
+    <li><b>Retrieval is most of the work.</b><p>If the right passage never reaches the model, no prompt can fix the answer. Measure retrieval on its own.</p></li>
+  </ul>
+</section>
+
+<section id="pipeline">
+  <div class="stack col">
+    <div class="eyebrow">Part 1 · The supply chain</div>
+    <h2>The RAG pipeline</h2>
+    <p>Two halves. Indexing runs ahead of time, whenever documents change. Answering runs for every question. Select a stage.</p>
+  </div>
+  <div class="depot">
+    <div class="layers" id="layers"></div>
+    <div class="panel layerinfo" id="layerInfo" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="chunking">
+  <div class="stack col">
+    <div class="eyebrow">Drill 1 · Cut the rations</div>
+    <h2>See how chunking splits a document</h2>
+    <p>Documents are cut into chunks before embedding, and each chunk is what gets retrieved. Too small and a chunk loses the context that makes it make sense. Too big and one passage carries several topics, so it matches everything weakly. Overlap repeats words at the edges so a sentence isn't lost between two chunks.</p>
+  </div>
+  <div class="panel">
+    <div class="two">
+      <div class="sl"><label for="csize">Chunk size<span>Words per chunk</span></label><input id="csize" type="range" min="15" max="120" step="5" value="45"><output id="csizeo"></output></div>
+      <div class="sl"><label for="cover">Overlap<span>Words repeated from the previous chunk</span></label><input id="cover" type="range" min="0" max="40" step="5" value="10"><output id="covero"></output></div>
+    </div>
+    <div class="chunkstats" id="cstats"></div>
+    <div class="chunkview" id="cview"></div>
+    <p class="note">Watch the line about tablets and waiting time. At some sizes it splits across two chunks, so neither chunk alone answers "how long do I wait?" Real chunkers also respect headings and paragraphs, which this simple word splitter doesn't.</p>
+  </div>
+</section>
+
+<section id="search">
+  <div class="stack col">
+    <div class="eyebrow">Drill 2 · Search the archive</div>
+    <h2>Retrieval, live</h2>
+    <p>Ask the camp archive a question. The demo ranks ten documents and builds the prompt the model would receive. It runs in your browser using <strong>keyword vectors</strong> (TF-IDF). Real systems use an embedding model, which also matches meaning. Try the "meaning" example to see why that matters.</p>
+  </div>
+  <div class="panel">
+    <div class="search">
+      <input id="q" type="search" value="How long do I wait after a water tablet?" aria-label="Question for the archive">
+      <div class="sl kslider"><label for="k">Top k</label><input id="k" type="range" min="1" max="5" value="3"><output id="ko"></output></div>
+    </div>
+    <div class="chips" id="examples"></div>
+    <div class="two">
+      <div class="stack"><div class="eyebrow">Ranked documents</div><div class="hits" id="hits"></div></div>
+      <div class="stack"><div class="eyebrow">Prompt sent to the model</div><div class="code solo"><pre id="prompt" class="wrapcode"></pre></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="build">
+  <div class="stack col">
+    <div class="eyebrow">Part 2 · Build the Archive assistant</div>
+    <h2>Seven steps to RAG</h2>
+    <p>A complete local RAG system in plain Python with Ollama and NumPy. Put a few Markdown files in an <code>archive/</code> folder before step 2.</p>
+  </div>
+  <div class="pynav" role="tablist" id="pynav"></div>
+  <div class="pybody" id="pybody"></div>
+</section>
+
+<section id="triage">
+  <div class="stack col">
+    <div class="eyebrow">Part 3 · Field triage</div>
+    <h2>Find which stage failed</h2>
+    <p>When an answer is wrong, check the stages in order. Most bad answers trace back to retrieval, not to the model.</p>
+  </div>
+  <div class="triage">
+    <div class="symptoms" id="symptoms"></div>
+    <div class="panel dx" id="dx" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="exercises">
+  <div class="stack col">
+    <div class="eyebrow">Part 4 · Hands-on</div>
+    <h2>Five drills</h2>
+    <p>Check each one off as you finish. Progress is saved in this browser only.</p>
+  </div>
+  <div class="progress"><span id="exCount">0 of 5</span><div class="bar"><i id="exBar" style="width:0"></i></div></div>
+  <ul class="ex" id="ex"></ul>
+</section>
+
+<section>
+  <div class="stack col">
+    <div class="eyebrow">Pocket checklist</div>
+    <h2>Before the archive goes live</h2>
+    <ul class="final">
+      <li>I have at least 20 test questions, each with the document that should answer it.</li>
+      <li>I measure retrieval hit rate separately from answer quality.</li>
+      <li>Chunk size, overlap and top k were chosen by testing, not by default.</li>
+      <li>Answers cite their sources, and the model says so when the sources don't cover the question.</li>
+      <li>Documents carry metadata (source, date, owner) so results can be filtered and traced.</li>
+      <li>Re-indexing runs when documents change, and deleted documents leave the index.</li>
+      <li>People only retrieve documents they're allowed to read.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="cheat">
+  <div class="stack col">
+    <div class="eyebrow">Appendix · Pocket card</div>
+    <h2>Cheat sheet</h2>
+  </div>
+  <div class="code solo"><button class="cp" type="button" data-copy="cheatOut">Copy</button><pre id="cheatOut">INDEX   load → clean → chunk → embed → store (with metadata)
+ANSWER  embed question → retrieve top k → (rerank) → prompt with sources → cite
+
+Starting points to tune, not rules:
+  chunk size   200–500 words, split on headings and paragraphs
+  overlap      10–20% of chunk size
+  top k        3–8 chunks
+  temperature  0 for factual answers
+
+nomic-embed-text prefixes:
+  "search_document: " for chunks, "search_query: " for questions
+
+Upgrades, in the order they usually pay off:
+  1. better chunking and cleaning
+  2. hybrid search (keyword + vector)
+  3. metadata filters (date, source, permissions)
+  4. a reranker on the top 20–50 results
+  5. query rewriting for vague or multi-part questions
+
+Measure:
+  retrieval  hit rate@k: is the right source in the top k?
+  answer     correct, and supported by the cited sources?</pre></div>
+</section>
+
+<footer>Field Manual 7. Builds on <em>Off-Grid Intelligence</em> (Ollama) and <em>Survival Odds</em> (prompting). The archive documents are fictional, including their camp rules.</footer>
+</div>
+
+<script>
+(function(){
+  function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+  function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+
+  /* Pipeline */
+  var layers=[
+    {n:"Load and clean",s:"Indexing · get the text out",h:"Load and clean",b:["Pull text from PDFs, wikis, tickets and docs. Strip navigation, boilerplate and repeated headers.","Keep metadata: source, title, date, owner, who may read it. You'll need it to filter, cite and enforce access."]},
+    {n:"Chunk",s:"Indexing · cut into passages",h:"Chunk",b:["Split each document into passages that can stand alone. Respect headings and paragraphs where possible.","Size and overlap are the first knobs to tune. Drill 1 shows the trade-off."]},
+    {n:"Embed and store",s:"Indexing · turn text into vectors",h:"Embed and store",b:["An embedding model turns each chunk into a vector, a list of numbers where similar meanings land close together.","Store vectors with their text and metadata: a NumPy file to start, a vector database once you have thousands of chunks."]},
+    {n:"Retrieve",s:"Answering · find the closest passages",h:"Retrieve",b:["Embed the question with the same model and find the chunks whose vectors are closest, usually by cosine similarity.","Hybrid search adds keyword matching, which catches exact terms like part numbers and names that embeddings can blur."]},
+    {n:"Rerank",s:"Answering · optional second opinion",h:"Rerank",b:["Fetch a wider set (say 30), then use a reranking model to score each against the question more carefully and keep the best few.","Usually the biggest quality gain after fixing chunking."]},
+    {n:"Generate",s:"Answering · answer from the sources",h:"Generate",b:["Put the retrieved chunks in the prompt, numbered, with an instruction to answer only from them, cite them, and say when they don't cover the question.","Every lever from Field Manual 1 applies here."]}
+  ];
+  var lEl=document.getElementById("layers"),info=document.getElementById("layerInfo");
+  layers.forEach(function(l,i){var b=document.createElement("button");b.type="button";b.className="layer";b.setAttribute("aria-pressed","false");
+    b.innerHTML='<span class="ix">'+(i+1)+'</span><b>'+l.n+'</b><span>'+l.s+'</span>';b.addEventListener("click",function(){showLayer(i)});lEl.appendChild(b)});
+  function showLayer(i){Array.prototype.forEach.call(lEl.children,function(b,j){b.setAttribute("aria-pressed",j===i?"true":"false")});
+    var l=layers[i];info.innerHTML='<div class="eyebrow">Stage '+(i+1)+' of 6 · '+(i<3?"runs ahead of time":"runs per question")+'</div><h3>'+l.h+'</h3><ul>'+l.b.map(function(x){return "<li>"+x+"</li>"}).join("")+'</ul>'}
+  showLayer(1);
+
+  /* Chunking */
+  var DOC="Water procedures. All drinking water comes from the creek intake or the rain tanks. Never drink untreated water, even when it looks clear. To treat water, either boil it at a rolling boil for one full minute, or add one purification tablet per liter. After adding a tablet you must wait thirty minutes before drinking. Mark every treated container with the time it was treated and your initials. Rain tanks are checked every morning by the water crew, who skim debris and record the level in the water log. If a tank smells wrong or looks cloudy, close its valve, tag it, and report it to the quartermaster before the next meal service. Spare tablets are kept in the medical tent, not the supply shed, because heat ruins them. Each outpost keeps a two-day reserve of treated water in sealed jugs, rotated every week.";
+  var words=DOC.split(/\s+/),cs=document.getElementById("csize"),co=document.getElementById("cover");
+  function chunks(){var size=+cs.value,ov=Math.min(+co.value,size-5),step=size-ov,out=[];
+    for(var s=0;s<words.length;s+=step){out.push([s,Math.min(s+size,words.length)]);if(s+size>=words.length)break}return out}
+  function drawChunks(){var size=+cs.value,ov=Math.min(+co.value,size-5);document.getElementById("csizeo").textContent=size;document.getElementById("covero").textContent=ov;
+    var c=chunks(),key=words.indexOf("After"),keyEnd=words.indexOf("drinking.",key);
+    var whole=c.filter(function(r){return r[0]<=key&&r[1]>keyEnd}).length;
+    document.getElementById("cstats").innerHTML='<span><b>'+c.length+'</b> chunks</span><span><b>'+words.length+'</b> words</span><span class="'+(whole?"okc":"badc")+'">'+(whole?"Tablet wait-time sentence is whole in a chunk":"Tablet wait-time sentence is split across chunks")+'</span>';
+    document.getElementById("cview").innerHTML=c.map(function(r,i){var t=words.slice(r[0],r[1]).map(function(w,j){var idx=r[0]+j;var hot=idx>=key&&idx<=keyEnd;var lap=i>0&&idx<c[i-1][1];return '<span class="'+(hot?"hot ":"")+(lap?"lap":"")+'">'+esc(w)+'</span>'}).join(" ");
+      return '<div class="chunk"><span class="cn">'+(i+1)+'</span><p>'+t+'</p></div>'}).join("")}
+  cs.addEventListener("input",drawChunks);co.addEventListener("input",drawChunks);drawChunks();
+
+  /* Retrieval demo */
+  var corpus=[
+    ["water.md","Treat all drinking water. Boil at a rolling boil for one minute, or add one tablet per liter and wait thirty minutes before drinking."],
+    ["rationing.md","Food is issued per headcount at each meal. Medicine requires quartermaster sign-off before it leaves the medical tent."],
+    ["watch.md","Two people per watch post. Swap every two hours. Radio check on the hour, every hour, with the call sign of your post."],
+    ["fence.md","Walk the fence line at dawn and dusk. Report any sagging wire or broken posts to the build crew the same day."],
+    ["radio.md","Use channel 4 for routine traffic and channel 9 for emergencies only. Keep transmissions under thirty seconds."],
+    ["medical.md","Clean any wound with treated water and cover it. Fever after a scratch means isolation in the medical tent until cleared."],
+    ["fuel.md","Generator fuel is rationed to four hours a night. The quartermaster signs off on any extra fuel for vehicles."],
+    ["scouting.md","Scouts travel in pairs, carry a radio, and must be back before dark. Log the route and any sightings on return."],
+    ["garden.md","Water the garden beds from the rain tanks only, never from treated drinking water reserves."],
+    ["newcomers.md","New arrivals spend two days in quarantine, then get a buddy who shows them the water, watch and fence routines."]
+  ];
+  var STOP="a an the and or of to in on at for is are be by with from it its any every after before your you their them then than this that each until only never must per who what when how do does i my me we our can should long next".split(" ");
+  function toks(t){return t.toLowerCase().replace(/[^a-z0-9 ]/g," ").split(/\s+/).filter(function(w){return w&&STOP.indexOf(w)<0}).map(function(w){return w.length>4?w.replace(/(ing|ed|es|s)$/,""):w})}
+  var docT=corpus.map(function(d){return toks(d[1])}),df={};
+  docT.forEach(function(ts){var seen={};ts.forEach(function(w){if(!seen[w]){df[w]=(df[w]||0)+1;seen[w]=1}})});
+  var N=corpus.length;
+  function vec(ts){var v={};ts.forEach(function(w){v[w]=(v[w]||0)+1});var n=0;for(var w in v){v[w]=v[w]*Math.log((N+1)/((df[w]||0)+1));n+=v[w]*v[w]}n=Math.sqrt(n)||1;for(w in v)v[w]/=n;return v}
+  var docV=docT.map(vec);
+  function cos(a,b){var s=0;for(var w in a)if(b[w])s+=a[w]*b[w];return s}
+  var qEl=document.getElementById("q"),kEl=document.getElementById("k");
+  function run(){var k=+kEl.value;document.getElementById("ko").textContent=k;
+    var qv=vec(toks(qEl.value));var ranked=corpus.map(function(d,i){return {i:i,s:cos(qv,docV[i])}}).sort(function(a,b){return b.s-a.s});
+    document.getElementById("hits").innerHTML=ranked.map(function(r,n){var top=n<k&&r.s>0;return '<div class="hit'+(top?" top":"")+'"><div class="hhead"><span class="tagname">'+corpus[r.i][0]+'</span><span class="mono">'+r.s.toFixed(2)+'</span></div><div class="hbar"><i style="width:'+Math.round(r.s*100)+'%"></i></div>'+(top?'<p>'+esc(corpus[r.i][1])+'</p>':"")+'</div>'}).join("");
+    var picked=ranked.slice(0,k).filter(function(r){return r.s>0});
+    var src=picked.length?picked.map(function(r,n){return "["+(n+1)+"] ("+corpus[r.i][0]+")\n"+corpus[r.i][1]}).join("\n\n"):"(no matching documents)";
+    document.getElementById("prompt").textContent="System: Answer only from the numbered sources. Cite them like [1]. If the sources don't answer the question, say so.\n\n<sources>\n"+src+"\n</sources>\n\nQuestion: "+qEl.value}
+  qEl.addEventListener("input",run);kEl.addEventListener("input",run);
+  var exs=[["Exact words","How long do I wait after a water tablet?"],["Who signs off","Who approves extra fuel?"],["Meaning, not words","Is the brook safe to sip?"],["Not in archive","When is the next supply drop?"]];
+  var exEl0=document.getElementById("examples");
+  exs.forEach(function(e){var b=document.createElement("button");b.type="button";b.className="chipbtn";b.setAttribute("aria-pressed","false");b.textContent=e[0];b.addEventListener("click",function(){qEl.value=e[1];run()});exEl0.appendChild(b)});
+  run();
+
+  /* Build steps */
+  var py=[
+    {k:"1",t:"Set up",p:["You need two models: one to embed text and one to write answers. NumPy does the vector math."],
+     c:'ollama pull nomic-embed-text\nollama pull llama3.2\npip install ollama numpy\n\nmkdir archive        # add a few .md files: rules, procedures, logs'},
+    {k:"2",t:"Load and chunk",p:["Split each document into overlapping word windows and keep where each chunk came from. Start simple; you'll tune size and overlap in step 6."],
+     c:'from pathlib import Path\n\n\ndef chunk(text: str, source: str, size: int = 200, overlap: int = 40) -> list[dict]:\n    words = text.split()\n    step = size - overlap\n    chunks = []\n    for start in range(0, max(len(words) - overlap, 1), step):\n        chunks.append({\n            "source": source,\n            "start": start,\n            "text": " ".join(words[start:start + size]),\n        })\n    return chunks\n\n\nchunks = []\nfor path in sorted(Path("archive").glob("*.md")):\n    chunks += chunk(path.read_text(encoding="utf-8"), source=path.name)\n\nprint(f"{len(chunks)} chunks from {len(set(c[\'source\'] for c in chunks))} files")'},
+    {k:"3",t:"Embed and save",p:["Embed in batches and normalize each vector to length 1, so a dot product equals cosine similarity. <code>nomic-embed-text</code> expects a task prefix: <code>search_document:</code> for chunks and <code>search_query:</code> for questions.","Save the vectors and chunks so you only re-embed when documents change."],
+     c:'import json\nimport numpy as np\nfrom ollama import embed\n\nEMBED_MODEL = "nomic-embed-text"\n\ntexts = ["search_document: " + c["text"] for c in chunks]\nvectors = []\nfor i in range(0, len(texts), 64):\n    vectors += embed(model=EMBED_MODEL, input=texts[i:i + 64]).embeddings\n\nmatrix = np.array(vectors, dtype=np.float32)\nmatrix /= np.linalg.norm(matrix, axis=1, keepdims=True)\n\nnp.save("vectors.npy", matrix)\nPath("chunks.json").write_text(json.dumps(chunks), encoding="utf-8")'},
+    {k:"4",t:"Retrieve",p:["Embed the question the same way, score every chunk with one matrix multiplication, and keep the top k. The minimum score drops weak matches; tune it on your own data."],
+     c:'def search(question: str, k: int = 4, min_score: float = 0.3) -> list[tuple[dict, float]]:\n    q = np.array(\n        embed(model=EMBED_MODEL, input="search_query: " + question).embeddings[0],\n        dtype=np.float32,\n    )\n    q /= np.linalg.norm(q)\n    scores = matrix @ q\n    best = np.argsort(scores)[::-1][:k]\n    return [(chunks[i], float(scores[i])) for i in best if scores[i] >= min_score]\n\n\nfor c, score in search("How long do I wait after a water tablet?"):\n    print(f"{score:.2f}  {c[\'source\']}  {c[\'text\'][:80]}...")'},
+    {k:"5",t:"Answer with citations",p:["Number the sources, ask for citations, and tell the model what to do when the sources don't cover the question. If retrieval finds nothing, don't call the model at all."],
+     c:'from ollama import chat\n\nMODEL = "llama3.2"\nSYSTEM = (\n    "Answer only from the numbered sources. Cite them like [1]. "\n    "If the sources don\'t answer the question, say that the archive doesn\'t cover it."\n)\n\n\ndef answer(question: str) -> str:\n    hits = search(question)\n    if not hits:\n        return "Nothing in the archive covers that."\n    sources = "\\n\\n".join(\n        f"[{n}] ({c[\'source\']})\\n{c[\'text\']}" for n, (c, _) in enumerate(hits, 1)\n    )\n    response = chat(\n        model=MODEL,\n        messages=[\n            {"role": "system", "content": SYSTEM},\n            {"role": "user", "content": f"<sources>\\n{sources}\\n</sources>\\n\\nQuestion: {question}"},\n        ],\n        options={"temperature": 0},\n    )\n    return response.message.content\n\n\nprint(answer("Who signs off on medicine?"))'},
+    {k:"6",t:"Measure retrieval",p:["Write questions you know the answers to, with the file that should answer each. Then check whether that file appears in the top k. This hit rate tells you whether to fix retrieval before you touch the prompt.","Change one thing at a time (chunk size, overlap, k) and re-run."],
+     c:'TESTS = [\n    ("How long after a water tablet before drinking?", "water.md"),\n    ("Who signs off on medicine?", "rationing.md"),\n    ("How often is the radio check?", "watch.md"),\n    # aim for 20 or more, written the way people actually ask\n]\n\nhits = 0\nfor question, expected in TESTS:\n    found = [c["source"] for c, _ in search(question, k=4)]\n    ok = expected in found\n    hits += ok\n    print("PASS" if ok else "MISS", question, found)\n\nprint(f"Hit rate@4: {hits}/{len(TESTS)}")'},
+    {k:"7",t:"Scale up",p:["Past a few thousand chunks, move to a vector database. It adds fast approximate search, metadata filters and incremental updates. Chroma runs locally with no server; pgvector fits if you already run Postgres.","Keep your test set from step 6. It's how you'll know whether each upgrade helped."],
+     c:'# pip install chromadb\nimport chromadb\n\nclient = chromadb.PersistentClient(path="archive_db")\ncollection = client.get_or_create_collection("archive")\n\ncollection.add(\n    ids=[f"{c[\'source\']}-{c[\'start\']}" for c in chunks],\n    documents=[c["text"] for c in chunks],\n    embeddings=matrix.tolist(),          # normalized vectors from step 3\n    metadatas=[{"source": c["source"]} for c in chunks],\n)\n\nresults = collection.query(\n    query_embeddings=[q.tolist()],       # normalized question vector, as in step 4\n    n_results=4,\n    where={"source": "rationing.md"},    # optional metadata filter\n)'}
+  ];
+  var nav=document.getElementById("pynav"),body=document.getElementById("pybody");
+  py.forEach(function(s,i){var b=document.createElement("button");b.type="button";b.setAttribute("role","tab");b.innerHTML='<span class="lv">'+s.k+'</span>'+s.t;
+    b.addEventListener("click",function(){showPy(i)});
+    b.addEventListener("keydown",function(e){var j=null;if(e.key==="ArrowRight")j=(i+1)%py.length;if(e.key==="ArrowLeft")j=(i+py.length-1)%py.length;if(j!==null){showPy(j);nav.children[j].focus()}});
+    nav.appendChild(b)});
+  function showPy(i){Array.prototype.forEach.call(nav.children,function(b,j){b.setAttribute("aria-selected",j===i?"true":"false");b.tabIndex=j===i?0:-1});
+    var s=py[i];body.innerHTML='<h3>Step '+s.k+' · '+s.t+'</h3>'+s.p.map(function(x){return "<p>"+x+"</p>"}).join("")+
+      '<div class="code solo"><button class="cp" type="button" data-copy="pyCode">Copy</button><pre id="pyCode">'+esc(s.c)+'</pre></div>'+
+      (i<py.length-1?'<div><button class="btn" type="button" id="pyNext">Next: '+py[i+1].t+'</button></div>':"");
+    var nx=document.getElementById("pyNext");if(nx)nx.addEventListener("click",function(){showPy(i+1);nav.children[i+1].focus()})}
+  showPy(0);
+
+  /* Triage */
+  var tri=[
+    ["Says the archive doesn't cover it, but it does","The right chunk wasn't retrieved: wrong wording, too-low k, or a chunk that lost its context.","Run the step 6 test for this question. Try larger chunks, more overlap, higher k, or hybrid search for exact terms."],
+    ["The answer is half right","The answer was split across two chunks and only one was retrieved.","Increase overlap, chunk on headings and paragraphs, or retrieve neighboring chunks along with each hit."],
+    ["Retrieved the right source, still answered wrong","The model ignored or misread the source, often because too many chunks crowded it.","Lower k, put the most relevant source first, set temperature to 0, and make the instruction to answer only from sources explicit."],
+    ["Confident answer with no real source","The model filled the gap from its own knowledge.","Return \"not covered\" when retrieval is empty or weak, require citations, and check that cited numbers exist."],
+    ["Old or wrong version of a policy comes back","Outdated documents are still in the index.","Store dates in metadata, filter to current versions, and remove deleted documents when you re-index."],
+    ["Part numbers or names don't match","Embeddings blur exact strings like ID codes.","Add keyword search alongside vectors (hybrid search) and merge the results."],
+    ["Someone saw a document they shouldn't","Retrieval ignored access rules.","Store permissions in metadata and filter on them at query time, before anything reaches the prompt."]
+  ];
+  var sEl=document.getElementById("symptoms"),dx=document.getElementById("dx");
+  tri.forEach(function(t,i){var b=document.createElement("button");b.type="button";b.setAttribute("aria-pressed","false");b.textContent=t[0];b.addEventListener("click",function(){showDx(i)});sEl.appendChild(b)});
+  function showDx(i){Array.prototype.forEach.call(sEl.children,function(b,j){b.setAttribute("aria-pressed",j===i?"true":"false")});var t=tri[i];
+    dx.innerHTML='<div><span class="eyebrow">Symptom</span><p>'+esc(t[0])+'</p></div><div><span class="eyebrow">Likely cause</span><p>'+esc(t[1])+'</p></div><div><span class="eyebrow">Fix</span><p>'+esc(t[2])+'</p></div>'}
+  showDx(0);
+
+  /* Exercises */
+  var exl=[
+    ["Find the split","In Drill 1, find a chunk size and overlap that keep the tablet sentence whole. Then find one that splits it."],
+    ["Break the keyword search","In Drill 2, write a question that the archive can answer but keyword search ranks badly. Explain why embeddings would do better."],
+    ["Build it","Run steps 1 to 5 on five documents from your own work."],
+    ["Measure it","Write ten test questions for step 6. Record the hit rate at chunk sizes of 100, 200 and 400 words."],
+    ["Make it refuse","Ask three questions your documents don't cover. Confirm the assistant says so instead of guessing."]
+  ];
+  var exEl=document.getElementById("ex"),done={};
+  try{done=JSON.parse(store("fm7-ex")||"{}")||{}}catch(e){done={}}
+  function exProg(){var n=0;for(var k in done)if(done[k])n++;document.getElementById("exCount").textContent=n+" of "+exl.length;document.getElementById("exBar").style.width=(n/exl.length*100)+"%"}
+  exl.forEach(function(e,i){var li=document.createElement("li");if(done[i])li.className="checked";
+    li.innerHTML='<label for="ex'+i+'"><input type="checkbox" id="ex'+i+'"'+(done[i]?" checked":"")+'><div><b>'+(i+1)+'. '+e[0]+'</b><span>'+esc(e[1])+'</span></div></label>';
+    li.querySelector("input").addEventListener("change",function(ev){done[i]=ev.target.checked;li.className=ev.target.checked?"checked":"";store("fm7-ex",JSON.stringify(done));exProg()});
+    exEl.appendChild(li)});
+  exProg();
+
+  document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".cp");if(!b)return;
+    var el=document.getElementById(b.getAttribute("data-copy"));if(!el)return;var t=el.textContent;
+    function sel(){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected"}
+    try{navigator.clipboard.writeText(t).then(function(){b.textContent="Copied";setTimeout(function(){b.textContent="Copy"},1500)},sel)}catch(err){sel()}});
+})();
+</script>
+
+</body>
+</html>

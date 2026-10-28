@@ -60,10 +60,19 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
 <header>
   <div class="stamp">Training index</div>
   <h1>Survivor Field Manuals</h1>
-  <p class="lede">Hands-on courses for working with AI and data, set in a world that already ended. Each manual is a single interactive page. Start with Field Manual 1 if you're new to prompting.</p>
+  <p class="lede">Hands-on courses for working with AI and data, set in a world that already ended. Each manual is a single interactive page. Start with Field Manual 0 if you're new to language models.</p>
 </header>
 
 <ol class="courses">
+  <li class="course"><a href="00-field-autopsy.html">
+    <span class="num">00</span>
+    <div class="body">
+      <span class="kicker">Field Manual 0 · Foundations</span>
+      <h2>Field Autopsy</h2>
+      <p>How large language models actually work: tokens (with a real tokenizer you train in the browser), embeddings, attention, the transformer layers, temperature and top-p sampling, training stages, memory, and why models fail the way they do.</p>
+      <div class="tags"><span class="tag">~60 min</span><span class="tag">Everyone</span><span class="tag">Start here</span></div>
+      <span class="go">Open manual →</span>
+    </div></a></li>
   <li class="course"><a href="01-survival-odds.html">
     <span class="num">01</span>
     <div class="body">
@@ -107,6 +116,24 @@ footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-siz
       <h2>Squad Orders</h2>
       <p>Getting reliable results from coding agents like Claude Code and Devin: managing context, writing briefs with checks the agent can run, the scout-plan-build-check-ship loop, standing orders, running several agents, and common failures.</p>
       <div class="tags"><span class="tag">~60 min</span><span class="tag">Engineers</span><span class="tag">After FM 1 and 2</span></div>
+      <span class="go">Open manual →</span>
+    </div></a></li>
+  <li class="course"><a href="06-common-frequency.html">
+    <span class="num">06</span>
+    <div class="body">
+      <span class="kicker">Field Manual 6 · MCP</span>
+      <h2>Common Frequency</h2>
+      <p>The Model Context Protocol: why a standard beats custom integrations, hosts, clients and servers, tools versus resources versus prompts, then building, testing and connecting a Python server with the official SDK, plus security and triage.</p>
+      <div class="tags"><span class="tag">60–75 min</span><span class="tag">Engineers</span><span class="tag">Hands-on</span></div>
+      <span class="go">Open manual →</span>
+    </div></a></li>
+  <li class="course"><a href="07-archive-run.html">
+    <span class="num">07</span>
+    <div class="body">
+      <span class="kicker">Field Manual 7 · RAG</span>
+      <h2>Archive Run</h2>
+      <p>Retrieval-augmented generation: the pipeline, a chunking visualizer, live retrieval in the browser, and a local build with Ollama and NumPy, including measuring retrieval and finding which stage failed.</p>
+      <div class="tags"><span class="tag">~75 min</span><span class="tag">Engineers</span><span class="tag">Hands-on</span></div>
       <span class="go">Open manual →</span>
     </div></a></li>
 </ol>
