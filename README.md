@@ -7,6 +7,8 @@ Interactive AI and data trainings, themed around surviving a zombie apocalypse. 
 | 1 | [Survival Odds](01-survival-odds.html) | Prompt engineering as making the response you want the most probable result |
 | 2 | [Outpost Protocols](02-outpost-protocols.html) | Structuring one-shot prompts into agentic solutions |
 | 3 | [Lakehouse Supply Run](03-lakehouse-supply-run.html) | Databricks fundamentals, access tokens, and pulling data with Python |
+| 4 | [Off-Grid Intelligence](04-off-grid-intelligence.html) | Prototyping a Python app with Ollama |
+| 5 | [Squad Orders](05-squad-orders.html) | Getting the most out of coding agents like Claude Code and Devin |
 
 ## Viewing
 
