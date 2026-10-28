@@ -7,21 +7,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;800;900&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
 <style>
-/* Layout: field-manual cover page; a numbered stack of course cards */
+/* Single deliberate dark look (night watch). Layout: field-manual cover page; a numbered stack of course cards */
 :root{
-  --bg:#E3E6DA; --surface:#F4F5EE; --ink:#1D2219; --muted:#59614E; --line:#C3C8B5; --grid:rgba(76,90,42,.07);
-  --accent:#4C5A2A; --accent-soft:#D6DCC2; --target:#D9581A; --bad:#A3231F; --stripe:#1D2219;
+  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
+  --accent:#A9B86A; --accent-soft:#2A3220; --target:#FF8A3D; --bad:#E2554C; --stripe:#0B0D09;
   --display:"Big Shoulders Stencil Display","Impact","Arial Narrow",sans-serif;
   --body:"Archivo","Helvetica Neue",Arial,sans-serif;
   --mono:"Courier Prime","Courier New",ui-monospace,monospace;
   padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
-  --accent:#A9B86A; --accent-soft:#2A3220; --target:#FF8A3D; --bad:#E2554C; --stripe:#0B0D09; color-scheme:dark }}
-:root[data-theme="dark"]{
-  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
-  --accent:#A9B86A; --accent-soft:#2A3220; --target:#FF8A3D; --bad:#E2554C; --stripe:#0B0D09; color-scheme:dark }
+
 *{box-sizing:border-box}
 body{margin:0;background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;
   color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
