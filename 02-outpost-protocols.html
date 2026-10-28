@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Outpost Protocols</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;800;900&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: survivor field manual, part 2: graph-paper column, hazard masthead, wide working panels */
+:root{
+  --bg:#E3E6DA; --surface:#F4F5EE; --ink:#1D2219; --muted:#59614E; --line:#C3C8B5; --grid:rgba(76,90,42,.07);
+  --accent:#4C5A2A; --accent-soft:#D6DCC2; --target:#D9581A; --target-soft:#F6D9C6; --other:#9AA28A;
+  --bad:#A3231F; --bad-soft:#F1D3D0; --code-bg:#D9DDCD; --stripe:#1D2219;
+  --display:"Big Shoulders Stencil Display","Impact","Arial Narrow",sans-serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"Courier Prime","Courier New",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
+  --accent:#A9B86A; --accent-soft:#2A3220; --target:#FF8A3D; --target-soft:#3D2414; --other:#5B6450;
+  --bad:#E2554C; --bad-soft:#3B1C1A; --code-bg:#22281E; --stripe:#0B0D09; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
+  --accent:#A9B86A; --accent-soft:#2A3220; --target:#FF8A3D; --target-soft:#3D2414; --other:#5B6450;
+  --bad:#E2554C; --bad-soft:#3B1C1A; --code-bg:#22281E; --stripe:#0B0D09; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;
+  color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto}
+.col{max-width:68ch}
+h1,h2,h3{font-family:var(--display);line-height:1;text-wrap:balance;margin:0;text-transform:uppercase;letter-spacing:.01em}
+h1{font-size:clamp(3.2rem,10vw,6.4rem);font-weight:900}
+h2{font-size:clamp(2rem,4.6vw,2.9rem);font-weight:800}
+h3{font-size:1.5rem;font-weight:800}
+p{margin:0}
+code{font-family:var(--mono);font-size:.92em;background:var(--code-bg);padding:.1em .35em;border-radius:3px}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--target)}
+.hazard{height:14px;background:repeating-linear-gradient(-45deg,var(--target) 0 14px,var(--stripe) 14px 28px);margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)))}
+.docbar{display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--mono);font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-block:12px;border-bottom:2px solid var(--ink)}
+.docbar b{color:var(--ink)}
+section{display:flex;flex-direction:column;gap:20px;padding-block:56px;border-top:1px solid var(--line)}
+section.first{border-top:0;padding-top:40px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.lede{font-size:1.2rem;color:var(--muted);max-width:62ch}
+.lede strong{color:var(--ink);font-weight:600}
+mark{background:var(--target-soft);color:var(--ink);padding:0 .2em;border-radius:2px}
+.stamp{align-self:flex-start;font-family:var(--mono);font-weight:700;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bad);border:2px solid var(--bad);padding:4px 10px;transform:rotate(-2deg)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;box-shadow:0 1px 0 var(--line)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.two{grid-template-columns:1fr}}
+.note{font-size:.8rem;color:var(--muted);line-height:1.45}
+details{border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+summary{cursor:pointer;padding:9px 14px;font-size:.88rem;font-weight:600;color:var(--accent);list-style:none;display:flex;gap:8px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--mono);width:1em}
+details[open] summary::before{content:"\2212"}
+summary:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.deep{padding:0 16px 14px;font-size:.92rem;display:flex;flex-direction:column;gap:10px}
+.btn{font:inherit;font-weight:600;font-size:.9rem;border:2px solid var(--accent);color:var(--accent);background:transparent;border-radius:3px;padding:7px 14px;cursor:pointer}
+.btn:hover{background:var(--accent-soft)}
+.btn.solid{background:var(--accent);color:var(--surface)}
+.btn:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+
+.versus{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:20px}
+@media (max-width:820px){.versus{grid-template-columns:1fr}}
+.oneshot pre{margin:0;font-family:var(--mono);font-size:.9rem;line-height:1.5;background:var(--code-bg);border-radius:3px;padding:14px;white-space:pre-wrap;word-break:break-word}
+.pipe{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.pipe li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:12px;padding:10px 0;border-top:1px dashed var(--line)}
+.pipe li:first-child{border-top:0}
+.pipe .k{font-family:var(--display);font-weight:900;font-size:1.4rem;color:var(--accent);line-height:1.1}
+.pipe b{display:block;font-weight:600;font-size:.95rem}
+.pipe span{font-size:.86rem;color:var(--muted);line-height:1.4}
+.tagline{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.pill{font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.04em;padding:1px 7px;border-radius:2px;border:1.5px solid var(--line);color:var(--muted)}
+.pill.tool{border-color:var(--accent);color:var(--accent)}
+.pill.check{border-color:var(--target);color:var(--target)}
+.pill.human{border-color:var(--bad);color:var(--bad)}
+
+.sliders{display:flex;flex-direction:column;gap:14px}
+.sl{display:grid;grid-template-columns:minmax(0,1fr) 4rem;gap:2px 12px;align-items:center}
+.sl label{grid-column:1/-1;font-size:.9rem;font-weight:600}
+.sl label span{display:block;font-weight:400;font-size:.8rem;color:var(--muted)}
+.sl input{width:100%;accent-color:var(--accent)}
+.sl input:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.sl output{font-family:var(--mono);font-size:.95rem;text-align:right;font-variant-numeric:tabular-nums}
+.compare{display:flex;flex-direction:column;gap:16px}
+.bar-h{display:flex;flex-direction:column;gap:6px}
+.bar-h .t{display:flex;justify-content:space-between;gap:10px;font-size:.88rem}
+.bar-h .t b{font-weight:600}
+.bar-h .t .v{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.stackbar{display:flex;height:22px;border-radius:2px;overflow:hidden;background:var(--code-bg)}
+.stackbar div{height:100%;transition:width .4s cubic-bezier(.2,.7,.2,1)}
+.seg-ok{background:var(--target)} .seg-esc{background:var(--other)} .seg-bad{background:var(--bad)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:1px;margin-right:6px;vertical-align:-1px}
+.verdict{font-size:.95rem;background:var(--accent-soft);border-left:3px solid var(--accent);padding:12px 14px}
+
+.ladder{display:flex;gap:6px;flex-wrap:wrap}
+.rung{font:inherit;font-size:.86rem;font-weight:600;padding:8px 12px;border-radius:3px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:flex;gap:8px;align-items:center}
+.rung .lv{font-family:var(--mono);font-size:.76rem;color:var(--muted)}
+.rung[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.rung[aria-selected="true"] .lv{color:var(--surface)}
+.rung:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.autonomy{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.autonomy .scale{flex:1;height:8px;background:repeating-linear-gradient(-45deg,var(--accent-soft) 0 6px,var(--line) 6px 12px);position:relative}
+.autonomy .dot{position:absolute;top:50%;width:16px;height:16px;border-radius:2px;background:var(--target);border:2px solid var(--surface);transform:translate(-50%,-50%) rotate(45deg);transition:left .35s}
+.diagram{overflow-x:auto;background:var(--code-bg);border-radius:3px;padding:10px}
+.diagram svg{display:block;width:100%;min-width:480px;height:auto}
+.diagram .n rect{fill:var(--surface);stroke:var(--line);stroke-width:1.5}
+.diagram .n.m rect{stroke:var(--accent);stroke-width:2}
+.diagram .n.c rect{stroke:var(--target);stroke-width:2}
+.diagram .n.h rect{stroke:var(--bad);stroke-width:2;stroke-dasharray:4 3}
+.diagram .n.io rect{fill:var(--accent-soft);stroke:none}
+.diagram text{fill:var(--ink);font-family:var(--body);font-size:12.5px;text-anchor:middle;dominant-baseline:middle}
+.diagram text.lbl{fill:var(--muted);font-size:11px}
+.diagram .e{stroke:var(--muted);stroke-width:1.5;fill:none}
+.diagram .e.loop{stroke:var(--target);stroke-dasharray:5 4}
+.diagram .ah{fill:var(--muted)} .diagram .ahl{fill:var(--target)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+@media (max-width:760px){.facts{grid-template-columns:1fr}}
+.facts div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.facts .eyebrow{font-size:.72rem}
+.facts p{font-size:.92rem}
+
+.anat{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:2px solid var(--ink);background:var(--surface)}
+@media (max-width:820px){.anat{grid-template-columns:1fr}}
+.anat div{padding:18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.anat p{font-size:.9rem;color:var(--muted)}
+.anat .ask{font-family:var(--mono);font-weight:700;font-size:.82rem;color:var(--target)}
+
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:640px){.ba{grid-template-columns:1fr}}
+.ba > div{min-width:0}
+.ba .tag{font-family:var(--mono);font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.ba pre{margin:0;font-family:var(--mono);font-size:.84rem;line-height:1.45;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:12px;white-space:pre-wrap;word-break:break-word}
+.ba .after pre{border-left:3px solid var(--target)}
+
+.fails{display:flex;flex-direction:column}
+.fail{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:6px 24px;padding:16px 0;border-top:1px dashed var(--line)}
+.fail:first-child{border-top:0}
+@media (max-width:640px){.fail{grid-template-columns:1fr}}
+.fail h3{font-size:1.3rem}
+.fail .sym{font-size:.88rem;color:var(--muted);margin-top:4px}
+.fail .fix{font-size:.92rem}
+.fail .fix b{color:var(--target);font-weight:700}
+
+.ws{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.ws{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:.88rem;font-weight:600}
+.field label span{font-weight:400;color:var(--muted);font-size:.8rem;display:block}
+textarea{width:100%;font-family:var(--mono);font-size:.86rem;line-height:1.45;color:var(--ink);background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:9px 10px;resize:vertical}
+textarea:focus-visible{outline:2px solid var(--target);outline-offset:1px}
+.out{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
+.out pre{margin:0;font-family:var(--mono);font-size:.84rem;line-height:1.5;background:var(--code-bg);border-radius:3px;padding:14px;white-space:pre-wrap;word-break:break-word;max-height:620px;overflow:auto}
+.row-btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.copied{font-size:.82rem;color:var(--muted)}
+
+.final{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.final li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;font-size:1.02rem}
+.final li::before{content:"\2610";font-family:var(--mono);color:var(--target);font-weight:700;font-size:1.1rem;line-height:1.4}
+footer{padding-top:28px;border-top:2px solid var(--ink);font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.stackbar div,.autonomy .dot{transition:none}}
+.docbar{align-items:center}
+.logo{flex:none;width:132px;height:44px;border:2px dashed var(--muted);border-radius:3px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.logo img{max-width:100%;max-height:100%;display:block}
+</style>
+</head>
+<body>
+<div class="hazard" aria-hidden="true"></div>
+<div class="wrap">
+<div class="docbar"><div class="logo" role="img" aria-label="Logo placeholder"><!-- Replace this text with <img src="logo.svg" alt="Your organization"> -->Your logo</div><span><b>Field Manual 2</b></span><span>From one prompt to an agent</span><span>Distribution: all camps</span><span>Day 212 after the outbreak</span></div>
+
+<section class="first">
+  <div class="stamp">Quartermasters and radio operators</div>
+  <h1>Outpost Protocols</h1>
+  <p class="lede">A one-shot prompt asks the model to get everything right in a single roll of the dice. An agentic solution <strong>breaks the job into steps</strong>, gives each step tools to look up facts instead of guessing, and <mark>checks the work before anything leaves the gate</mark>. Each step is still a prompt. The protocol around the steps is what keeps people alive.</p>
+  <div class="versus">
+    <div class="panel oneshot">
+      <div class="eyebrow">One shot</div>
+      <pre>Here are today's 60 radio messages
+from the outposts. Find the supply
+requests, check each against our
+rationing rules, decide approve or
+deny, and write a reply to each.</pre>
+      <p class="note">One roll has to sort, count stock, apply rationing rules, decide and write, sixty times over, with no way to check the stockpile and nobody reviewing the answers.</p>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">As a protocol</div>
+      <ol class="pipe">
+        <li><span class="k">1</span><div><b>Sort each message</b><span>Small prompt, one message at a time: supply request, sighting, medical, other.</span><div class="tagline"><span class="pill">route</span></div></div></li>
+        <li><span class="k">2</span><div><b>Pull the facts</b><span>Check the stockpile count and the outpost's headcount. The model reads real numbers instead of guessing them.</span><div class="tagline"><span class="pill tool">tool: check_stockpile</span></div></div></li>
+        <li><span class="k">3</span><div><b>Apply the rationing rules</b><span>Rules in the prompt, stock counts in tags. Output a decision and the rule it relied on.</span><div class="tagline"><span class="pill check">check: cited rule exists</span></div></div></li>
+        <li><span class="k">4</span><div><b>Draft the radio reply</b><span>Written from the decision, in standard check-in format.</span><div class="tagline"><span class="pill check">check: quantities match</span></div></div></li>
+        <li><span class="k">5</span><div><b>Approve and transmit</b><span>The quartermaster signs off on any medicine, fuel or vehicle dispatch, and anything a check flagged.</span><div class="tagline"><span class="pill human">human gate</span></div></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="reliability">
+  <div class="stack col">
+    <div class="eyebrow">Drill 1</div>
+    <h2>Why steps alone won't save you</h2>
+    <p>Splitting a job into narrow steps makes each step easier, so each succeeds more often. But success multiplies across steps: five steps at 92% each is only 66% end to end. What changes the picture is a check after each step that catches failures, then retries or calls for help. Move the sliders.</p>
+  </div>
+  <div class="two">
+    <div class="panel sliders">
+      <div class="sl"><label for="s1">One-shot success rate<span>How often the single big prompt gets everything right</span></label><input id="s1" type="range" min="10" max="95" value="55"><output id="o1"></output></div>
+      <div class="sl"><label for="sn">Number of steps<span>After splitting the job up</span></label><input id="sn" type="range" min="1" max="12" value="5"><output id="on"></output></div>
+      <div class="sl"><label for="sp">Success rate per step<span>Narrow steps usually score higher than the whole job</span></label><input id="sp" type="range" min="50" max="99" value="92"><output id="op"></output></div>
+      <div class="sl"><label for="sc">Check catch rate<span>Share of bad step outputs a check detects (0 = no checks)</span></label><input id="sc" type="range" min="0" max="99" value="0"><output id="oc"></output></div>
+      <div class="sl"><label for="sr">Retries per step<span>Before it goes to the quartermaster</span></label><input id="sr" type="range" min="0" max="4" value="0"><output id="or"></output></div>
+      <button class="btn" type="button" id="addChecks">Add checks and two retries</button>
+    </div>
+    <div class="panel compare">
+      <div class="bar-h"><div class="t"><b>One-shot prompt</b><span class="v" id="v1"></span></div><div class="stackbar"><div class="seg-ok" id="b1ok"></div><div class="seg-bad" id="b1bad"></div></div></div>
+      <div class="bar-h"><div class="t"><b>Step-by-step protocol</b><span class="v" id="v2"></span></div><div class="stackbar"><div class="seg-ok" id="b2ok"></div><div class="seg-esc" id="b2esc"></div><div class="seg-bad" id="b2bad"></div></div></div>
+      <div class="legend"><span><i class="seg-ok"></i>Correct</span><span><i class="seg-esc"></i>Flagged for the quartermaster</span><span><i class="seg-bad"></i>Wrong, and nobody notices</span></div>
+      <p class="verdict" id="verdict"></p>
+      <p class="note">A simplified model: steps are independent, a caught failure triggers a retry, and a step that fails every retry goes to a person and stops the run. Real numbers come from testing your own steps.</p>
+    </div>
+  </div>
+  <details class="col"><summary>The math, for engineers</summary><div class="deep">
+    <p>For one step with success rate <code>p</code>, check catch rate <code>c</code> and <code>r</code> retries, let <code>q = (1−p)·c</code> be the chance an attempt fails and is caught. The step ends correct with probability <code>p·(1 + q + … + q^r)</code>, ends escalated with probability <code>q^(r+1)</code>, and passes a silent error otherwise.</p>
+    <p>Across <code>n</code> independent steps, the run is fully correct with probability <code>P_correct^n</code>. Watch the red segment: errors that pass every check. Checks don't only raise accuracy; they turn silent failures into visible ones, which is what lets you trust the outputs you do get.</p>
+    <p>Real steps aren't independent. A wrong stock count early on poisons everything after it, which argues for putting the strongest checks on the early steps that pull facts.</p>
+  </div></details>
+</section>
+
+<section id="patterns">
+  <div class="stack col">
+    <div class="eyebrow">The ladder</div>
+    <h2>Six protocols, from drill to free roam</h2>
+    <p>Most agentic solutions don't need a fully autonomous agent. Start at the bottom rung and climb only when the job demands it. Each rung trades predictability for flexibility. The patterns follow the ones Anthropic describes in its engineering guide <em>Building Effective Agents</em>.</p>
+  </div>
+  <div class="ladder" role="tablist" id="ladder"></div>
+  <div class="panel" role="tabpanel" id="patPanel">
+    <div class="autonomy"><span>Predictable</span><div class="scale"><div class="dot" id="aDot"></div></div><span>Autonomous</span></div>
+    <h3 id="pName"></h3>
+    <p id="pDesc"></p>
+    <div class="diagram" id="pDiag"></div>
+    <div class="facts">
+      <div><span class="eyebrow">Use it when</span><p id="pWhen"></p></div>
+      <div><span class="eyebrow">At camp</span><p id="pEx"></p></div>
+      <div><span class="eyebrow">Watch out for</span><p id="pRisk"></p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack col">
+    <div class="eyebrow">Anatomy</div>
+    <h2>Six decisions turn a prompt into a protocol</h2>
+    <p>Whatever pattern you choose, you answer the same six questions. A one-shot prompt answers all of them with "the model will figure it out." Writing them down is most of the work.</p>
+  </div>
+  <div class="anat">
+    <div><span class="ask">What does done look like?</span><h3>Outcome</h3><p>A testable description of the result. If you can't check it, no agent can aim at it.</p></div>
+    <div><span class="ask">What must be counted, not guessed?</span><h3>Tools</h3><p>Every fact the model would otherwise invent becomes a lookup: the stockpile ledger, the roster, the map.</p></div>
+    <div><span class="ask">Where are the natural seams?</span><h3>Steps</h3><p>Split where the kind of thinking changes: sort, gather, decide, write. Each step gets its own focused prompt.</p></div>
+    <div><span class="ask">How do I know a step worked?</span><h3>Checks</h3><p>Code when possible (counts add up, the outpost exists), a second model pass when judgment is needed.</p></div>
+    <div><span class="ask">When does it stop?</span><h3>Stop rules</h3><p>A success condition, a budget of steps or time, and what to do when the budget runs out.</p></div>
+    <div><span class="ask">What needs a person?</span><h3>Gates</h3><p>Anything that can't be undone (medicine handed out, a vehicle sent) gets a sign-off until the protocol earns trust.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="stack col">
+    <div class="eyebrow">Tools are prompts too</div>
+    <h2>Brief your tools like a new recruit</h2>
+    <p>The model picks tools by reading their names and descriptions. A vague description puts probability on the wrong tool or the wrong arguments. Write it the way you'd brief a capable new recruit, and make error messages say what to do next.</p>
+  </div>
+  <div class="ba">
+    <div><div class="tag">Before</div><pre>name: lookup
+description: Looks up data.
+params:
+  q: string
+
+error: "400 Bad Request"</pre></div>
+    <div class="after"><div class="tag">After</div><pre>name: check_stockpile
+description: Count of one item in the main
+  stockpile and each outpost cache. Use
+  before approving any supply request.
+  Returns count, location, and how much
+  is already promised to other outposts.
+params:
+  item: string, a stockpile item name
+    like "amoxicillin" or "water tablets".
+
+error: "No item called 'antibiotics'. Use
+  a specific name, such as 'amoxicillin'.
+  Call list_stockpile to see every item."</pre></div>
+  </div>
+  <details class="col"><summary>More on tool design</summary><div class="deep">
+    <p>Prefer a few tools that each match a real task over many thin wrappers around a database. "Find outposts within a day's walk that have spare fuel" is easier for a model to use correctly than three lookups it has to chain itself.</p>
+    <p>Return what the next step needs, in a form the model reads easily: names instead of opaque IDs where possible, and short results with a way to page for more, so tool output doesn't flood the context.</p>
+    <p>Design arguments so mistakes are hard to make: fixed lists instead of free text, absolute quantities instead of "some," and an explicit <code>dry_run</code> flag on anything that changes the ledger.</p>
+  </div></details>
+</section>
+
+<section>
+  <div class="stack col">
+    <div class="eyebrow">Known threats</div>
+    <h2>How protocols fail</h2>
+  </div>
+  <div class="fails">
+    <div class="fail"><div><h3>It never stops</h3><p class="sym">Like a walker, it just keeps going: searching, retrying, "improving" long past the point of value.</p></div><p class="fix"><b>Fix:</b> give it a clear success condition and a hard budget on steps, time or cost. Say in the prompt what to do when the budget runs out: report what it has and what's missing.</p></div>
+    <div class="fail"><div><h3>One bite spreads</h3><p class="sym">A wrong stock count in step 2 makes every later step confidently wrong.</p></div><p class="fix"><b>Fix:</b> put the strictest checks on fact-gathering steps. Make later steps cite the numbers they used so a check can trace them back.</p></div>
+    <div class="fail"><div><h3>The pack gets too heavy</h3><p class="sym">Long tool outputs and history crowd out the instructions; quality drops late in the run.</p></div><p class="fix"><b>Fix:</b> return compact tool results, summarize finished work into notes, and send subtasks to sub-agents that report back a short result.</p></div>
+    <div class="fail"><div><h3>Silent radio</h3><p class="sym">A tool error comes back empty and gets read as "outpost has no stock."</p></div><p class="fix"><b>Fix:</b> make tools tell "nothing found" apart from "something broke," and tell the model to stop and report when a tool fails twice.</p></div>
+    <div class="fail"><div><h3>The guard waves everyone through</h3><p class="sym">A model grading its own work in the same context tends to approve it.</p></div><p class="fix"><b>Fix:</b> check with code where you can. For judgment calls, use a separate prompt that sees only the output and the criteria, not the reasoning behind it.</p></div>
+    <div class="fail"><div><h3>A fortress for a lemonade stand</h3><p class="sym">A five-agent system for a job one good prompt with the right documents would handle.</p></div><p class="fix"><b>Fix:</b> measure the one-shot first. Add a step only when you can name the failure it fixes.</p></div>
+  </div>
+</section>
+
+<section id="worksheet">
+  <div class="stack col">
+    <div class="eyebrow">Drill 2</div>
+    <h2>Turn your prompt into a protocol</h2>
+    <p>Fill in the six decisions for a one-shot prompt you use. The panel builds a protocol spec you can hand to an engineer or paste as the opening of an agent's system prompt. It starts with the supply-request example filled in.</p>
+  </div>
+  <div class="ws">
+    <div class="panel">
+      <div class="field"><label for="w0">The one-shot prompt today</label><textarea id="w0" rows="3"></textarea></div>
+      <div class="field"><label for="w1">Outcome<span>What does done look like, in a way you could check?</span></label><textarea id="w1" rows="2"></textarea></div>
+      <div class="field"><label for="w2">Tools<span>One per line: facts to look up or actions to take</span></label><textarea id="w2" rows="3"></textarea></div>
+      <div class="field"><label for="w3">Steps<span>One per line, in order</span></label><textarea id="w3" rows="5"></textarea></div>
+      <div class="field"><label for="w4">Checks<span>One per line: how you'll know a step worked</span></label><textarea id="w4" rows="3"></textarea></div>
+      <div class="field"><label for="w5">Stop rules<span>Success condition and budget</span></label><textarea id="w5" rows="2"></textarea></div>
+      <div class="field"><label for="w6">Human gates<span>What needs a person's sign-off</span></label><textarea id="w6" rows="2"></textarea></div>
+      <button class="btn" type="button" id="clearWs">Clear and start my own</button>
+    </div>
+    <div class="panel out">
+      <div class="eyebrow">Protocol spec</div>
+      <pre id="spec"></pre>
+      <div class="row-btns"><button class="btn solid" type="button" id="copySpec">Copy spec</button><span class="copied" id="copied" aria-live="polite"></span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack col">
+    <div class="eyebrow">Pocket checklist</div>
+    <h2>Before the agent leaves the gate</h2>
+    <ol class="final">
+      <li>Have I measured how well the one-shot prompt does today?</li>
+      <li>Can I say what done looks like in a way a check could test?</li>
+      <li>Is every fact the model needs available through a tool or the prompt?</li>
+      <li>Does each step have one job and its own focused prompt?</li>
+      <li>Does each step have a check, and do failures become visible?</li>
+      <li>Will it stop, and does it know what to do when it can't finish?</li>
+      <li>Does a person sign off on anything that can't be undone?</li>
+      <li>Am I on the lowest rung of the ladder that solves the problem?</li>
+    </ol>
+  </div>
+</section>
+
+<footer>Field Manual 2 of 2. Read Field Manual 1, <em>Survival Odds</em>, first: every step in a protocol is still a prompt, so its seven levers apply inside each one. People, places and events in the examples are fictional. The reliability numbers come from a simplified model, not from measuring a specific system.</footer>
+</div>
+
+<script>
+(function(){
+  var ids=["1","n","p","c","r"],el={};
+  ids.forEach(function(k){el[k]=document.getElementById("s"+k);el["o"+k]=document.getElementById("o"+k);el[k].addEventListener("input",calc)});
+  function pct(x){return Math.round(x*100)+"%"}
+  function calc(){
+    var one=+el["1"].value/100,n=+el.n.value,p=+el.p.value/100,c=+el.c.value/100,r=+el.r.value;
+    el.o1.textContent=pct(one);el.on.textContent=n;el.op.textContent=pct(p);el.oc.textContent=pct(c);el.or.textContent=r;
+    var q=(1-p)*c,g=0;for(var k=0;k<=r;k++)g+=Math.pow(q,k);
+    var ok=p*g,esc=Math.pow(q,r+1);
+    var allOk=Math.pow(ok,n),escAll=1-Math.pow(1-esc,n),badAll=Math.max(0,1-allOk-escAll);
+    document.getElementById("b1ok").style.width=(one*100)+"%";
+    document.getElementById("b1bad").style.width=((1-one)*100)+"%";
+    document.getElementById("b2ok").style.width=(allOk*100)+"%";
+    document.getElementById("b2esc").style.width=(escAll*100)+"%";
+    document.getElementById("b2bad").style.width=(badAll*100)+"%";
+    document.getElementById("v1").textContent=pct(one)+" correct";
+    document.getElementById("v2").textContent=pct(allOk)+" correct";
+    var v;
+    if(c===0) v="With no checks, every failure is silent. "+pct(badAll)+" of runs end wrong, and nothing tells you which ones until the wrong crate arrives.";
+    else if(allOk>one&&badAll<0.05) v="The protocol now beats the one-shot by "+Math.round((allOk-one)*100)+" points, and only "+pct(badAll)+" of runs end wrong without anyone noticing. Flagged runs go to the quartermaster instead of out the gate.";
+    else if(allOk>one) v="The protocol beats the one-shot, but "+pct(badAll)+" of runs still pass every check while wrong. Raise the catch rate before adding more steps.";
+    else v="The protocol is behind the one-shot. More steps without stronger checks multiply errors. Fewer steps, or better checks, would help.";
+    document.getElementById("verdict").textContent=v;
+  }
+  document.getElementById("addChecks").addEventListener("click",function(){el.c.value=80;el.r.value=2;calc()});
+  calc();
+
+  function N(x,y,w,t,cls){return '<g class="n '+(cls||"")+'"><rect x="'+(x-w/2)+'" y="'+(y-17)+'" width="'+w+'" height="34" rx="3"/><text x="'+x+'" y="'+y+'">'+t+'</text></g>'}
+  function A(x1,y1,x2,y2){var dx=x2-x1,dy=y2-y1,L=Math.sqrt(dx*dx+dy*dy),ux=dx/L,uy=dy/L,bx=x2-ux*8,by=y2-uy*8;
+    return '<path class="e" d="M'+x1+' '+y1+' L'+bx+' '+by+'"/><path class="ah" d="M'+x2+' '+y2+' L'+(bx-uy*4.5)+' '+(by+ux*4.5)+' L'+(bx+uy*4.5)+' '+(by-ux*4.5)+' Z"/>'}
+  function C(x1,y1,x2,y2,cy){var mx=(x1+x2)/2;return '<path class="e loop" d="M'+x1+' '+y1+' Q'+mx+' '+cy+' '+x2+' '+y2+'"/><circle class="ahl" cx="'+x2+'" cy="'+y2+'" r="3.5"/>'}
+  function L(x,y,t){return '<text class="lbl" x="'+x+'" y="'+y+'">'+t+'</text>'}
+  function svg(inner){return '<svg viewBox="0 0 640 210" role="img">'+inner+'</svg>'}
+  var pats=[
+    {n:"Prompt chain",lv:1,d:"A fixed sequence of prompts. Each step's output feeds the next, with a check (a gate) between steps.",
+     s:svg(N(50,105,70,"Input","io")+A(85,105,128,105)+N(185,105,110,"Step 1: draft","m")+A(240,105,283,105)+N(325,105,80,"Gate","c")+A(365,105,408,105)+N(470,105,120,"Step 2: finalize","m")+A(530,105,573,105)+N(600,105,60,"Out","io")+L(325,150,"fail → retry or stop")),
+     w:"The job splits cleanly into the same steps every time.",e:"Draft the evacuation plan, check it accounts for every name on the roster, then write a route card for each group.",r:"Steps that are too thin add cost and delay without adding accuracy."},
+    {n:"Routing",lv:2,d:"One step sorts the input and sends it to a prompt specialized for that kind of case.",
+     s:svg(N(55,105,80,"Input","io")+A(95,105,150,105)+N(210,105,110,"Sorter","c")+A(265,105,345,45)+A(265,105,345,105)+A(265,105,345,165)+N(410,45,120,"Supply prompt","m")+N(410,105,120,"Sighting prompt","m")+N(410,165,120,"Medical prompt","m")+A(470,45,555,98)+A(470,105,555,105)+A(470,165,555,112)+N(590,105,60,"Out","io")),
+     w:"Inputs fall into distinct kinds that need different handling, and you can sort them reliably.",e:"Sort radio traffic so horde sightings go to the watch prompt and supply requests go to the quartermaster prompt.",r:"A wrong sort sends a sighting to the supply desk. Add an \"unsure\" route that goes straight to a person."},
+    {n:"Parallel",lv:3,d:"Several prompts run at once on separate pieces or separate angles, then one step combines the results.",
+     s:svg(N(55,105,80,"Input","io")+A(95,105,175,45)+A(95,105,175,105)+A(95,105,175,165)+N(240,45,120,"Defenses","m")+N(240,105,120,"Water access","m")+N(240,165,120,"Exit routes","m")+A(300,45,385,98)+A(300,105,385,105)+A(300,165,385,112)+N(445,105,110,"Combine","c")+A(500,105,553,105)+N(590,105,60,"Out","io")),
+     w:"The pieces are independent, or you want several independent opinions to vote.",e:"Assess a new shelter by running separate prompts for defenses, water access and exit routes, then merge the findings.",r:"Combining is its own task. Conflicting findings need a rule for which wins."},
+    {n:"Orchestrator and workers",lv:4,d:"A lead model plans the subtasks at run time, hands each to a worker, and assembles the results.",
+     s:svg(N(55,105,80,"Input","io")+A(95,105,150,105)+N(215,105,120,"Orchestrator","m")+A(275,95,365,45)+A(275,105,365,105)+A(275,115,365,165)+N(420,45,100,"Worker","m")+N(420,105,100,"Worker","m")+N(420,165,100,"Worker","m")+C(370,30,230,86,5)+L(300,22,"report back")+A(470,105,530,105)+N(580,105,90,"Assemble","c")),
+     w:"You can't know the subtasks in advance. They depend on the input.",e:"\"Plan repairs for every damaged section of the north fence\": the orchestrator reviews patrol reports to find the sections, then assigns one worker per section.",r:"Workers duplicate effort or leave gaps. Give each worker a clear scope and a short report format."},
+    {n:"Evaluator and optimizer",lv:5,d:"One prompt produces, a second judges it against criteria and gives feedback, and the loop repeats until it passes.",
+     s:svg(N(60,105,90,"Input","io")+A(105,105,165,105)+N(230,105,120,"Writer","m")+A(290,98,385,98)+N(450,105,120,"Evaluator","c")+C(390,120,290,120,180)+A(510,105,565,105)+N(600,105,56,"Out","io")+L(340,196,"feedback")),
+     w:"You have clear criteria and feedback measurably improves the result.",e:"Write the newcomer orientation, then have an evaluator check it against the camp rules and a plain reading level.",r:"Loops that never converge. Cap the rounds and keep the best attempt."},
+    {n:"Autonomous agent",lv:6,d:"The model decides its own next step in a loop: act with a tool, observe the result, decide again, until a stop rule fires.",
+     s:svg(N(55,105,80,"Goal","io")+A(95,105,155,105)+N(220,105,120,"Model","m")+A(280,92,385,62)+N(450,55,120,"Tools","")+C(390,75,282,108,128)+L(352,125,"observe")+A(280,118,385,152)+N(450,160,120,"Ask a person","h")+A(220,122,220,172)+N(220,190,110,"Stop rule","c")),
+     w:"Open-ended problems where the number and order of steps can't be predicted, and mistakes can be caught or undone.",e:"Work out why the east fence alarm keeps tripping at night: read sensor logs, check patrol reports, form a theory, test it, report back.",r:"Highest cost and least predictable. Needs budgets, a safe place to practice, and sign-off for anything irreversible."}
+  ];
+  var lad=document.getElementById("ladder");
+  pats.forEach(function(p,i){var b=document.createElement("button");b.className="rung";b.type="button";b.setAttribute("role","tab");b.id="tab-"+i;
+    b.innerHTML='<span class="lv">'+p.lv+'</span>'+p.n;b.addEventListener("click",function(){show(i)});
+    b.addEventListener("keydown",function(e){var j=null;if(e.key==="ArrowRight")j=(i+1)%pats.length;if(e.key==="ArrowLeft")j=(i+pats.length-1)%pats.length;if(j!==null){show(j);lad.children[j].focus()}});
+    lad.appendChild(b)});
+  function show(i){var p=pats[i];
+    Array.prototype.forEach.call(lad.children,function(b,j){b.setAttribute("aria-selected",j===i?"true":"false");b.tabIndex=j===i?0:-1});
+    document.getElementById("patPanel").setAttribute("aria-labelledby","tab-"+i);
+    document.getElementById("pName").textContent=p.n;document.getElementById("pDesc").textContent=p.d;
+    document.getElementById("pDiag").innerHTML=p.s;document.getElementById("pWhen").textContent=p.w;
+    document.getElementById("pEx").textContent=p.e;document.getElementById("pRisk").textContent=p.r;
+    document.getElementById("aDot").style.left=((p.lv-1)/5*100)+"%"}
+  show(0);
+
+  var ex={w0:"Here are today's 60 radio messages from the outposts. Find the supply requests, check each against our rationing rules, decide approve or deny, and write a reply to each.",
+    w1:"Every supply request has a decision that follows the rationing rules, cites the rule used, and has a radio reply ready for the quartermaster.",
+    w2:"check_stockpile(item): count by location, and how much is already promised\noutpost_roster(outpost): current headcount and anyone injured\nrationing_rules: full rules text, placed in the prompt",
+    w3:"Sort each message: supply / sighting / medical / other\nFor supply requests, pull out the outpost, items and quantities\nCheck stock and the outpost's headcount\nApply the rationing rules: approve, deny or needs review, citing the rule\nDraft the radio reply in check-in format",
+    w4:"Outpost exists on the roster\nCited rule exists and the per-person math is right\nReply states the same items and quantities as the decision",
+    w5:"Done when every message is sorted and every supply request has a decision. Max 3 tool calls per message. If stock can't be confirmed, mark \"needs review\" and move on.",
+    w6:"Any medicine, fuel or vehicle dispatch\nAny message a check flagged\nNothing is transmitted without sign-off during the first month"};
+  var keys=["w0","w1","w2","w3","w4","w5","w6"],f={};
+  keys.forEach(function(k){f[k]=document.getElementById(k);f[k].value=ex[k];f[k].addEventListener("input",build)});
+  function lines(t){return t.split("\n").map(function(s){return s.trim()}).filter(Boolean)}
+  function build(){
+    var o="";
+    o+="# Goal\n"+(f.w1.value.trim()||"[what done looks like]")+"\n\n";
+    if(f.w0.value.trim())o+="# Replaces this one-shot prompt\n"+f.w0.value.trim()+"\n\n";
+    o+="# Tools\n"+(lines(f.w2.value).map(function(s){return "- "+s}).join("\n")||"- [facts to look up]")+"\n\n";
+    var st=lines(f.w3.value),ck=lines(f.w4.value);
+    o+="# Steps\n"+(st.map(function(s,i){return (i+1)+". "+s}).join("\n")||"1. [first step]")+"\n\n";
+    o+="# Checks after each step\n"+(ck.map(function(s){return "- "+s}).join("\n")||"- [how you know a step worked]")+"\nIf a check fails, retry the step once with the failure reason. If it fails again, mark the item for review and continue.\n\n";
+    o+="# Stop rules\n"+(f.w5.value.trim()||"[success condition and budget]")+"\n\n";
+    o+="# Requires human sign-off\n"+(lines(f.w6.value).map(function(s){return "- "+s}).join("\n")||"- [irreversible or high-stakes actions]")+"\n\n";
+    o+="# Report at the end\nWhat was completed, what was flagged and why, and anything that could not be finished.";
+    document.getElementById("spec").textContent=o;
+  }
+  document.getElementById("clearWs").addEventListener("click",function(){keys.forEach(function(k){f[k].value=""});build();f.w0.focus()});
+  document.getElementById("copySpec").addEventListener("click",function(){
+    var t=document.getElementById("spec").textContent,msg=document.getElementById("copied");
+    function fallback(){var r=document.createRange();r.selectNodeContents(document.getElementById("spec"));var s=window.getSelection();s.removeAllRanges();s.addRange(r);msg.textContent="Selected. Press Ctrl+C or ⌘C to copy."}
+    try{navigator.clipboard.writeText(t).then(function(){msg.textContent="Copied"},fallback)}catch(e){fallback()}
+  });
+  build();
+})();
+</script>
+
+</body>
+</html>

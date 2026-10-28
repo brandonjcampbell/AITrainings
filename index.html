@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Survivor Field Manuals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;800;900&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: field-manual cover page; a numbered stack of course cards */
+:root{
+  --bg:#E3E6DA; --surface:#F4F5EE; --ink:#1D2219; --muted:#59614E; --line:#C3C8B5; --grid:rgba(76,90,42,.07);
+  --accent:#4C5A2A; --accent-soft:#D6DCC2; --target:#D9581A; --bad:#A3231F; --stripe:#1D2219;
+  --display:"Big Shoulders Stencil Display","Impact","Arial Narrow",sans-serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"Courier Prime","Courier New",ui-monospace,monospace;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
+  --accent:#A9B86A; --accent-soft:#2A3220; --target:#FF8A3D; --bad:#E2554C; --stripe:#0B0D09; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
+  --accent:#A9B86A; --accent-soft:#2A3220; --target:#FF8A3D; --bad:#E2554C; --stripe:#0B0D09; color-scheme:dark }
+*{box-sizing:border-box}
+body{margin:0;background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;
+  color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 64px}
+.wrap{max-width:900px;margin:0 auto}
+.hazard{height:14px;background:repeating-linear-gradient(-45deg,var(--target) 0 14px,var(--stripe) 14px 28px);margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)))}
+.docbar{display:flex;flex-wrap:wrap;align-items:center;gap:6px 22px;font-family:var(--mono);font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-block:12px;border-bottom:2px solid var(--ink)}
+.docbar b{color:var(--ink)}
+.logo{flex:none;width:132px;height:44px;border:2px dashed var(--muted);border-radius:3px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.logo img{max-width:100%;max-height:100%;display:block}
+header{display:flex;flex-direction:column;gap:16px;padding-block:40px 32px}
+h1,h2{font-family:var(--display);text-transform:uppercase;line-height:1;margin:0;text-wrap:balance}
+h1{font-size:clamp(3rem,9vw,5.6rem);font-weight:900}
+h2{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800}
+p{margin:0}
+.lede{font-size:1.15rem;color:var(--muted);max-width:60ch}
+.stamp{align-self:flex-start;font-family:var(--mono);font-weight:700;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bad);border:2px solid var(--bad);padding:4px 10px;transform:rotate(-2deg)}
+.courses{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.course a{display:grid;grid-template-columns:5rem minmax(0,1fr);gap:6px 20px;padding:22px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:4px;color:inherit;text-decoration:none;transition:border-color .15s, transform .15s}
+.course a:hover{border-left-color:var(--target);transform:translateX(3px)}
+.course a:focus-visible{outline:2px solid var(--target);outline-offset:3px}
+.num{font-family:var(--display);font-weight:900;font-size:3.4rem;line-height:.9;color:var(--accent)}
+.course a:hover .num{color:var(--target)}
+.body{display:flex;flex-direction:column;gap:8px;min-width:0}
+.kicker{font-family:var(--mono);font-weight:700;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--target)}
+.body p{font-size:.95rem;color:var(--muted)}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-family:var(--mono);font-weight:700;font-size:.72rem;padding:1px 7px;border:1.5px solid var(--line);border-radius:2px;color:var(--muted)}
+.go{font-family:var(--mono);font-weight:700;font-size:.85rem;color:var(--accent)}
+@media (max-width:560px){.course a{grid-template-columns:1fr}.num{font-size:2.6rem}}
+footer{margin-top:40px;padding-top:20px;border-top:2px solid var(--ink);font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.course a{transition:none}.course a:hover{transform:none}}
+</style>
+</head>
+<body>
+<div class="hazard" aria-hidden="true"></div>
+<div class="wrap">
+<div class="docbar"><div class="logo" role="img" aria-label="Logo placeholder"><!-- Replace this text with <img src="logo.svg" alt="Your organization"> -->Your logo</div><span><b>Survivor Field Manuals</b></span><span>AI and data training</span><span>Distribution: all camps</span></div>
+
+<header>
+  <div class="stamp">Training index</div>
+  <h1>Survivor Field Manuals</h1>
+  <p class="lede">Hands-on courses for working with AI and data, set in a world that already ended. Each manual is a single interactive page. Start with Field Manual 1 if you're new to prompting.</p>
+</header>
+
+<ol class="courses">
+  <li class="course"><a href="01-survival-odds.html">
+    <span class="num">01</span>
+    <div class="body">
+      <span class="kicker">Field Manual 1 · Prompt craft</span>
+      <h2>Survival Odds</h2>
+      <p>Prompting as shifting the odds toward the answer you need. A live lab shows how naming the reader, the purpose, the shape and an example moves probability onto the right response, followed by seven levers and a prompt inspector.</p>
+      <div class="tags"><span class="tag">~30 min</span><span class="tag">Everyone</span><span class="tag">Interactive</span></div>
+      <span class="go">Open manual →</span>
+    </div></a></li>
+  <li class="course"><a href="02-outpost-protocols.html">
+    <span class="num">02</span>
+    <div class="body">
+      <span class="kicker">Field Manual 2 · Agentic design</span>
+      <h2>Outpost Protocols</h2>
+      <p>Turning one-shot prompts into agentic solutions. Covers why checks matter more than steps, six patterns from prompt chains to autonomous agents, tool design, common failures, and a worksheet that builds a protocol spec.</p>
+      <div class="tags"><span class="tag">~45 min</span><span class="tag">After FM 1</span><span class="tag">Interactive</span></div>
+      <span class="go">Open manual →</span>
+    </div></a></li>
+  <li class="course"><a href="03-lakehouse-supply-run.html">
+    <span class="num">03</span>
+    <div class="body">
+      <span class="kicker">Field Manual 3 · Databricks</span>
+      <h2>Lakehouse Supply Run</h2>
+      <p>Databricks fundamentals: the lakehouse layers and vocabulary, getting and protecting a personal access token, and pulling data with Python through a SQL warehouse, with field triage and hands-on exercises.</p>
+      <div class="tags"><span class="tag">60–90 min</span><span class="tag">Engineers and analysts</span><span class="tag">Hands-on</span></div>
+      <span class="go">Open manual →</span>
+    </div></a></li>
+</ol>
+
+<footer>People, places and events in the examples are fictional. Interactive numbers in the prompting manuals are illustrative models, not measurements of a specific system.</footer>
+</div>
+</body>
+</html>

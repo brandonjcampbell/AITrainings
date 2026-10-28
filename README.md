@@ -1,0 +1,23 @@
+# Survivor Field Manuals
+
+Interactive AI and data trainings, themed around surviving a zombie apocalypse. Each course is one self-contained HTML page; open `index.html` for the course list.
+
+| # | Course | Topic |
+|---|---|---|
+| 1 | [Survival Odds](01-survival-odds.html) | Prompt engineering as making the response you want the most probable result |
+| 2 | [Outpost Protocols](02-outpost-protocols.html) | Structuring one-shot prompts into agentic solutions |
+| 3 | [Lakehouse Supply Run](03-lakehouse-supply-run.html) | Databricks fundamentals, access tokens, and pulling data with Python |
+
+## Viewing
+
+Open any `.html` file in a browser, or turn on GitHub Pages (Settings → Pages → deploy from `main`, root) to host them. `index.html` becomes the landing page.
+
+## Adding your logo
+
+Every page has a dashed "Your logo" placeholder in the header bar. Add your logo file to the repo, then replace the placeholder's text with an image, for example:
+
+```html
+<div class="logo" role="img" aria-label="Logo placeholder"><img src="logo.svg" alt="Your organization"></div>
+```
+
+The box is 132 × 44 px; the image scales to fit. You can remove the dashed border by deleting `border` from the `.logo` rule.

@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Survival Odds</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@700;800;900&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Layout: a survivor's field manual: ruled graph-paper column, hazard-striped masthead, wide instrument panels */
+:root{
+  --bg:#E3E6DA; --surface:#F4F5EE; --ink:#1D2219; --muted:#59614E; --line:#C3C8B5; --grid:rgba(76,90,42,.07);
+  --accent:#4C5A2A; --accent-soft:#D6DCC2; --target:#D9581A; --target-soft:#F6D9C6; --other:#9AA28A;
+  --bad:#A3231F; --code-bg:#D9DDCD; --stripe:#1D2219;
+  --display:"Big Shoulders Stencil Display","Impact","Arial Narrow",sans-serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --mono:"Courier Prime","Courier New",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
+  --accent:#A9B86A; --accent-soft:#2A3220; --target:#FF8A3D; --target-soft:#3D2414; --other:#5B6450;
+  --bad:#E2554C; --code-bg:#22281E; --stripe:#0B0D09; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#121510; --surface:#1A1E17; --ink:#E2E5D8; --muted:#9AA28A; --line:#2D3328; --grid:rgba(169,184,106,.05);
+  --accent:#A9B86A; --accent-soft:#2A3220; --target:#FF8A3D; --target-soft:#3D2414; --other:#5B6450;
+  --bad:#E2554C; --code-bg:#22281E; --stripe:#0B0D09; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:24px 24px;
+  color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto}
+.col{max-width:68ch}
+h1,h2,h3{font-family:var(--display);line-height:1;text-wrap:balance;margin:0;text-transform:uppercase;letter-spacing:.01em}
+h1{font-size:clamp(3.2rem,10vw,6.4rem);font-weight:900}
+h2{font-size:clamp(2rem,4.6vw,2.9rem);font-weight:800}
+h3{font-size:1.5rem;font-weight:800}
+p{margin:0}
+code,.mono{font-family:var(--mono);font-size:.92em}
+code{background:var(--code-bg);padding:.1em .35em;border-radius:3px}
+.eyebrow{font-family:var(--mono);font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--target)}
+.hazard{height:14px;background:repeating-linear-gradient(-45deg,var(--target) 0 14px,var(--stripe) 14px 28px);margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px)))}
+.docbar{display:flex;flex-wrap:wrap;gap:6px 22px;font-family:var(--mono);font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-block:12px;border-bottom:2px solid var(--ink)}
+.docbar b{color:var(--ink)}
+section{display:flex;flex-direction:column;gap:20px;padding-block:56px;border-top:1px solid var(--line)}
+section.first{border-top:0;padding-top:40px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.lede{font-size:1.2rem;color:var(--muted);max-width:60ch}
+.lede strong{color:var(--ink);font-weight:600}
+mark{background:var(--target-soft);color:var(--ink);padding:0 .2em;border-radius:2px}
+.stamp{align-self:flex-start;font-family:var(--mono);font-weight:700;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;color:var(--bad);border:2px solid var(--bad);padding:4px 10px;transform:rotate(-2deg)}
+
+.lab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:20px;align-items:start}
+@media (max-width:820px){.lab{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;box-shadow:0 1px 0 var(--line)}
+.prompt-box{font-family:var(--mono);font-size:.9rem;line-height:1.5;background:var(--code-bg);border-radius:3px;padding:14px;white-space:pre-wrap;word-break:break-word;min-height:140px}
+.prompt-box .add{background:var(--accent-soft);color:var(--ink);display:block;border-left:3px solid var(--accent);padding-left:8px;margin:6px 0}
+.levers{display:flex;flex-direction:column;gap:8px}
+.lever{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:3px;cursor:pointer;background:var(--surface);transition:border-color .15s, background .15s}
+.lever:hover{border-color:var(--accent)}
+.lever input{margin-top:5px;accent-color:var(--accent);width:16px;height:16px;flex:none}
+.lever input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lever.on{background:var(--accent-soft);border-color:var(--accent)}
+.lever b{display:block;font-weight:600;font-size:.95rem}
+.lever span{font-size:.85rem;color:var(--muted);line-height:1.4}
+.bignum{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.bignum .n{font-family:var(--display);font-weight:900;font-size:4rem;color:var(--target);font-variant-numeric:tabular-nums;line-height:1}
+.bignum .l{color:var(--muted);font-size:.95rem;max-width:28ch;line-height:1.35}
+.dist{display:flex;flex-direction:column;gap:9px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 3.4rem;gap:4px 10px;align-items:center}
+.row .lab-t{grid-column:1/-1;font-size:.86rem;line-height:1.3}
+.row.target .lab-t{font-weight:600}
+.track{height:12px;background:var(--code-bg);border-radius:2px;overflow:hidden}
+.fill{height:100%;background:var(--other);width:0;transition:width .45s cubic-bezier(.2,.7,.2,1)}
+.row.target .fill{background:var(--target)}
+.pct{font-family:var(--mono);font-size:.86rem;text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.row.target .pct{color:var(--target);font-weight:700}
+.note{font-size:.8rem;color:var(--muted);line-height:1.45}
+.controls{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.btn{font:inherit;font-weight:600;font-size:.9rem;border:2px solid var(--accent);color:var(--accent);background:transparent;border-radius:3px;padding:7px 14px;cursor:pointer}
+.btn:hover{background:var(--accent-soft)}
+.btn:focus-visible,.temp input:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+.btn.solid{background:var(--accent);color:var(--surface)}
+.temp{display:flex;align-items:center;gap:10px;font-size:.85rem;color:var(--muted)}
+.temp input{accent-color:var(--accent);width:130px}
+.temp output{font-family:var(--mono);color:var(--ink);min-width:2.5em;font-variant-numeric:tabular-nums}
+.draws{display:grid;grid-template-columns:repeat(20,1fr);gap:4px}
+.draw{aspect-ratio:1;border-radius:50%;background:var(--code-bg);max-width:100%}
+.draw.t{background:var(--target)} .draw.o{background:var(--other)}
+.drawcap{font-size:.85rem;color:var(--muted)}
+
+.eq{font-family:var(--mono);font-size:clamp(.9rem,2.2vw,1.15rem);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:18px 20px;overflow-x:auto;white-space:nowrap}
+.eq .v{color:var(--target);font-weight:700}
+
+.catalog{display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:3.4rem minmax(0,1fr);gap:4px 18px;padding-block:28px;border-top:1px dashed var(--line)}
+.item:first-child{border-top:0}
+.item .num{font-family:var(--display);font-weight:900;font-size:2.6rem;color:var(--accent);line-height:1}
+.item .body{display:flex;flex-direction:column;gap:12px;min-width:0}
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:640px){.ba{grid-template-columns:1fr}.item{grid-template-columns:1fr}}
+.ba div{min-width:0}
+.ba .tag{font-family:var(--mono);font-weight:700;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.ba pre{margin:0;font-family:var(--mono);font-size:.84rem;line-height:1.45;background:var(--code-bg);border-radius:3px;padding:10px 12px;white-space:pre-wrap;word-break:break-word}
+.ba .after pre{border-left:3px solid var(--target)}
+details{border:1px solid var(--line);border-radius:3px;background:var(--surface)}
+summary{cursor:pointer;padding:9px 14px;font-size:.88rem;font-weight:600;color:var(--accent);list-style:none;display:flex;gap:8px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--mono);width:1em}
+details[open] summary::before{content:"\2212"}
+summary:focus-visible{outline:2px solid var(--target);outline-offset:2px}
+details .deep{padding:0 16px 14px;font-size:.92rem;display:flex;flex-direction:column;gap:10px}
+
+textarea{width:100%;min-height:150px;font-family:var(--mono);font-size:.88rem;line-height:1.5;color:var(--ink);background:var(--code-bg);border:1px solid var(--line);border-radius:3px;padding:12px;resize:vertical}
+textarea:focus-visible{outline:2px solid var(--target);outline-offset:1px}
+.checks{display:flex;flex-direction:column;gap:8px;list-style:none;margin:0;padding:0}
+.checks li{display:grid;grid-template-columns:1.6rem minmax(0,1fr);gap:8px;font-size:.9rem;line-height:1.4}
+.chip{width:1.4rem;height:1.4rem;border-radius:2px;display:grid;place-items:center;font-family:var(--mono);font-size:.8rem;font-weight:700}
+.chip.y{background:var(--target);color:var(--surface)}
+.chip.n{border:1.5px solid var(--other);color:var(--muted)}
+.checks .hint{color:var(--muted);display:block;font-size:.82rem}
+.score{font-family:var(--mono);font-size:.95rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+
+.limits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media (max-width:760px){.limits{grid-template-columns:1fr}}
+.limits div{display:flex;flex-direction:column;gap:6px}
+.limits p{font-size:.95rem;color:var(--muted)}
+.final{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:q}
+.final li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:10px;font-size:1.02rem}
+.final li::before{counter-increment:q;content:"\2610";font-family:var(--mono);color:var(--target);font-weight:700;font-size:1.1rem;line-height:1.4}
+footer{padding-top:28px;border-top:2px solid var(--ink);font-size:.85rem;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.fill{transition:none}}
+.docbar{align-items:center}
+.logo{flex:none;width:132px;height:44px;border:2px dashed var(--muted);border-radius:3px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:.72rem;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.logo img{max-width:100%;max-height:100%;display:block}
+</style>
+</head>
+<body>
+<div class="hazard" aria-hidden="true"></div>
+<div class="wrap">
+<div class="docbar"><div class="logo" role="img" aria-label="Logo placeholder"><!-- Replace this text with <img src="logo.svg" alt="Your organization"> -->Your logo</div><span><b>Field Manual 1</b></span><span>Prompt craft for survivors</span><span>Distribution: all camps</span><span>Day 212 after the outbreak</span></div>
+
+<section class="first">
+  <div class="stamp">Read before using the camp AI</div>
+  <h1>Survival Odds</h1>
+  <p class="lede">The camp's language model doesn't read minds. It continues your text with what is <strong>most likely</strong> to come next. Every word you send moves the odds toward some answers and away from others. Out here, a vague question gets a vague answer, and vague answers get people hurt. Prompt craft is the skill of moving the odds <mark>toward the answer you actually need</mark>.</p>
+</section>
+
+<section id="lab">
+  <div class="stack col">
+    <div class="eyebrow">Drill 1</div>
+    <h2>Watch the odds move</h2>
+    <p>The east-side scouting party is back with a long, rambling patrol log. Reyes, the camp leader, pastes it into the camp AI and types one line. What she needs is a five-bullet brief she can act on before dark. Switch on each piece of context and watch how much of the probability lands on that brief.</p>
+  </div>
+  <div class="lab">
+    <div class="panel">
+      <div class="eyebrow">The prompt</div>
+      <div class="prompt-box" id="promptBox" aria-live="polite"></div>
+      <div class="levers" id="levers"></div>
+    </div>
+    <div class="panel">
+      <div class="bignum"><span class="n" id="bigN">6%</span><span class="l">chance Reyes gets the brief she needs</span></div>
+      <div class="dist" id="dist"></div>
+      <p class="note">Illustrative numbers, built to show the direction and rough size of each effect. Real models put probability on individual tokens; these six outcomes stand in for families of possible responses.</p>
+      <div class="controls">
+        <button class="btn solid" id="sampleBtn" type="button">Run it 20 times</button>
+        <label class="temp" for="temp">Temperature <input id="temp" type="range" min="0.2" max="2" step="0.1" value="1"><output id="tempOut">1.0</output></label>
+      </div>
+      <div class="draws" id="draws" aria-hidden="true"></div>
+      <p class="drawcap" id="drawCap">Each dot is one run of the same prompt. Orange means Reyes got her brief.</p>
+    </div>
+  </div>
+  <div class="col stack">
+    <p>Three things to notice. First, the bare prompt isn't wrong; it's <em>underdetermined</em>, so the odds spread across every reasonable reading of "summarize." Second, the role lever barely helps and pulls some odds toward a street-by-street tactical dump, because a role describes the writer and says nothing about the reader. Third, even a strong prompt is still a roll of the dice. Run it 20 times and you may see a miss. Low temperature sharpens the odds; high temperature flattens them.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack col">
+    <div class="eyebrow">How the machine thinks</div>
+    <h2>Every answer is a chain of bets</h2>
+    <p>The model writes one token at a time. Each token is drawn from a distribution conditioned on everything before it: your prompt, plus whatever it has written so far. The odds of a whole response are the product of those steps.</p>
+  </div>
+  <div class="eq">P(<span class="v">response</span> | prompt) = ∏ P(<span class="v">token<sub>i</sub></span> | prompt, token<sub>1</sub> … token<sub>i−1</sub>)</div>
+  <div class="col stack">
+    <p>You only control one part of that condition: the prompt. Two rules of survival follow.</p>
+    <p><strong>The first steps decide the route.</strong> Once a response heads off as a three-paragraph essay, every later token follows from that start, like a patrol that took the wrong turn out of the gate. Steer the opening and you steer the whole thing.</p>
+    <p><strong>Silence gets filled with the typical case.</strong> Whatever you leave unsaid, the model resolves toward what is most common in text that looks like yours. If your situation isn't the typical one (and in an apocalypse, it rarely is), you have to say so.</p>
+  </div>
+</section>
+
+<section>
+  <div class="stack col">
+    <div class="eyebrow">Seven levers</div>
+    <h2>What actually shifts the odds</h2>
+    <p>Each lever closes off one way the model could misread you. Open "Why it works" for the mechanism underneath.</p>
+  </div>
+  <div class="catalog" id="catalog"></div>
+</section>
+
+<section id="checker">
+  <div class="stack col">
+    <div class="eyebrow">Drill 2</div>
+    <h2>Inspect your own prompt</h2>
+    <p>Paste a prompt you've sent recently. The inspector looks for signs of each lever. It reads wording only, so treat it as a gear check, not a grade.</p>
+  </div>
+  <div class="lab">
+    <div class="panel">
+      <label class="eyebrow" for="userPrompt">Your prompt</label>
+      <textarea id="userPrompt">Summarize the scout report. Don't make it too long.</textarea>
+      <button class="btn" type="button" id="loadGood">Load an improved version</button>
+    </div>
+    <div class="panel">
+      <div class="score" id="score"></div>
+      <ul class="checks" id="checks"></ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="stack col">
+    <div class="eyebrow">Know its limits</div>
+    <h2>What prompting can't do</h2>
+  </div>
+  <div class="limits">
+    <div><h3>Create knowledge</h3><p>If the model doesn't know the Fifth Street bridge collapsed and you don't tell it, no phrasing makes the right route likely. Put the scout report in the prompt.</p></div>
+    <div><h3>Guarantee an outcome</h3><p>You raise the odds. You don't fix the result. Check the answer before anyone walks out the gate on the strength of it.</p></div>
+    <div><h3>Replace a clear goal</h3><p>If you can't say what a good answer looks like, the model can't aim at it. Most bad prompts are unfinished thinking, not bad wording.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="stack col">
+    <div class="eyebrow">Pocket checklist</div>
+    <h2>Before you hit send</h2>
+    <ol class="final">
+      <li>Could a sharp stranger who just arrived at camp produce exactly what I need from this?</li>
+      <li>Have I said who it's for and what they'll do with it?</li>
+      <li>Have I described the shape: length, format, structure?</li>
+      <li>Would an example remove guesswork?</li>
+      <li>Did I say what I want, rather than only what I don't?</li>
+      <li>Is the source material in the prompt, clearly separated from my instructions?</li>
+      <li>If I ran this ten times, would most of the answers keep people safe?</li>
+    </ol>
+  </div>
+</section>
+
+<footer>Field Manual 1 of 2. Continue with Field Manual 2, <em>Outpost Protocols</em>. People, places and events in the examples are fictional. The interactive numbers are illustrative models of how context shifts likelihood, not measurements of a specific model.</footer>
+</div>
+
+<script>
+(function(){
+  var outcomes=[
+    {id:"want",label:"Leader's brief: five bullets with horde size, heading, ETA and the decision needed",base:6,target:true},
+    {id:"generic",label:"Generic three-paragraph summary",base:34},
+    {id:"tech",label:"Street-by-street tactical breakdown",base:18},
+    {id:"long",label:"Long report with headers and caveats",base:18},
+    {id:"timeline",label:"Hour-by-hour retelling of the patrol",base:16},
+    {id:"ask",label:"Asks what kind of summary she wants",base:8}
+  ];
+  var levers=[
+    {id:"role",name:"Give it a role",desc:"Describes the writer. Helps less than you'd think.",line:"You are the scout who led this patrol.",m:{want:1.3,tech:1.8,timeline:1.3,ask:.7}},
+    {id:"aud",name:"Name the reader",desc:"Who will read this and what they already know.",line:"The reader is Reyes, the camp leader. She wasn't on patrol and doesn't know the east-side streets.",m:{want:3,tech:.35,timeline:.6,ask:.5,generic:.85}},
+    {id:"why",name:"Say why",desc:"What the reader will do with it.",line:"She has to decide before dark whether to evacuate to the reservoir.",m:{want:2.6,timeline:.4,generic:.7,long:.8,ask:.6}},
+    {id:"fmt",name:"Specify the shape",desc:"Length, format, required parts.",line:"Write exactly five bullets: horde size, heading, estimated time to reach camp, supplies at risk, and the decision she needs to make.",m:{want:4,generic:.25,long:.2,timeline:.3,ask:.3,tech:.5}},
+    {id:"ex",name:"Show an example",desc:"One past output that worked.",line:"Here is a brief she liked after the mall run:\n<example>\n• About 40 walkers at the overpass, moving south…\n</example>",m:{want:2.6,generic:.5,long:.45,tech:.7}}
+  ];
+  var on={}; levers.forEach(function(l){on[l.id]=false});
+  var T=1;
+  var leversEl=document.getElementById("levers");
+  levers.forEach(function(l){
+    var lab=document.createElement("label"); lab.className="lever"; lab.htmlFor="lv-"+l.id;
+    lab.innerHTML='<input type="checkbox" id="lv-'+l.id+'"><div><b>'+l.name+'</b><span>'+l.desc+'</span></div>';
+    lab.querySelector("input").addEventListener("change",function(e){on[l.id]=e.target.checked;lab.classList.toggle("on",e.target.checked);render()});
+    leversEl.appendChild(lab);
+  });
+  var distEl=document.getElementById("dist");
+  outcomes.forEach(function(o){
+    var r=document.createElement("div"); r.className="row"+(o.target?" target":"");
+    r.innerHTML='<div class="lab-t">'+o.label+'</div><div class="track"><div class="fill" id="f-'+o.id+'"></div></div><div class="pct" id="p-'+o.id+'"></div>';
+    distEl.appendChild(r);
+  });
+  var drawsEl=document.getElementById("draws");
+  for(var i=0;i<20;i++){var d=document.createElement("div");d.className="draw";drawsEl.appendChild(d)}
+  function probs(){
+    var w=outcomes.map(function(o){var v=o.base;levers.forEach(function(l){if(on[l.id]&&l.m[o.id])v*=l.m[o.id]});return v});
+    var s=w.reduce(function(a,b){return a+b},0);
+    var p=w.map(function(v){return Math.pow(v/s,1/T)});
+    var s2=p.reduce(function(a,b){return a+b},0);
+    return p.map(function(v){return v/s2});
+  }
+  function esc(t){return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+  function render(){
+    var html="";
+    if(on.role) html+='<span class="add">'+esc(levers[0].line)+'</span>';
+    html+="Summarize this scout report.\n\n[patrol log pasted here]";
+    levers.slice(1).forEach(function(l){if(on[l.id])html+='<span class="add">'+esc(l.line)+'</span>'});
+    document.getElementById("promptBox").innerHTML=html;
+    var p=probs(),mx=Math.max.apply(null,p);
+    outcomes.forEach(function(o,i){
+      document.getElementById("f-"+o.id).style.width=(p[i]/mx*100).toFixed(1)+"%";
+      document.getElementById("p-"+o.id).textContent=Math.round(p[i]*100)+"%";
+    });
+    document.getElementById("bigN").textContent=Math.round(p[0]*100)+"%";
+  }
+  function sample(){
+    var p=probs(),hits=0;
+    Array.prototype.forEach.call(drawsEl.children,function(d){
+      var r=Math.random(),acc=0,k=0;
+      for(;k<p.length;k++){acc+=p[k];if(r<acc)break}
+      var t=(k===0);if(t)hits++;
+      d.className="draw "+(t?"t":"o");
+    });
+    document.getElementById("drawCap").textContent=hits+" of 20 runs gave Reyes the brief she needed. Run it again and the count will change.";
+  }
+  document.getElementById("sampleBtn").addEventListener("click",sample);
+  var tIn=document.getElementById("temp"),tOut=document.getElementById("tempOut");
+  tIn.addEventListener("input",function(){T=parseFloat(tIn.value);tOut.textContent=T.toFixed(1);render()});
+  render();
+
+  var cat=[
+    {h:"Name the reader",p:"The biggest lever in most everyday prompts. \"Explain\" has a hundred valid answers. \"Explain to a new arrival on solo water duty tonight\" has a handful.",b:"Explain how the water filter works.",a:"Explain how the water filter works to a new arrival who has never maintained one and will be on water duty alone tonight.",d:"Text written for a nervous newcomer looks different from text written for the camp engineer in vocabulary, length and what it leaves out. Naming the reader conditions the model on that whole cluster of features at once, which is why one sentence about the audience often beats several sentences of style rules."},
+    {h:"Say why",p:"Purpose tells the model what to prioritize when your request doesn't cover a case. It lets the model serve your intent instead of following your words literally.",b:"List the risks of raiding the hospital.",a:"List the risks of raiding the hospital. We're nearly out of antibiotics, and I need to decide by Friday whether it's worth sending four people.",d:"Instructions cover the cases you thought of. A stated goal gives the model a way to resolve the cases you didn't. Instruction-tuned models are trained to infer and serve the user's underlying aim, so supplying it directly removes a guess."},
+    {h:"Specify the shape",p:"Length, format and required parts are cheap to state and prevent a large share of misses. Be concrete: \"three lines\" beats \"short.\"",b:"Write a short watch report.",a:"Write a three-line watch report: anything sighted, fence status, and what the next shift should keep an eye on.",d:"\"Short\" is measured against the model's sense of typical length for this kind of text, which may not match yours. A count or a list of required parts is unambiguous. Structured formats (a fixed template, JSON with a schema) narrow the space further and make the result checkable by code."},
+    {h:"Show an example",p:"One good example often does more than a paragraph of description. Use two or three varied examples if you don't want the model to copy one too closely.",b:"Write radio check-ins in our camp's style.",a:"Write a radio check-in in this style:\n\nOUTPOST 3 // 0600 // Fence intact.\n2 walkers at north treeline, no action.\nNext check 0900.",d:"Models are strong in-context pattern matchers. An example fixes tone, length, structure and level of detail all at once. The cost is that the model may copy surface features like topic and phrasing, so vary your examples along the dimensions you want left free, and say which parts are the pattern."},
+    {h:"Say what you want, not only what you don't",p:"\"Don't cause panic\" leaves the target open. \"Write calmly, for someone tired and scared\" names it. Pair every prohibition with the behavior you want instead.",b:"Don't panic people. Don't use jargon.",a:"Write in a calm, plain voice that a tired, frightened person can follow on the first read.",d:"A negative instruction removes one region of the distribution but doesn't say where the probability should go, so it can land somewhere else you didn't want. Naming a thing also puts it in context, which can make it a little more salient. Current models follow negations well, but a positive target is still the more reliable steer."},
+    {h:"Give it room to reason",p:"For problems with steps (routes, rationing math, tradeoffs), ask the model to work through the problem before giving its answer. Many current models do this on their own when extended thinking is on.",b:"Which route to the reservoir should we take?",a:"Compare the three routes to the reservoir on horde sightings, fuel needed and places to shelter. Then give your pick and the main reason for it.",d:"Each token is conditioned on the tokens before it. If the answer comes first, it was chosen with no reasoning to lean on, and what follows tends to justify it. Reasoning first means the answer is conditioned on the work. Put the conclusion last."},
+    {h:"Put material in its place",p:"Long documents go near the top, the question at the end. Wrap source material in clear delimiters so the model can tell your instructions apart from the content it's working on.",b:"Find the important sightings [pastes 40 pages of logs, then adds more instructions in the middle]",a:"<scout_logs>\n…40 pages…\n</scout_logs>\n\nUsing only the logs above, list the five sightings closest to our perimeter, nearest first.",d:"Delimiters such as XML-style tags lower the chance that text inside a document gets read as an instruction, and they let you refer to parts by name. With long contexts, asking the question after the material tends to improve answers, because the request is the last thing the model conditions on before it starts writing."}
+  ];
+  var catEl=document.getElementById("catalog");
+  cat.forEach(function(c,i){
+    var it=document.createElement("div");it.className="item";
+    it.innerHTML='<div class="num">'+(i+1)+'</div><div class="body"><h3>'+c.h+'</h3><p>'+c.p+'</p>'+
+      '<div class="ba"><div><div class="tag">Before</div><pre>'+esc(c.b)+'</pre></div><div class="after"><div class="tag">After</div><pre>'+esc(c.a)+'</pre></div></div>'+
+      '<details><summary>Why it works</summary><div class="deep"><p>'+c.d+'</p></div></details></div>';
+    catEl.appendChild(it);
+  });
+
+  var checks=[
+    {n:"Names the reader",re:/\b(for (a|an|the|our|my)\b|reader|audience|readers|who (is|are|will)|leader|new arrival|newcomer|survivors?|scouts?|team|crew)\b/i,h:"Add who will read it and what they already know."},
+    {n:"States the purpose",re:/\b(so (that|i|we|she|he)|because|in order to|need(s)? to (decide|know|choose)|has to decide|goal|purpose|will use|to help|before (dark|nightfall))\b/i,h:"Add what the reader will do with the answer."},
+    {n:"Describes the shape",re:/\b(\d+|one|two|three|four|five|six|seven|ten)\s+(words?|bullets?|sentences?|paragraphs?|points?|items?|lines?)\b|\b(bullet|table|json|markdown|list|headings?|format|template)\b/i,h:"Say how long and what structure, with a number if you can."},
+    {n:"Includes an example",re:/<example>|\bexample\b|\be\.g\.|like this|for instance|in this style|such as/i,h:"Show one output that worked."},
+    {n:"Separates material from instructions",re:/<[a-z_]+>|```|"""|---|\[.*(pasted|attached).*\]|\babove\b|\bbelow\b/i,h:"Wrap source text in tags or fences and refer to it by name."},
+    {n:"States positive targets",test:function(t){var neg=(t.match(/\b(don'?t|do not|never|avoid|no)\b/gi)||[]).length;var pos=/\b(write|use|give|list|include|keep|explain|make|start|end|produce)\b/i.test(t);return pos&&neg<=2},h:"Turn each \"don't\" into the thing you want instead."}
+  ];
+  var ta=document.getElementById("userPrompt"),ul=document.getElementById("checks"),sc=document.getElementById("score");
+  function check(){
+    var t=ta.value,n=0,html="";
+    checks.forEach(function(c){
+      var ok=t.trim().length>0&&(c.test?c.test(t):c.re.test(t));if(ok)n++;
+      html+='<li><span class="chip '+(ok?"y":"n")+'">'+(ok?"✓":"")+'</span><div>'+c.n+(ok?"":'<span class="hint">'+c.h+'</span>')+'</div></li>';
+    });
+    ul.innerHTML=html;sc.textContent=n+" of "+checks.length+" levers in your kit";
+  }
+  ta.addEventListener("input",check);
+  document.getElementById("loadGood").addEventListener("click",function(){
+    ta.value="<scout_report>\n[patrol log pasted here]\n</scout_report>\n\nSummarize the report above for Reyes, the camp leader. She wasn't on patrol and doesn't know the east-side streets. She has to decide before dark whether to evacuate to the reservoir.\n\nWrite exactly five bullets: horde size, heading, estimated time to reach camp, supplies at risk, and the decision she needs to make. Use plain language.\n\nHere is a brief she liked after the mall run:\n<example>\n• About 40 walkers at the overpass, moving south…\n</example>";
+    check();
+  });
+  check();
+})();
+</script>
+
+</body>
+</html>
